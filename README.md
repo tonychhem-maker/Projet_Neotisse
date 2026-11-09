@@ -1,2 +1,2 @@
 # Projet_Neotisse
-Repository sur le développement d'un site web pour Neotisse
+Dans ce Repository vous retrouverez les éléments sur le développement d'un site web pour l'association Neotisse .
