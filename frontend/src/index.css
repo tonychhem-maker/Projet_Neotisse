@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #F4EFE6;
+  --color-pine: #095228;
+  --color-leaf: #35985F;
+  --color-sand: #E4DCCE;
+
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Libre Baskerville", Georgia, serif;
+
+  --text-h1: 6rem;
+  --text-h1--line-height: 1.05;
+  --text-h2: 4rem;
+  --text-h2--line-height: 1.1;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.6;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream font-sans text-body text-pine antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+  }
+}
