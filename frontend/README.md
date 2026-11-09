@@ -22,15 +22,60 @@ Sans ces variables, le site affiche le contenu de prévisualisation défini dans
 
 ## Structure
 
+Le dépôt contient deux applications :
+
+| Dossier | Rôle |
+|---|---|
+| `frontend/` | Site public — React + Vite + Tailwind |
+| `sanity/` | Back office Sanity Studio (schémas et structure du desk) |
+
+### Front-end
+
 ```
 src/
   components/
     layout/    Header, Footer, ScrollToTop
-    ui/        Button, SectionTitle, PageHeader, Placeholder
+    ui/        Button, SectionTitle, PageHeader, Placeholder, Field, Honeypot
   data/        navigation.js (plan du site)
-  lib/         sanity.js, useSanityDocument.js
+  lib/         sanity.js, useSanityDocument.js, forms.js
   pages/       une page par route + pages/legal/
 ```
+
+### Sanity Studio
+
+```
+schemas/
+  documents/   homePage, aboutPage, contactInfo (singletons)
+               workshop, post, partner, teamMember, testimonial, availability
+               legalPage, siteSettings
+  objects/     seo, openGraph, richText, link
+structure.js   arborescence du back office (singletons verrouillés)
+```
+
+Démarrage du studio :
+
+```bash
+cd sanity
+cp .env.example .env      # renseigner SANITY_STUDIO_PROJECT_ID
+npm install
+npm run dev               # http://localhost:3333
+```
+
+## Formulaires
+
+Le site n'a pas de backend : les formulaires passent par un endpoint **Formspree**
+(ou équivalent). Renseigner dans `frontend/.env` :
+
+| Variable | Usage |
+|---|---|
+| `VITE_CONTACT_FORM_ENDPOINT` | Formulaire de contact |
+| `VITE_TESTIMONIAL_FORM_ENDPOINT` | Livre d'or (facultatif, retombe sur l'endpoint contact) |
+
+Tant que l'endpoint n'est pas renseigné, un avertissement s'affiche sous le formulaire.
+
+**Livre d'or — modération** : les messages n'y sont pas publiés automatiquement.
+Après validation dans le studio, passer le document `testimonial` de
+`status: pending` à `status: published` et renseigner `publishedAt`.
 
 ## Charte graphique (Tailwind)
 

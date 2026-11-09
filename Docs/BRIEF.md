@@ -10,7 +10,8 @@ Le site doit comprendre la page d'acceuil qui contient une description de l'asso
 -Utiliser **Sanity CMS** comme back office : tout contenu editable doit venir de Sanity, jamais code en dur.
 -Si un choix technique n'est pas couvert ici, demander avant de decider.
 
-### Sanity CMS
+### CMS
 -Back office headless : le contenu est separe du code.
 -Studio entierement personnalisable et en React, donc coherent avec le front.
 -Les editeurs gardent une interface simple, sans toucher au code.
+-Sanity et Formspree

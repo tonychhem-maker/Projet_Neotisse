@@ -1,0 +1,20 @@
+{
+  "name": "neotisse-sanity",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "schema:extract": "sanity schema extract --path ../frontend/sanity.schema.json --force"
+  },
+  "dependencies": {
+    "@sanity/vision": "^6.22.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sanity": "^6.22.0",
+    "styled-components": "^6.1.15"
+  }
+}
