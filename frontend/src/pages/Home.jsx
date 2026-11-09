@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import Button from '../components/ui/Button'
+import RichText from '../components/ui/RichText'
 import SectionTitle from '../components/ui/SectionTitle'
 import { useSanityDocument } from '../lib/useSanityDocument'
 
-const HOME_QUERY = `*[_type == "homePage"][0]{
+const HOME_QUERY = `*[_id == "homePage"][0]{
   heroTitle, heroText, "heroImage": heroImage.asset->url,
-  intro{title, text},
-  workshopsTitle, "workshops": workshops[]->{_id, title, slug, summary},
+  introTitle, introText,
+  workshopsTitle, "workshops": featuredWorkshops[]->{_id, title, slug, summary},
   availabilityTitle, availabilityText
 }`
 
@@ -15,10 +16,9 @@ const fallback = {
   heroTitle: 'Le tissage, du néolithique au Moyen Âge',
   heroText:
     "Neotisse conçoit et anime des ateliers de médiation textile qui font revivre gestes, outils et matières du passé.",
-  intro: {
-    title: "L'association",
-    text: "Neotisse est une association de médiation culturelle spécialisée dans le textile archéologique.",
-  },
+  introTitle: "L'association",
+  introText:
+    'Neotisse est une association de médiation culturelle spécialisée dans le textile archéologique.',
   workshopsTitle: 'Nos ateliers',
   workshops: [
     { _id: 'w1', title: 'Initiation au tissage néolithique', summary: 'Découverte des poids de métier et du tissage aux doigts.', slug: { current: 'atelier-neolithique' } },
@@ -71,8 +71,8 @@ export default function Home() {
 
       <section className="border-y border-sand bg-sand/40">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <SectionTitle eyebrow="Qui sommes-nous">{content.intro.title}</SectionTitle>
-          <p className="mt-6 max-w-3xl text-body">{content.intro.text}</p>
+          <SectionTitle eyebrow="Qui sommes-nous">{content.introTitle}</SectionTitle>
+          <RichText value={content.introText} className="mt-6 max-w-3xl" />
         </div>
       </section>
 

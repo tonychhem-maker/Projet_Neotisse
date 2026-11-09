@@ -6,6 +6,8 @@ export const singletonTypes = new Set([
 ])
 
 export function deskStructure(S) {
+  const apiVersion = '2026-01-01'
+
   return S.list()
     .title('Contenu')
     .items([
@@ -43,6 +45,7 @@ export function deskStructure(S) {
                 .child(
                   S.documentList()
                     .title('En attente')
+                    .apiVersion(apiVersion)
                     .filter('_type == "testimonial" && status == "pending"')
                     .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }]),
                 ),
@@ -51,6 +54,7 @@ export function deskStructure(S) {
                 .child(
                   S.documentList()
                     .title('Publiés')
+                    .apiVersion(apiVersion)
                     .filter('_type == "testimonial" && status == "published"')
                     .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }]),
                 ),
@@ -59,6 +63,7 @@ export function deskStructure(S) {
                 .child(
                   S.documentList()
                     .title('Refusés')
+                    .apiVersion(apiVersion)
                     .filter('_type == "testimonial" && status == "rejected"'),
                 ),
               S.documentTypeListItem('testimonial').title('Tous les messages'),
