@@ -24,13 +24,19 @@ async function postJson(endpoint, payload) {
 }
 
 // Formulaire de contact → Formspree (ou service équivalent).
-export function sendContactMessage({ name, email, organisation, message, honeypot }) {
-  return postJson(CONTACT_ENDPOINT, {
+// `endpoint` permet de surcharger l'URL depuis le back-office.
+export function sendContactMessage(
+  { firstName, lastName, email, organisation, message, consent, honeypot },
+  endpoint,
+) {
+  return postJson(endpoint || CONTACT_ENDPOINT, {
     _subject: 'Nouveau message depuis neotisse.fr',
-    Nom: name,
+    Prenom: firstName,
+    Nom: lastName,
     Email: email,
-    Structure: organisation,
-    Message: message,
+    Structure: organisation ?? '',
+    Message: message ?? '',
+    Consentement: consent ? 'Oui' : 'Non',
     _gotcha: honeypot ?? '',
   })
 }

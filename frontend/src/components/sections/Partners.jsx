@@ -1,21 +1,14 @@
 import { useRef } from 'react'
 import { useReveal } from '../../lib/reveal'
 
-const PARTENAIRES_ROW_1 = [
-  { name: 'Gergovie', src: '/assets/logos/gergovie.png', w: 210 },
-  { name: 'Lozère Tourisme', src: '/assets/logos/lozere.png', w: 135 },
-  { name: 'CERAC', src: '/assets/logos/cerac.png', w: 70 },
-]
-
-const PARTENAIRES_ROW_2 = [
-  { name: 'Musée de Tautavel', src: '/assets/logos/tautavel.png', w: 215 },
-  { name: 'Festival du Lin', src: '/assets/logos/festival-lin.png', w: 140 },
-]
-
-export default function Partners() {
+// Section « Nos partenaires ». Les logos viennent du back-office (type
+// `partner`) ; à défaut, la grille de repli est affichée.
+export default function Partners({ title = ['Nos', 'partenaires'], row1 = [], row2 = [] }) {
   const scope = useRef(null)
 
   useReveal(scope, { stagger: 0.08 })
+
+  const hasRows = row1.length > 0 || row2.length > 0
 
   return (
     <section className="relative" ref={scope}>
@@ -25,37 +18,43 @@ export default function Partners() {
             data-reveal
             className="font-serif text-[34px] uppercase leading-[1.12] text-[#0b4f2a] lg:text-[46px]"
           >
-            Nos
+            {title[0]}
             <br />
-            partenaires
+            {title[1]}
           </h2>
 
-          <div data-reveal-group>
-            <div className="flex flex-wrap items-center justify-between gap-8 border-b border-[#0b4f2a]/25 pb-6">
-              {PARTENAIRES_ROW_1.map((logo) => (
-                <img
-                  key={logo.name}
-                  data-reveal
-                  src={logo.src}
-                  alt={`Logo ${logo.name}`}
-                  style={{ width: logo.w }}
-                  className="h-auto max-w-full object-contain"
-                />
-              ))}
+          {hasRows && (
+            <div data-reveal-group>
+              {row1.length > 0 && (
+                <div className="flex flex-wrap items-center justify-between gap-8 border-b border-[#0b4f2a]/25 pb-6">
+                  {row1.map((logo) => (
+                    <img
+                      key={logo.name}
+                      data-reveal
+                      src={logo.src}
+                      alt={`Logo ${logo.name}`}
+                      style={{ width: logo.w }}
+                      className="h-auto max-w-full object-contain"
+                    />
+                  ))}
+                </div>
+              )}
+              {row2.length > 0 && (
+                <div className="flex flex-wrap items-center justify-start gap-14 border-b border-[#0b4f2a]/25 pb-6 pt-6">
+                  {row2.map((logo) => (
+                    <img
+                      key={logo.name}
+                      data-reveal
+                      src={logo.src}
+                      alt={`Logo ${logo.name}`}
+                      style={{ width: logo.w }}
+                      className="h-auto max-w-full object-contain"
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="flex flex-wrap items-center justify-start gap-14 border-b border-[#0b4f2a]/25 pb-6 pt-6">
-              {PARTENAIRES_ROW_2.map((logo) => (
-                <img
-                  key={logo.name}
-                  data-reveal
-                  src={logo.src}
-                  alt={`Logo ${logo.name}`}
-                  style={{ width: logo.w }}
-                  className="h-auto max-w-full object-contain"
-                />
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

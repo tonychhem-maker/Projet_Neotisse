@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger, gsap } from '../../lib/smoothScroll'
-import { HERO_IMAGES } from '../../data/hero'
+import { HERO_IMAGES, HERO_TITLE, HERO_TITLE_LINES } from '../../data/home'
 import './Hero.css'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -27,10 +27,13 @@ const THREAD_PATH =
  * 3. le titre se révèle ligne par ligne depuis un masque, en `expo.out` ;
  * 4. « Scrolle » disparaît dès les premiers pixels ;
  * 5. une fois les cartes posées, la hero se libère.
+ *
+ * `title` vient du back-office : il est découpé en lignes pour la révélation.
  */
 export default function Hero({
-  images = HERO_IMAGES, // 4 URLs d'images (une par carte)
-  lines = ['Ateliers de', 'Médiations', 'Tissage pour', 'Tous'],
+  images = HERO_IMAGES,
+  lines = HERO_TITLE_LINES,
+  title = HERO_TITLE,
   hint = 'Scrolle',
 }) {
   const root = useRef(null)
@@ -135,9 +138,9 @@ export default function Hero({
         </div>
       ))}
 
-      <h1 className="title">
+      <h1 className="title" aria-label={title}>
         {lines.map((line) => (
-          <span className="ln" key={line}>
+          <span className="ln" key={line} aria-hidden="true">
             <span>{line}</span>
           </span>
         ))}

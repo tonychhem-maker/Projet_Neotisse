@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal } from '../../lib/reveal'
+import { SITE_SETTINGS_QUERY, useSanityContent } from '../../lib/queries'
 
 const quickLinks = [
   { label: 'Accueil', to: '/' },
@@ -9,10 +10,22 @@ const quickLinks = [
   { label: 'Contact', to: '/contact' },
 ]
 
+// Coordonnées de repli, affichées tant que « Réglages du site » n'est pas
+// renseigné dans le back-office.
+const SETTINGS_FALLBACK = {
+  baseline:
+    'Organiser des activités ludiques et instructives pour toutes les personnes intéressées par le tissage.',
+  email: 'asso.neotisse@gmail.com',
+  phone: '06 48 65 58 16',
+  address: 'Montpellier',
+}
+
 export default function Footer() {
   const scope = useRef(null)
 
   useReveal(scope, { stagger: 0.1 })
+
+  const settings = useSanityContent(SITE_SETTINGS_QUERY, SETTINGS_FALLBACK)
 
   return (
     <footer className="bg-[#0b4f2a] text-[#f4efe6]" ref={scope}>
@@ -20,10 +33,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1230px] gap-12 px-10 py-16 text-[clamp(0.95rem,1.1vw,1.125rem)] leading-[1.75] sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_1.2fr_1fr]">
         {/* Description */}
         <div data-reveal>
-          <p className="max-w-[250px]">
-            Organiser des activités ludiques et instructives pour toutes les
-            personnes intéressées par le tissage.
-          </p>
+          <p className="max-w-[250px]">{settings.baseline}</p>
           <div className="mt-6 flex gap-3">
             {['f', 'x'].map((glyph) => (
               <span
@@ -81,22 +91,28 @@ export default function Footer() {
               <span aria-hidden="true" className="text-[#2f8a55]">
                 ⌖
               </span>
-              Montpellier
+              {settings.address}
             </li>
             <li className="flex items-center gap-2">
               <span aria-hidden="true" className="text-[#2f8a55]">
                 ✉
               </span>
-              <a href="mailto:asso.neotisse@gmail.com" className="hover:text-[#2f8a55]">
-                asso.neotisse@gmail.com
+              <a
+                href={`mailto:${settings.email}`}
+                className="hover:text-[#2f8a55]"
+              >
+                {settings.email}
               </a>
             </li>
             <li className="flex items-center gap-2">
               <span aria-hidden="true" className="text-[#2f8a55]">
                 ✆
               </span>
-              <a href="tel:+33648655816" className="hover:text-[#2f8a55]">
-                06 48 65 58 16
+              <a
+                href={`tel:${(settings.phone ?? '').replace(/\s/g, '')}`}
+                className="hover:text-[#2f8a55]"
+              >
+                {settings.phone}
               </a>
             </li>
           </ul>

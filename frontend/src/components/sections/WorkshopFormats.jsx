@@ -6,37 +6,15 @@ import { useReveal } from '../../lib/reveal'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-// Les quatre formats d'ateliers proposés par Neotisse. Le contenu est commun
-// à l'accueil et à la page Ateliers (maquette Figma) : seule chaque image
-// d'illustration change d'une section à l'autre.
-export const FORMATS = [
-  {
-    id: '01',
-    title: 'DÉMONSTRATIF',
-    image: '/assets/images/tissage-fleche.jpg',
-    text: 'La démonstration s’installe dans votre structure : gestes, matières et outils sont présentés au public, qui peut observer le travail de près et poser ses questions.',
-  },
-  {
-    id: '02',
-    title: 'PARTICIPATIF',
-    image: '/assets/images/tissage-tablettes.jpg',
-    text: 'Le public passe de l’observation à la pratique : chacun apprend un geste textile simple, sur un métier ou une tablette, et repart avec sa réalisation.',
-  },
-  {
-    id: '03',
-    title: 'POUR ENFANTS',
-    image: '/assets/images/tissage-tablettes.jpg',
-    text: 'Des ateliers courts et ludiques, adaptés aux plus jeunes, pour découvrir les gestes du tissage et l’histoire des textiles anciens en s’amusant.',
-  },
-  {
-    id: '04',
-    title: 'SUR MESURE',
-    image: '/assets/images/filage-fuseau.jpg',
-    text: 'Parlons de votre projet ensemble, Neotisse vous propose d’organiser un atelier à votre image pour vos besoins',
-  },
-]
-
-export default function WorkshopFormats({ defaultOpen = null }) {
+/**
+ * Section des formats d'atelier (accordéon).
+ *
+ * Les formats viennent du back-office (`workshopFormat`), avec repli codé en
+ * dur ; chaque entrée porte `id`, `title`, `text`, `image` et un `link`
+ * facultatif. L'accordéon reste monté : ouverture et fermeture sont animées
+ * en hauteur (mesurée), pour une transition douce et réversible.
+ */
+export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
   const [openFormat, setOpenFormat] = useState(defaultOpen)
   const scope = useRef(null)
   const panelRefs = useRef({})
@@ -44,14 +22,13 @@ export default function WorkshopFormats({ defaultOpen = null }) {
 
   useReveal(scope, { stagger: 0.1 })
 
-  // Ouverture / fermeture fluide : la hauteur est animée, pas le montage.
   useGSAP(
     () => {
       const prefersReducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
       ).matches
 
-      FORMATS.forEach((format) => {
+      formats.forEach((format) => {
         const panel = panelRefs.current[format.id]
         if (!panel) return
 
@@ -99,14 +76,14 @@ export default function WorkshopFormats({ defaultOpen = null }) {
 
       firstRun.current = false
     },
-    { dependencies: [openFormat], scope },
+    { dependencies: [openFormat, formats], scope },
   )
 
   return (
     <section className="relative" ref={scope}>
       <div className="mx-auto w-full max-w-[1230px] px-10 pb-16">
         <ul>
-          {FORMATS.map((format) => {
+          {formats.map((format) => {
             const open = openFormat === format.id
             return (
               <li key={format.id} data-reveal>
@@ -121,7 +98,7 @@ export default function WorkshopFormats({ defaultOpen = null }) {
                     <span className="font-sans text-[20px] text-[#2f8a55]">
                       {format.id}
                     </span>
-                    <span className="font-serif text-[30px] leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] lg:text-[34px]">
+                    <span className="font-serif text-[30px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] lg:text-[34px]">
                       {format.title}
                     </span>
                   </span>
@@ -142,17 +119,19 @@ export default function WorkshopFormats({ defaultOpen = null }) {
                   className="overflow-hidden"
                 >
                   <div className="grid items-start gap-10 pb-10 pl-0 md:grid-cols-[300px_1fr] md:pl-12">
-                    <img
-                      src={format.image}
-                      alt=""
-                      className="h-[250px] w-[300px] max-w-full object-cover"
-                    />
+                    {format.image && (
+                      <img
+                        src={format.image}
+                        alt=""
+                        className="h-[250px] w-[300px] max-w-full object-cover"
+                      />
+                    )}
                     <div className="pt-4">
                       <p className="max-w-[300px] text-[12px] leading-[1.9] text-[#0a0a0a]">
                         {format.text}
                       </p>
                       <Link
-                        to="/contact"
+                        to={format.link ?? '/contact'}
                         className="mt-6 inline-flex items-center gap-2 text-[12px] font-medium text-[#0a0a0a] underline underline-offset-4"
                       >
                         CONTACTEZ-NOUS
