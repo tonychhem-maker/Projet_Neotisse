@@ -4,21 +4,149 @@ import { ScrollTrigger, gsap } from './smoothScroll'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 /**
- * Apparition douce des sections au scroll.
+ * Garde-fou commun aux deux hooks de révélation.
  *
- * - Chaque élément `[data-reveal]` apparaît en fondu (+ montée de `y` px) dès
- *   qu'il entre dans la fenêtre.
- * - Les enfants `[data-reveal]` d'un conteneur `[data-reveal-group]`
- *   apparaissent en cascade, déclenchés par le conteneur.
+ * ScrollTrigger calcule les positions au chargement, avant que la mise en page
+ * soit définitive (accordéon qui se replie, polices, images). Quand une section
+ * est épinglée — la hero de l'accueil et de la page Ateliers — tout ce qui suit
+ * hérite d'un décalage et certains triggers ne se déclenchent jamais : le
+ * contenu resterait invisible. Cette garde révèle d'office tout élément animé
+ * qui est réellement dans la fenêtre mais toujours masqué.
  *
- * Robustesse : dès le premier calcul, tout élément situé dans la fenêtre (ou
- * au-dessus) est affiché immédiatement — un élément ne peut jamais rester
- * invisible parce qu'on a rechargé la page en milieu de section.
+ * Retourne une fonction de nettoyage.
+ */
+function guardVisibleContent(root, selector, reveal) {
+  let queued = false
+
+  const check = () => {
+    queued = false
+    gsap.utils.toArray(selector, root).forEach((el) => {
+      const style = getComputedStyle(el)
+      const hidden = style.visibility === 'hidden' || style.opacity === '0'
+      if (!hidden) return
+
+      const rect = el.getBoundingClientRect()
+      const inView = rect.bottom > 0 && rect.top < window.innerHeight
+      if (inView) reveal(el)
+    })
+  }
+
+  const schedule = () => {
+    if (queued) return
+    queued = true
+    requestAnimationFrame(check)
+  }
+
+  // Premier passage après le rendu complet, puis à chaque événement qui peut
+  // changer la mise en page ou amener un élément dans la fenêtre.
+  const rafId = requestAnimationFrame(() => requestAnimationFrame(check))
+  ScrollTrigger.addEventListener('refresh', schedule)
+  ScrollTrigger.addEventListener('scrollEnd', schedule)
+  window.addEventListener('resize', schedule)
+
+  return () => {
+    cancelAnimationFrame(rafId)
+    ScrollTrigger.removeEventListener('refresh', schedule)
+    ScrollTrigger.removeEventListener('scrollEnd', schedule)
+    window.removeEventListener('resize', schedule)
+  }
+}
+
+/**
+ * Révélation de texte au scroll — règle unique du site.
  *
- * Le style est posé via `gsap.from`, donc aucun état résiduel : si le trigger
- * est recréé, l'animation repart toujours d'un point connu.
+ * Principe (validé sur la hero) : rien n'est visible au départ, puis le texte
+ * monte depuis un masque quand la section entre dans la fenêtre.
  *
- * `prefers-reduced-motion` : aucune animation, contenu visible.
+ *   <span class="reveal-line"><span>Ma ligne</span></span>
+ *
+ * - `.reveal-line` porte `overflow: hidden` (le masque) ;
+ * - son enfant direct est la ligne animée : elle part à `yPercent: 105`
+ *   (sous le masque) et remonte à 0.
+ *
+ * Le texte n'est jamais rendu transparent : il reste dans le DOM, lisible par
+ * les moteurs de recherche et les lecteurs d'écran, et la sélection de texte
+ * fonctionne. Seul le masque le cache physiquement.
+ *
+ * `prefers-reduced-motion` : rien n'est animé, le texte est affiché d'emblée.
+ *
+ * Usage :
+ *   useTextReveal(scope)                       // toutes les lignes du bloc
+ *   useTextReveal(scope, { stagger: 0.08 })    // cascade plus serrée
+ */
+export function useTextReveal(
+  scope,
+  { selector = '.reveal-line > *', y = 105, duration = 1.1, stagger = 0.1 } = {},
+) {
+  useGSAP(
+    () => {
+      const root = scope?.current
+      if (!root) return undefined
+
+      const mm = gsap.matchMedia()
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const lines = gsap.utils.toArray(selector, root)
+        if (!lines.length) return undefined
+
+        // Regroupement : on anime ensemble les lignes qui partagent le même
+        // parent (un paragraphe, un titre…), chacune avec son propre trigger.
+        const groups = new Map()
+        lines.forEach((line) => {
+          const parent = line.parentElement
+          if (!groups.has(parent)) groups.set(parent, [])
+          groups.get(parent).push(line)
+        })
+
+        const triggers = []
+
+        groups.forEach((group, parent) => {
+          gsap.set(group, { yPercent: y })
+
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: parent,
+              start: 'top bottom-=12%',
+              once: true,
+              onEnter: () =>
+                gsap.to(group, {
+                  yPercent: 0,
+                  duration,
+                  ease: 'expo.out',
+                  stagger,
+                  overwrite: true,
+                }),
+            }),
+          )
+
+          // Sécurité : ce qui est déjà visible au chargement s'affiche tout de
+          // suite, sans attendre un scroll.
+          if (parent.getBoundingClientRect().top < window.innerHeight) {
+            gsap.set(group, { yPercent: 0 })
+          }
+        })
+
+        const stopGuard = guardVisibleContent(root, selector, (el) =>
+          gsap.set(el, { yPercent: 0 }),
+        )
+
+        return () => {
+          triggers.forEach((t) => t.kill())
+          stopGuard()
+        }
+      })
+
+      return () => mm.revert()
+    },
+    { scope },
+  )
+}
+
+/**
+ * Apparition en fondu + montée, pour les éléments non textuels (images,
+ * boutons, logos). Même logique de déclenchement que `useTextReveal`.
+ *
+ *   <div data-reveal>…</div>
  */
 export function useReveal(scope, { stagger = 0.12, y = 28, duration = 0.9 } = {}) {
   useGSAP(
@@ -45,90 +173,37 @@ export function useReveal(scope, { stagger = 0.12, y = 28, duration = 0.9 } = {}
           const group = isGroup ? gsap.utils.toArray('[data-reveal]', surface) : [surface]
           if (!group.length) return
 
-          const play = () =>
-            gsap.fromTo(
-              group,
-              { autoAlpha: 0, y },
-              {
-                autoAlpha: 1,
-                y: 0,
-                duration,
-                ease: 'expo.out',
-                stagger: group.length > 1 ? stagger : 0,
-                overwrite: true,
-              },
-            )
+          gsap.set(group, { autoAlpha: 0, y })
 
           triggers.push(
             ScrollTrigger.create({
               trigger: group[0],
-              start: 'top bottom-=10%',
+              start: 'top bottom-=12%',
               once: true,
-              onEnter: play,
+              onEnter: () =>
+                gsap.to(group, {
+                  autoAlpha: 1,
+                  y: 0,
+                  duration,
+                  ease: 'expo.out',
+                  stagger: group.length > 1 ? stagger : 0,
+                  overwrite: true,
+                }),
             }),
           )
 
-          // Sécurité : tout ce qui est déjà à l'écran au chargement (ou au-dessus)
-          // est révélé instantanément, sans attendre un scroll.
           if (group[0].getBoundingClientRect().top < window.innerHeight) {
             gsap.set(group, { autoAlpha: 1, y: 0 })
           }
         })
 
-        // Après le recalcul des positions (Lenis, images, polices) : on vérifie
-        // qu'aucun bloc visible n'est resté masqué.
-        ScrollTrigger.refresh()
-
-        return () => {
-          triggers.forEach((t) => t.kill())
-        }
-      })
-
-      return () => mm.revert()
-    },
-    { scope },
-  )
-}
-
-/**
- * Parallaxe d'un visuel `[data-parallax]` : il glisse de `strength` % pendant
- * que son bloc traverse l'écran. Réservé aux visuels isolés, l'effet étant
- * scrubbé au scroll (et donc lent par nature).
- */
-export function useParallax(scope, { strength = 8 } = {}) {
-  useGSAP(
-    () => {
-      const root = scope?.current
-      if (!root) return undefined
-
-      const mm = gsap.matchMedia()
-
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const targets = gsap.utils.toArray('[data-parallax]', root)
-
-        const triggers = targets.map((el) =>
-          gsap.fromTo(
-            el,
-            { yPercent: -strength },
-            {
-              yPercent: strength,
-              ease: 'none',
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: el.parentElement ?? el,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: true,
-              },
-            },
-          ),
+        const stopGuard = guardVisibleContent(root, '[data-reveal]', (el) =>
+          gsap.set(el, { autoAlpha: 1, y: 0 }),
         )
 
         return () => {
-          triggers.forEach((t) => {
-            t.scrollTrigger?.kill()
-            t.kill()
-          })
+          triggers.forEach((t) => t.kill())
+          stopGuard()
         }
       })
 

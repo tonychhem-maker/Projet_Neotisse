@@ -1,11 +1,12 @@
 import { useRef } from 'react'
-import { useReveal } from '../../lib/reveal'
+import { useReveal, useTextReveal } from '../../lib/reveal'
 
 // Section « Nos partenaires ». Les logos viennent du back-office (type
 // `partner`) ; à défaut, la grille de repli est affichée.
 export default function Partners({ title = ['Nos', 'partenaires'], row1 = [], row2 = [] }) {
   const scope = useRef(null)
 
+  useTextReveal(scope, { stagger: 0.1 })
   useReveal(scope, { stagger: 0.08 })
 
   const hasRows = row1.length > 0 || row2.length > 0
@@ -14,13 +15,13 @@ export default function Partners({ title = ['Nos', 'partenaires'], row1 = [], ro
     <section className="relative" ref={scope}>
       <div className="mx-auto w-full max-w-[1230px] px-10 pb-20 pt-10">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,400px)_1fr]">
-          <h2
-            data-reveal
-            className="font-serif text-[34px] uppercase leading-[1.12] text-[#0b4f2a] lg:text-[46px]"
-          >
-            {title[0]}
-            <br />
-            {title[1]}
+          <h2 className="font-serif text-[34px] uppercase leading-[1.35] text-[#0b4f2a] lg:text-[46px]">
+            <span className="reveal-line">
+              <span className="block">{title[0]}</span>
+            </span>
+            <span className="reveal-line">
+              <span className="block">{title[1]}</span>
+            </span>
           </h2>
 
           {hasRows && (

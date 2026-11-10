@@ -1,4 +1,4 @@
-﻿import { useMemo } from 'react'
+import { useMemo } from 'react'
 import AboutBlock from '../components/sections/AboutBlock'
 import ClosingCta from '../components/sections/ClosingCta'
 import Hero from '../components/sections/Hero'

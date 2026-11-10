@@ -49,3 +49,21 @@
     @apply font-serif;
   }
 }
+
+/* Ligne masquée pour la révélation de texte au scroll (`useTextReveal`).
+   Le contenu reste dans le DOM ; seul le masque le cache. */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  /* Marge haute pour ne pas rogner les accents et les jambages des polices
+     d'affichage (Boldonse, Anton), qui dépassent la boîte d'em. */
+  padding-top: 0.06em;
+  margin-top: -0.06em;
+}
+
+/* Lignes successives d'un même titre : pas de marge résiduelle, c'est
+   l'interlignage du titre qui gère l'espacement. */
+.reveal-line + .reveal-line {
+  padding-top: 0;
+  margin-top: 0;
+}

@@ -63,12 +63,55 @@
 .hero .ln {
   display: block;
   overflow: hidden;            /* masque de la révélation */
-  padding: 0.1em 0.05em 0;
-  margin-top: -0.1em;
+  /* La ligne est calée dans une boîte un peu plus haute que la police : Boldonse
+     et Anton montent au-dessus de la boîte d'em (accents, jambages). Le padding
+     haut compense ce débordement pour que la ligne révélée ne soit jamais
+     rognée. */
+  padding: 0.12em 0.06em 0.04em;
+  margin-top: -0.04em;
 }
 .hero .ln > span {
   display: block;
-  opacity: 0;                  /* caché au départ, GSAP le révèle */
+  /* Pas d'opacité nulle ici : le titre reste lisible par les moteurs de
+     recherche et sélectionnable. C'est le masque `.ln` qui le cache, via le
+     décalage vertical appliqué par GSAP. */
+}
+
+/* Mots : chacun a son propre masque, posé sur la ligne.
+   `.w` est le masque (il découpe), `.w-inner` est le mot qui monte.
+   Sans animation (JS désactivé, impression, réduction des mouvements), le
+   masque ne doit jamais cacher le texte : GSAP pose l'état initial, le CSS
+   laisse tout visible par défaut. */
+.hero .w {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: top;
+  /* Les accents débordent de la boîte d'em : on garde une marge haute que la
+     marge négative compense pour ne pas changer l'interlignage. */
+  padding-top: 0.06em;
+  margin-top: -0.06em;
+}
+.hero .w-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Le masque n'existe que le temps de l'animation, et jamais en réduction de
+   mouvements ni à l'impression. */
+.hero .is-animated .w {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .is-animated .w {
+    overflow: visible;
+  }
+}
+
+@media print {
+  .hero .is-animated .w {
+    overflow: visible;
+  }
 }
 
 .hero .hint {
@@ -89,9 +132,4 @@
   .hero .c2 { width: 28vw; right: -2vw; top: 1vh; }
   .hero .c3 { width: 34vw; left: -4vw; top: 60vh; }
   .hero .c4 { width: 36vw; right: -5vw; top: 58vh; }
-}
-
-/* Réduction des animations : état final directement visible */
-@media (prefers-reduced-motion: reduce) {
-  .hero .ln > span { opacity: 1; }
 }

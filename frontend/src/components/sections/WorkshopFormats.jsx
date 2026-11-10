@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger, gsap } from '../../lib/smoothScroll'
-import { useReveal } from '../../lib/reveal'
+import { useReveal, useTextReveal } from '../../lib/reveal'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -21,6 +21,7 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
   const firstRun = useRef(true)
 
   useReveal(scope, { stagger: 0.1 })
+  useTextReveal(scope, { stagger: 0.06 })
 
   useGSAP(
     () => {
@@ -98,8 +99,8 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                     <span className="font-sans text-[20px] text-[#2f8a55]">
                       {format.id}
                     </span>
-                    <span className="font-serif text-[30px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] lg:text-[34px]">
-                      {format.title}
+                    <span className="reveal-line font-serif text-[30px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] lg:text-[34px]">
+                      <span className="block">{format.title}</span>
                     </span>
                   </span>
                   <span
@@ -127,8 +128,8 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                       />
                     )}
                     <div className="pt-4">
-                      <p className="max-w-[300px] text-[12px] leading-[1.9] text-[#0a0a0a]">
-                        {format.text}
+                      <p className="reveal-line max-w-[300px] text-[12px] leading-[1.9] text-[#0a0a0a]">
+                        <span className="block">{format.text}</span>
                       </p>
                       <Link
                         to={format.link ?? '/contact'}

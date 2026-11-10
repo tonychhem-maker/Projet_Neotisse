@@ -35,9 +35,10 @@ Le dépôt contient deux applications :
 src/
   components/
     layout/    Header, Footer, ScrollToTop
+    sections/  Hero, AboutBlock, WorkshopFormats, Partners, ClosingCta
     ui/        Button, SectionTitle, PageHeader, Placeholder, Field, Honeypot
-  data/        navigation.js (plan du site)
-  lib/         sanity.js, useSanityDocument.js, forms.js
+  data/        navigation.js (plan du site), home.js (contenu de repli)
+  lib/         sanity.js, queries.js, reveal.js, smoothScroll.js, forms.js
   pages/       une page par route + pages/legal/
 ```
 

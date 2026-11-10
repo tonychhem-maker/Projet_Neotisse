@@ -20,6 +20,8 @@ export const footerNav = [
   { label: 'Contact', to: '/contact' },
 ]
 
+// `legalNav` n'est pas encore affiché : le pied de page ne comporte pas de
+// colonne « Pages légales » dans la maquette actuelle.
 export const legalNav = [
   { label: 'Mentions légales', to: '/mentions-legales' },
   { label: 'Politique de confidentialité', to: '/politique-de-confidentialite' },

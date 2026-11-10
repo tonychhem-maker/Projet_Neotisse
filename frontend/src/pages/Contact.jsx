@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 // Contenu de repli, affiché tant que la page Contact n'est pas renseignée
 // dans le back-office.
 const CONTACT_FALLBACK = {
-  title: 'Contacter nous',
+  title: 'Contactez-nous',
   intro:
     'Nous sommes ravies d’échanger avec vous afin de concevoir une intervention adaptée à votre projet, à vos publics et à vos besoins',
   email: 'asso.neotisse@gmail.com',

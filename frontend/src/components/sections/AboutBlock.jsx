@@ -1,30 +1,27 @@
 import { useRef } from 'react'
-import { useReveal } from '../../lib/reveal'
+import { useReveal, useTextReveal } from '../../lib/reveal'
 
 // Bloc « Neotisse » : présentation de l'association et visuel d'accroche.
 // Contenu piloté par le back-office (homePage), avec repli codé en dur.
 export default function AboutBlock({ title, paragraphs, imageSrc, imageAlt }) {
   const scope = useRef(null)
 
+  useTextReveal(scope, { stagger: 0.1 })
   useReveal(scope, { stagger: 0.14 })
 
   return (
     <section className="relative" ref={scope}>
       <div className="mx-auto grid w-full max-w-[1230px] grid-cols-1 items-start gap-16 px-10 pb-24 pt-6 lg:grid-cols-[470px_1fr]">
         <div>
-          <h2
-            data-reveal
-            className="font-serif text-[42px] leading-[1.15] text-[#0b4f2a]"
-          >
-            {title}
+          <h2 className="font-serif text-[42px] leading-[1.15] text-[#0b4f2a]">
+            <span className="reveal-line">
+              <span className="block">{title}</span>
+            </span>
           </h2>
-          <div
-            data-reveal-group
-            className="mt-10 space-y-14 text-[13px] leading-[2] text-[#0a0a0a]"
-          >
+          <div className="mt-10 space-y-14 text-[13px] leading-[2] text-[#0a0a0a]">
             {paragraphs.map((paragraph) => (
-              <p key={paragraph} data-reveal>
-                {paragraph}
+              <p key={paragraph} className="reveal-line">
+                <span className="block">{paragraph}</span>
               </p>
             ))}
           </div>

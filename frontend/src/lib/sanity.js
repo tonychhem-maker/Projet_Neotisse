@@ -11,7 +11,10 @@ export const sanityClient = isSanityConfigured
       projectId,
       dataset,
       apiVersion: '2026-01-01',
-      useCdn: true,
+      // Le CDN de Sanity garde les requêtes en cache 60 s : pratique en
+      // production, pénible en développement où l'on veut voir ses
+      // modifications immédiatement. On ne l'active donc pas en mode dev.
+      useCdn: !import.meta.env.DEV,
     })
   : null
 

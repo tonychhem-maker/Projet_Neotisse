@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { useReveal } from '../../lib/reveal'
+import { useReveal, useTextReveal } from '../../lib/reveal'
 
 export default function ClosingCta({
   titleLine1 = 'Prêt à organiser votre',
@@ -10,18 +10,19 @@ export default function ClosingCta({
 }) {
   const scope = useRef(null)
 
+  useTextReveal(scope, { stagger: 0.12 })
   useReveal(scope, { stagger: 0.16 })
 
   return (
     <section className="relative" ref={scope}>
       <div className="mx-auto w-full max-w-[1230px] px-10 pb-24 pt-10 text-center">
-        <h2
-          data-reveal
-          className="mx-auto max-w-[800px] font-serif text-[34px] uppercase leading-[1.3] text-[#0b4f2a] lg:text-display"
-        >
-          {titleLine1}
-          <br />
-          {titleLine2}
+        <h2 className="mx-auto max-w-[800px] font-serif text-[34px] uppercase leading-[1.35] text-[#0b4f2a] lg:text-display">
+          <span className="reveal-line">
+            <span className="block">{titleLine1}</span>
+          </span>
+          <span className="reveal-line">
+            <span className="block">{titleLine2}</span>
+          </span>
         </h2>
         <div data-reveal-group className="mt-14 flex flex-col items-center">
           <span

@@ -1,14 +1,8 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { footerNav } from '../../data/navigation'
 import { useReveal } from '../../lib/reveal'
 import { SITE_SETTINGS_QUERY, useSanityContent } from '../../lib/queries'
-
-const quickLinks = [
-  { label: 'Accueil', to: '/' },
-  { label: 'Ateliers', to: '/ateliers-de-mediation-textile' },
-  { label: 'À Propos', to: '/a-propos' },
-  { label: 'Contact', to: '/contact' },
-]
 
 // Coordonnées de repli, affichées tant que « Réglages du site » n'est pas
 // renseigné dans le back-office.
@@ -18,6 +12,7 @@ const SETTINGS_FALLBACK = {
   email: 'asso.neotisse@gmail.com',
   phone: '06 48 65 58 16',
   address: 'Montpellier',
+  socialLinks: [],
 }
 
 export default function Footer() {
@@ -26,6 +21,7 @@ export default function Footer() {
   useReveal(scope, { stagger: 0.1 })
 
   const settings = useSanityContent(SITE_SETTINGS_QUERY, SETTINGS_FALLBACK)
+  const socialLinks = (settings.socialLinks ?? []).filter((link) => link?.href)
 
   return (
     <footer className="bg-[#0b4f2a] text-[#f4efe6]" ref={scope}>
@@ -34,24 +30,29 @@ export default function Footer() {
         {/* Description */}
         <div data-reveal>
           <p className="max-w-[250px]">{settings.baseline}</p>
-          <div className="mt-6 flex gap-3">
-            {['f', 'x'].map((glyph) => (
-              <span
-                key={glyph}
-                aria-hidden="true"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f4efe6] text-[0.8em] font-semibold text-[#0b4f2a]"
-              >
-                {glyph}
-              </span>
-            ))}
-          </div>
+          {socialLinks.length > 0 && (
+            <ul className="mt-6 flex gap-3">
+              {socialLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f4efe6] text-[0.8em] font-semibold text-[#0b4f2a] transition-colors hover:bg-[#2f8a55] hover:text-[#f4efe6]"
+                  >
+                    {link.label?.slice(0, 1)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Lien Rapide */}
         <nav aria-label="Lien rapide" data-reveal>
           <p className="font-semibold">Lien Rapide</p>
           <ul className="mt-3 space-y-2">
-            {quickLinks.map((item) => (
+            {footerNav.map((item) => (
               <li key={item.to} className="flex items-start gap-2">
                 <span aria-hidden="true" className="text-[#2f8a55]">
                   ›
