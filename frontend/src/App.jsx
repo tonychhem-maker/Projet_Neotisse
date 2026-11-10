@@ -2,7 +2,6 @@ import { Route, Routes } from 'react-router-dom'
 import Footer from './components/layout/Footer'
 import Header from './components/layout/Header'
 import { ScrollToTop } from './components/layout/ScrollToTop'
-import { useSmoothScroll } from './lib/smoothScroll'
 import APropos from './pages/APropos'
 import Actualites from './pages/Actualites'
 import Ateliers from './pages/Ateliers'
@@ -18,8 +17,6 @@ import PolitiqueCookies from './pages/legal/PolitiqueCookies'
 import PolitiqueConfidentialite from './pages/legal/PolitiqueConfidentialite'
 
 export default function App() {
-  useSmoothScroll()
-
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />

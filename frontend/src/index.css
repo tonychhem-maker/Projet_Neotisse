@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Outfit:wght@300;400;500;600;700&family=Anton&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -5,14 +6,30 @@
   --color-pine: #095228;
   --color-leaf: #35985F;
   --color-sand: #E4DCCE;
+  --color-ink: #1C202C;
+
+  /* Tokens de la section « Ateliers Démonstratifs » */
+  --color-atelier-bg: #f4efe6;
+  --color-atelier-ink: #0a0a0a;
+  --color-atelier-pine: #0b4f2a;
+  --color-atelier-leaf: #2f8a55;
+  --color-atelier-thread: #5f8f6a;
 
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Boldonse", ui-serif, Georgia, serif;
+  --font-anton: "Anton", ui-sans-serif, sans-serif;
+  --font-dm: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
+  /* Boldonse a un dessin large : sans interlignage généreux, les lignes
+     empattées du haut et du bas se chevauchent. */
   --text-h1: 6rem;
-  --text-h1--line-height: 1.05;
+  --text-h1--line-height: 1.35;
   --text-h2: 4rem;
-  --text-h2--line-height: 1.1;
+  --text-h2--line-height: 1.2;
+
+  /* Titres de section de l'accueil. */
+  --text-display: 3.75rem;
+  --text-display--line-height: 1.15;
   --text-body: 1.125rem;
   --text-body--line-height: 1.6;
 }

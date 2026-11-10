@@ -1,13 +1,25 @@
-import PageHeader from '../components/ui/PageHeader'
-import Placeholder from '../components/ui/Placeholder'
+import AboutBlock from '../components/sections/AboutBlock'
+import ClosingCta from '../components/sections/ClosingCta'
+import Hero from '../components/sections/Hero'
+import Partners from '../components/sections/Partners'
+import WorkshopFormats from '../components/sections/WorkshopFormats'
 
 export default function Ateliers() {
   return (
     <>
-      <PageHeader eyebrow="Médiation" title="Nos ateliers de médiation textile">
-        Des ateliers conçus pour les musées, universités, coopératives et collectivités.
-      </PageHeader>
-      <Placeholder label="Ateliers de médiation textile" />
+      <Hero />
+
+      <AboutBlock
+        imageSrc="/assets/images/tissage-fleche.jpg"
+        imageAlt="Galons tissés à chevrons présentés dans une vitrine"
+      />
+
+      {/* « SUR MESURE » ouverte par défaut, comme sur la maquette. */}
+      <WorkshopFormats defaultOpen="04" />
+
+      <Partners />
+
+      <ClosingCta />
     </>
   )
 }
