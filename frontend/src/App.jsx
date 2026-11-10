@@ -2,12 +2,12 @@ import { Route, Routes } from 'react-router-dom'
 import Footer from './components/layout/Footer'
 import Header from './components/layout/Header'
 import { ScrollToTop } from './components/layout/ScrollToTop'
+import { useSmoothScroll } from './lib/smoothScroll'
 import APropos from './pages/APropos'
 import Actualites from './pages/Actualites'
 import Ateliers from './pages/Ateliers'
 import Contact from './pages/Contact'
 import Deplacements from './pages/Deplacements'
-import Equipe from './pages/Equipe'
 import Home from './pages/Home'
 import LaisserUnMot from './pages/LaisserUnMot'
 import LivreDor from './pages/LivreDor'
@@ -18,6 +18,8 @@ import PolitiqueCookies from './pages/legal/PolitiqueCookies'
 import PolitiqueConfidentialite from './pages/legal/PolitiqueConfidentialite'
 
 export default function App() {
+  useSmoothScroll()
+
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
@@ -29,7 +31,6 @@ export default function App() {
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/actualites" element={<Actualites />} />
           <Route path="/deplacements" element={<Deplacements />} />
-          <Route path="/equipe" element={<Equipe />} />
           <Route path="/partenaires" element={<Partenaires />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/livre-d-or" element={<LivreDor />} />

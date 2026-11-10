@@ -2,12 +2,13 @@
 Le projet a pour but la creation d'un site web pour une association prenomme "Neotisse" . Cette association propose des ateliers de mediation sur le theme du tissage de la periode du neolitique au moyen age . Actuelllement la seul moyen pour eux d'avoir de la visibilite sont leurs resaux. La creation du site web a pour but de vise les gerant de musee, universite , cooperative etc...
 
 # Stucture & arborescence :
-Le site doit comprendre la page d'acceuil qui contient une description de l'association , une presentation rapide des ateliers proposer et une section avec les disponibilitees et les disponibilites de l'association . Depuis la barre de navigation la disponibilite de pouvoir aller sur une page actualites, a propos, partenaires et avis et la page de contaact
+Le site doit comprendre la page d'acceuil qui contient une description de l'association , une presentation rapide des ateliers proposer et une section avec les disponibilitees et les disponibilites de l'association . Depuis la barre de navigation la disponibilite de pouvoir aller sur une page actualites, a propos, partenaires et avis et la page de contaact . La presentation de l'equipe est integree a la page a propos (pas de page dediee).
 
 # Stack technique front end : 
 -Utiliser exclusivement **React** pour le front-end (composants fonctionnels).
 -Utiliser exclusivement **Tailwind CSS** pour le style (pas de CSS custom sauf cas exceptionnel, pas d'autre librairie de style).
 -Utiliser **Sanity CMS** comme back office : tout contenu editable doit venir de Sanity, jamais code en dur.
+-Utiliser **Lenis** (defilement fluide) avec **GSAP** et **ScrollTrigger** pour les animations au scroll.
 -Si un choix technique n'est pas couvert ici, demander avant de decider.
 
 ### CMS

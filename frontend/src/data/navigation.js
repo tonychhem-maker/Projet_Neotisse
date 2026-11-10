@@ -3,7 +3,6 @@ export const siteNav = [
   { label: 'À propos', to: '/a-propos' },
   { label: 'Actualités', to: '/actualites' },
   { label: 'Déplacements', to: '/deplacements' },
-  { label: 'Équipe', to: '/equipe' },
   { label: 'Partenaires', to: '/partenaires' },
   { label: "Livre d'or", to: '/livre-d-or' },
 ]

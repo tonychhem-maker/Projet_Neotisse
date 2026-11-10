@@ -85,9 +85,23 @@ Après validation dans le studio, passer le document `testimonial` de
 | `bg-pine` / `text-pine` | #095228 |
 | `bg-leaf` / `text-leaf` | #35985F |
 | `bg-sand` / `border-sand` | #E4DCCE |
-| `font-serif` | Libre Baskerville |
-| `font-sans` | Nunito |
+| `font-serif` | Boldonse |
+| `font-sans` | Outfit |
 | `text-h1` / `text-h2` / `text-body` | 96px / 64px / 18px |
+
+## Animations au scroll
+
+Le défilement fluide et les animations sont gérés par **Lenis** + **GSAP
+ScrollTrigger**, initialisés dans `src/lib/smoothScroll.js` via le hook
+`useSmoothScroll()`, appelé une seule fois dans `App.jsx`.
+
+```js
+import { gsap, ScrollTrigger } from '../lib/smoothScroll'
+```
+
+- `prefers-reduced-motion: reduce` → Lenis n'est pas instancié, le défilement natif est conservé.
+- Le build sépare les librairies en chunks (`vendor-gsap`, `vendor-sanity`, `vendor-react`)
+  pour préserver le cache navigateur.
 
 ## Scripts
 
