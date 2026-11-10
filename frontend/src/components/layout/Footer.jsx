@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { legalNav, siteNav } from '../../data/navigation'
+import { legalNav, footerNav } from '../../data/navigation'
 
 // Calculé au chargement du module : évite un appel impur pendant le rendu.
 const YEAR = new Date().getFullYear()
@@ -17,20 +17,15 @@ export default function Footer() {
         </div>
 
         <nav aria-label="Plan du site">
-          <p className="text-sm font-bold uppercase tracking-widest text-sand">Le site</p>
+          <p className="text-sm font-bold uppercase tracking-widest text-sand">Lien Rapide</p>
           <ul className="mt-4 space-y-2 text-sm">
-            {siteNav.map((item) => (
+            {footerNav.map((item) => (
               <li key={item.to}>
                 <Link to={item.to} className="transition-colors hover:text-leaf">
                   {item.label}
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/contact" className="transition-colors hover:text-leaf">
-                Contactez-nous
-              </Link>
-            </li>
           </ul>
         </nav>
 

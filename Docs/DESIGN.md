@@ -23,15 +23,24 @@
 
 # Arborescence
 /accueil/                        Accueil
-/ateliers-de-mediation-textile/  Nos ateliers
-/a-propos/                       A propos (inclut la presentation de l'equipe)
-/actualites/                     Actualites
+/ateliers-de-mediation-textile/  Ateliers
 /deplacements/                   Deplacements
-/contact/                        Contactez-nous
+/actualites/                     Actualites
 /livre-d-or/                     Livre d'or
   └── /laisser-un-mot/           Laisser un mot
+/a-propos/                       A propos (inclut la presentation de l'equipe)
+/contact/                        Contact
 /mentions-legales/               Mentions legales
 /politique-de-confidentialite/   Politique de confidentialite
 /politique-de-cookies/           Politique de cookies
 
-> La page /equipe/ n'existe plus : le contenu de l'equipe est integre a la page /a-propos/.
+## Navigation principale (header)
+Ordre impose par la maquette :
+`Accueil - Ateliers - Deplacements - Actualites - Livre d'or - A propos - Contact`
+
+## Pied de page (« Lien Rapide »)
+`Accueil - Ateliers - A propos - Partenaires - Contact`
+
+> La page /partenaires/ a ete retiree de la navigation principale mais reste
+> accessible depuis le pied de page. La page /equipe/ n'existe plus : le contenu
+> de l'equipe est integre a la page /a-propos/.

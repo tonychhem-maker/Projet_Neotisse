@@ -32,13 +32,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            to="/contact"
-            className="hidden rounded-full bg-leaf px-5 py-2 text-sm font-semibold text-cream transition-colors hover:bg-cream hover:text-pine sm:inline-block"
-          >
-            Contactez-nous
-          </Link>
-
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -61,7 +54,7 @@ export default function Header() {
           className="border-t border-cream/20 px-4 pb-6 lg:hidden"
         >
           <ul className="flex flex-col gap-4 pt-4 text-sm">
-            {[...siteNav, { label: 'Contactez-nous', to: '/contact' }].map((item) => (
+            {siteNav.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
