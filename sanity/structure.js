@@ -27,6 +27,7 @@ export function deskStructure(S) {
       S.divider(),
 
       S.documentTypeListItem('workshop').title('Ateliers'),
+      S.documentTypeListItem('workshopFormat').title('Formats d’atelier'),
       S.documentTypeListItem('availability').title('Disponibilités'),
       S.documentTypeListItem('post').title('Actualités'),
       S.documentTypeListItem('teamMember').title('Équipe'),

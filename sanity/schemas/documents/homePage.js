@@ -8,6 +8,7 @@ export const homePage = defineType({
     { name: 'hero', title: 'Bannière', default: true },
     { name: 'intro', title: 'Présentation' },
     { name: 'workshops', title: 'Ateliers' },
+    { name: 'formats', title: 'Formats d’atelier' },
     { name: 'availability', title: 'Disponibilités' },
     { name: 'seo', title: 'Référencement' },
   ],
@@ -69,6 +70,58 @@ export const homePage = defineType({
       group: 'workshops',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'workshop' }] })],
       validation: (rule) => rule.max(3).warning('La page affiche au mieux 3 ateliers.'),
+    }),
+
+    defineField({
+      name: 'formatsTitle',
+      title: 'Titre de la section formats',
+      type: 'string',
+      group: 'formats',
+      initialValue: 'Nos formats',
+    }),
+    defineField({
+      name: 'formatsIntro',
+      title: 'Texte de la section formats',
+      type: 'text',
+      rows: 2,
+      group: 'formats',
+    }),
+    defineField({
+      name: 'featuredFormats',
+      title: 'Formats affichés sur la page d’accueil',
+      type: 'array',
+      group: 'formats',
+      description:
+        'Sélectionnez et ordonnez les formats à afficher. Laissez vide pour afficher tous les formats visibles, dans leur ordre propre.',
+      of: [defineArrayMember({ type: 'reference', to: [{ type: 'workshopFormat' }] })],
+    }),
+    defineField({
+      name: 'formatsCtaTitle',
+      title: 'Titre du bloc final de la section formats',
+      type: 'string',
+      group: 'formats',
+      description: 'Ex : « Partons de votre projet ensemble »',
+    }),
+    defineField({
+      name: 'formatsCtaText',
+      title: 'Texte du bloc final',
+      type: 'text',
+      rows: 3,
+      group: 'formats',
+    }),
+    defineField({
+      name: 'formatsCtaLink',
+      title: 'Lien du bloc final',
+      type: 'link',
+      group: 'formats',
+    }),
+    defineField({
+      name: 'formatsCtaImage',
+      title: 'Image du bloc final',
+      type: 'image',
+      group: 'formats',
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', title: 'Texte alternatif', type: 'string' })],
     }),
 
     defineField({

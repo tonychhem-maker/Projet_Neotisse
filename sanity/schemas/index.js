@@ -9,6 +9,7 @@ import { siteSettings } from './documents/siteSettings'
 import { teamMember } from './documents/teamMember'
 import { testimonial } from './documents/testimonial'
 import { workshop } from './documents/workshop'
+import { workshopFormat } from './documents/workshopFormat'
 import { link } from './objects/link'
 import { openGraph } from './objects/openGraph'
 import { richText } from './objects/richText'
@@ -17,6 +18,7 @@ import { seo } from './objects/seo'
 export const schemaTypes = [
   // Collection
   workshop,
+  workshopFormat,
   post,
   partner,
   teamMember,
