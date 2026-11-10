@@ -13,7 +13,7 @@ export default function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-pine/10 bg-[#f4efe6]/70 backdrop-blur-md backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-pine/10 bg-[#f4efe6]">
       <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center gap-6 px-10">
         <Link
           to="/"
@@ -65,7 +65,7 @@ export default function Header() {
         <nav
           id="menu-mobile"
           aria-label="Navigation mobile"
-          className="border-t border-pine/10 bg-[#f4efe6]/70 px-10 pb-6 backdrop-blur-md lg:hidden"
+          className="border-t border-pine/10 bg-[#f4efe6] px-10 pb-6 lg:hidden"
         >
           <ul className="flex flex-col gap-4 pt-4 text-[15px]">
             {siteNav.map((item) => (

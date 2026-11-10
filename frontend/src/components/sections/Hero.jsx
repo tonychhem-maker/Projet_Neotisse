@@ -85,9 +85,18 @@ export default function Hero({
           scrollTrigger: {
             id: 'hero-pin',
             trigger: root.current,
-            start: 'top 72px', // hauteur de la navbar sticky : la hero se fige sous elle
+            // La hero est fixée sous la navbar pendant toute la chute des
+            // cartes. `pinType: 'fixed'` évite la transformation d'ancêtre du
+            // mode `transform` (défaut) quand la page est lissée par Lenis.
+            start: 'top 72px',
             end: '+=220%',
-            pin: true,
+            pin: root.current,
+            pinType: 'fixed',
+            anticipatePin: 1,
+            // L'espace de défilement du pin est réservé dès le premier calcul :
+            // sans cela, la hauteur de la page change en plein scroll (la
+            // section se met à « flotter ») et le contenu saute.
+            pinSpacing: true,
             scrub: 0.7,
             invalidateOnRefresh: true, // recalcule les valeurs en fonction de la hauteur d'écran
             onUpdate: (self) => {

@@ -6,8 +6,8 @@ import { useReveal, useTextReveal } from '../../lib/reveal'
 export default function Partners({ title = ['Nos', 'partenaires'], row1 = [], row2 = [] }) {
   const scope = useRef(null)
 
-  useTextReveal(scope, { stagger: 0.1 })
-  useReveal(scope, { stagger: 0.08 })
+  useTextReveal(scope)
+  useReveal(scope)
 
   const hasRows = row1.length > 0 || row2.length > 0
 

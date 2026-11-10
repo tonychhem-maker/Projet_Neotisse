@@ -18,7 +18,7 @@ const SETTINGS_FALLBACK = {
 export default function Footer() {
   const scope = useRef(null)
 
-  useReveal(scope, { stagger: 0.1 })
+  useReveal(scope)
 
   const settings = useSanityContent(SITE_SETTINGS_QUERY, SETTINGS_FALLBACK)
   const socialLinks = (settings.socialLinks ?? []).filter((link) => link?.href)

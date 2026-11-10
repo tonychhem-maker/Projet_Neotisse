@@ -1,142 +1,110 @@
 import { useGSAP } from '@gsap/react'
-import { ScrollTrigger, gsap } from './smoothScroll'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 /**
- * Garde-fou commun aux deux hooks de révélation.
+ * Révélations au scroll des sections « classiques ».
  *
- * ScrollTrigger calcule les positions au chargement, avant que la mise en page
- * soit définitive (accordéon qui se replie, polices, images). Quand une section
- * est épinglée — la hero de l'accueil et de la page Ateliers — tout ce qui suit
- * hérite d'un décalage et certains triggers ne se déclenchent jamais : le
- * contenu resterait invisible. Cette garde révèle d'office tout élément animé
- * qui est réellement dans la fenêtre mais toujours masqué.
+ * Règle du site : seule la hero utilise le scroll « perdu » (pin + scrub
+ * pilotés par GSAP). Toutes les autres sections se contentent d'une animation
+ * simple, jouée une fois quand l'élément entre dans la fenêtre.
  *
- * Retourne une fonction de nettoyage.
+ * Pourquoi pas GSAP ici : ces animations n'ont pas besoin de suivre le scroll
+ * au pixel. ScrollTrigger recalculait des positions au chargement, avant que
+ * la mise en page soit stable (polices, images, contenu Sanity, hauteur de la
+ * hero épinglée). Quand le calcul était périmé, le trigger ne se déclenchait
+ * jamais et le contenu restait invisible — le bug constaté au scroll.
+ *
+ * Ici tout passe par l'IntersectionObserver du navigateur, qui observe la
+ * position réelle des éléments et ne dépend d'aucun précalcul : il ne peut pas
+ * « rater » un élément. Les états et la transition sont en CSS (voir
+ * `index.css`, classes `.rv` / `.reveal-line`), la classe `.is-revealed` est la
+ * seule chose ajoutée en JS. Aucun FOUC : l'état de départ n'est appliqué que
+ * si le JavaScript s'exécute (classe `.rv-ready` sur `<html>`).
+ *
+ * `prefers-reduced-motion` : rien n'est masqué ni animé (CSS + garde JS).
  */
-function guardVisibleContent(root, selector, reveal) {
-  let queued = false
 
-  const check = () => {
-    queued = false
-    gsap.utils.toArray(selector, root).forEach((el) => {
-      const style = getComputedStyle(el)
-      const hidden = style.visibility === 'hidden' || style.opacity === '0'
-      if (!hidden) return
+const REVEAL_MARGIN = '-12% 0px'
 
-      const rect = el.getBoundingClientRect()
-      const inView = rect.bottom > 0 && rect.top < window.innerHeight
-      if (inView) reveal(el)
-    })
-  }
-
-  const schedule = () => {
-    if (queued) return
-    queued = true
-    requestAnimationFrame(check)
-  }
-
-  // Premier passage après le rendu complet, puis à chaque événement qui peut
-  // changer la mise en page ou amener un élément dans la fenêtre.
-  const rafId = requestAnimationFrame(() => requestAnimationFrame(check))
-  ScrollTrigger.addEventListener('refresh', schedule)
-  ScrollTrigger.addEventListener('scrollEnd', schedule)
-  window.addEventListener('resize', schedule)
-
-  return () => {
-    cancelAnimationFrame(rafId)
-    ScrollTrigger.removeEventListener('refresh', schedule)
-    ScrollTrigger.removeEventListener('scrollEnd', schedule)
-    window.removeEventListener('resize', schedule)
-  }
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 /**
- * Révélation de texte au scroll — règle unique du site.
+ * Observe les éléments sélectionnés dans `root` et leur ajoute
+ * `.is-revealed` dès qu'ils entrent dans la fenêtre. Un élément déjà à
+ * l'écran au montage est marqué immédiatement, sans animation : on ne fait
+ * jamais disparaître un contenu visible.
  *
- * Principe (validé sur la hero) : rien n'est visible au départ, puis le texte
- * monte depuis un masque quand la section entre dans la fenêtre.
- *
- *   <span class="reveal-line"><span>Ma ligne</span></span>
- *
- * - `.reveal-line` porte `overflow: hidden` (le masque) ;
- * - son enfant direct est la ligne animée : elle part à `yPercent: 105`
- *   (sous le masque) et remonte à 0.
- *
- * Le texte n'est jamais rendu transparent : il reste dans le DOM, lisible par
- * les moteurs de recherche et les lecteurs d'écran, et la sélection de texte
- * fonctionne. Seul le masque le cache physiquement.
- *
- * `prefers-reduced-motion` : rien n'est animé, le texte est affiché d'emblée.
- *
- * Usage :
- *   useTextReveal(scope)                       // toutes les lignes du bloc
- *   useTextReveal(scope, { stagger: 0.08 })    // cascade plus serrée
+ * Retourne une fonction de nettoyage.
  */
-export function useTextReveal(
-  scope,
-  { selector = '.reveal-line > *', y = 105, duration = 1.1, stagger = 0.1 } = {},
-) {
+function observe(root, selector) {
+  const targets = [...root.querySelectorAll(selector)]
+  if (!targets.length) return () => {}
+
+  const mark = (el) => el.classList.add('is-revealed')
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        mark(entry.target)
+        observer.unobserve(entry.target)
+      })
+    },
+    { rootMargin: REVEAL_MARGIN, threshold: 0 },
+  )
+
+  targets.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    // Déjà dans la fenêtre : visible tout de suite, sans transition.
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('is-instant')
+      mark(el)
+      return
+    }
+    observer.observe(el)
+  })
+
+  return () => observer.disconnect()
+}
+
+/**
+ * Active le mode « prêt » des réveils : c'est cette classe qui autorise le CSS
+ * à masquer les éléments. Sans JavaScript, rien n'est masqué.
+ */
+function useRevealRoot(scope) {
   useGSAP(
     () => {
       const root = scope?.current
-      if (!root) return undefined
+      if (!root || prefersReducedMotion()) return undefined
 
-      const mm = gsap.matchMedia()
+      root.classList.add('rv-root')
+      return () => root.classList.remove('rv-root')
+    },
+    { scope },
+  )
+}
 
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const lines = gsap.utils.toArray(selector, root)
-        if (!lines.length) return undefined
+/**
+ * Révélation de texte au scroll.
+ *
+ *   <span class="reveal-line"><span>Ma ligne</span></span>
+ *
+ * - `.reveal-line` porte `overflow: hidden` (le masque et le réveil) ;
+ * - son enfant direct est la ligne animée : elle part sous le masque
+ *   (`translateY(105%)`) et remonte à 0.
+ *
+ * Le texte n'est jamais rendu transparent : il reste dans le DOM, lisible par
+ * les moteurs de recherche et les lecteurs d'écran. Seul le masque le cache.
+ */
+export function useTextReveal(scope) {
+  useRevealRoot(scope)
 
-        // Regroupement : on anime ensemble les lignes qui partagent le même
-        // parent (un paragraphe, un titre…), chacune avec son propre trigger.
-        const groups = new Map()
-        lines.forEach((line) => {
-          const parent = line.parentElement
-          if (!groups.has(parent)) groups.set(parent, [])
-          groups.get(parent).push(line)
-        })
-
-        const triggers = []
-
-        groups.forEach((group, parent) => {
-          gsap.set(group, { yPercent: y })
-
-          triggers.push(
-            ScrollTrigger.create({
-              trigger: parent,
-              start: 'top bottom-=12%',
-              once: true,
-              onEnter: () =>
-                gsap.to(group, {
-                  yPercent: 0,
-                  duration,
-                  ease: 'expo.out',
-                  stagger,
-                  overwrite: true,
-                }),
-            }),
-          )
-
-          // Sécurité : ce qui est déjà visible au chargement s'affiche tout de
-          // suite, sans attendre un scroll.
-          if (parent.getBoundingClientRect().top < window.innerHeight) {
-            gsap.set(group, { yPercent: 0 })
-          }
-        })
-
-        const stopGuard = guardVisibleContent(root, selector, (el) =>
-          gsap.set(el, { yPercent: 0 }),
-        )
-
-        return () => {
-          triggers.forEach((t) => t.kill())
-          stopGuard()
-        }
-      })
-
-      return () => mm.revert()
+  useGSAP(
+    () => {
+      const root = scope?.current
+      if (!root || prefersReducedMotion()) return undefined
+      return observe(root, '.reveal-line')
     },
     { scope },
   )
@@ -144,70 +112,21 @@ export function useTextReveal(
 
 /**
  * Apparition en fondu + montée, pour les éléments non textuels (images,
- * boutons, logos). Même logique de déclenchement que `useTextReveal`.
+ * boutons, logos). Même mécanisme que `useTextReveal`.
  *
  *   <div data-reveal>…</div>
+ *   <div data-reveal-group><div data-reveal/>…</div>
+ *
+ * La cascade se règle en CSS avec `style="--rv-delay: 0.1s"`.
  */
-export function useReveal(scope, { stagger = 0.12, y = 28, duration = 0.9 } = {}) {
+export function useReveal(scope) {
+  useRevealRoot(scope)
+
   useGSAP(
     () => {
       const root = scope?.current
-      if (!root) return undefined
-
-      const mm = gsap.matchMedia()
-
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const isGroupChild = (el) => !!el.parentElement?.closest('[data-reveal-group]')
-
-        const surfaces = [
-          ...gsap.utils.toArray('[data-reveal-group]', root),
-          ...gsap.utils.toArray('[data-reveal]', root).filter(
-            (el) => !isGroupChild(el) && !el.hasAttribute('data-reveal-group'),
-          ),
-        ]
-
-        const triggers = []
-
-        surfaces.forEach((surface) => {
-          const isGroup = surface.hasAttribute('data-reveal-group')
-          const group = isGroup ? gsap.utils.toArray('[data-reveal]', surface) : [surface]
-          if (!group.length) return
-
-          gsap.set(group, { autoAlpha: 0, y })
-
-          triggers.push(
-            ScrollTrigger.create({
-              trigger: group[0],
-              start: 'top bottom-=12%',
-              once: true,
-              onEnter: () =>
-                gsap.to(group, {
-                  autoAlpha: 1,
-                  y: 0,
-                  duration,
-                  ease: 'expo.out',
-                  stagger: group.length > 1 ? stagger : 0,
-                  overwrite: true,
-                }),
-            }),
-          )
-
-          if (group[0].getBoundingClientRect().top < window.innerHeight) {
-            gsap.set(group, { autoAlpha: 1, y: 0 })
-          }
-        })
-
-        const stopGuard = guardVisibleContent(root, '[data-reveal]', (el) =>
-          gsap.set(el, { autoAlpha: 1, y: 0 }),
-        )
-
-        return () => {
-          triggers.forEach((t) => t.kill())
-          stopGuard()
-        }
-      })
-
-      return () => mm.revert()
+      if (!root || prefersReducedMotion()) return undefined
+      return observe(root, '[data-reveal]')
     },
     { scope },
   )

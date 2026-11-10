@@ -36,7 +36,11 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* Le défilement fluide est assuré par Lenis. Le `scroll-behavior: smooth`
+       natif entre en concurrence avec lui : un scroll natif en cours annule
+       le lissage de Lenis, d'où des sauts et une page qui ne suit plus le
+       geste. On le laisse donc désactivé. */
+    scroll-behavior: auto;
   }
 
   body {
@@ -55,15 +59,74 @@
 .reveal-line {
   display: block;
   overflow: hidden;
-  /* Marge haute pour ne pas rogner les accents et les jambages des polices
-     d'affichage (Boldonse, Anton), qui dépassent la boîte d'em. */
-  padding-top: 0.06em;
-  margin-top: -0.06em;
+  /* Réserve de place au-dessus de la ligne : Boldonse (titres) et Anton
+     (hero) montent bien au-dessus de la boîte d'em (accents aigus, chapeaux,
+     jambages). Sans cette réserve, le masque coupe le haut des capitales
+     accentuées (« PRÊT », « ATELIER »). La marge négative annule la réserve
+     dans le flux : la mise en page reste identique. */
+  padding-top: 0.22em;
+  margin-top: -0.22em;
 }
 
 /* Lignes successives d'un même titre : pas de marge résiduelle, c'est
    l'interlignage du titre qui gère l'espacement. */
 .reveal-line + .reveal-line {
-  padding-top: 0;
-  margin-top: 0;
+  padding-top: 0.22em;
+  margin-top: -0.22em;
 }
+
+/* ---------------------------------------------------------------------------
+   Révélations au scroll des sections (voir `lib/reveal.js`).
+
+   Les états sont en CSS, la classe `.is-revealed` est ajoutée par
+   l'IntersectionObserver. Hors de ces règles, rien n'est masqué : sans
+   JavaScript, ou si l'observation échoue, le contenu reste visible.
+   Seule la hero garde ses animations GSAP (voir `Hero.jsx`).
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* L'état de départ n'est appliqué que dans un bloc auquel le JS a ajouté
+     `.rv-root` : aucun risque de contenu invisible si le script ne tourne pas. */
+  .rv-root .reveal-line > * {
+    transform: translateY(105%);
+    transition:
+      transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-delay, 0s);
+    will-change: transform;
+  }
+
+  .rv-root .reveal-line.is-revealed > *,
+  .rv-root .reveal-line.is-instant > * {
+    transform: translateY(0);
+  }
+
+  .rv-root [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-delay, 0s),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--rv-delay, 0s);
+  }
+
+  .rv-root [data-reveal].is-revealed,
+  .rv-root [data-reveal].is-instant {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Révélé d'emblée (déjà à l'écran au chargement) : aucune transition. */
+  .rv-root .is-instant,
+  .rv-root .is-instant > * {
+    transition: none;
+  }
+}
+
+/* Contenu visible sur la page mais encore masqué : on ne l'anime pas si la
+   fenêtre est très courte ou si l'utilisateur a demandé moins de mouvement. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-line > *,
+  [data-reveal] {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+

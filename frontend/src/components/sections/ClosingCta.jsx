@@ -10,8 +10,8 @@ export default function ClosingCta({
 }) {
   const scope = useRef(null)
 
-  useTextReveal(scope, { stagger: 0.12 })
-  useReveal(scope, { stagger: 0.16 })
+  useTextReveal(scope)
+  useReveal(scope)
 
   return (
     <section className="relative" ref={scope}>

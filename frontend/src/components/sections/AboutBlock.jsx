@@ -6,8 +6,8 @@ import { useReveal, useTextReveal } from '../../lib/reveal'
 export default function AboutBlock({ title, paragraphs, imageSrc, imageAlt }) {
   const scope = useRef(null)
 
-  useTextReveal(scope, { stagger: 0.1 })
-  useReveal(scope, { stagger: 0.14 })
+  useTextReveal(scope)
+  useReveal(scope)
 
   return (
     <section className="relative" ref={scope}>

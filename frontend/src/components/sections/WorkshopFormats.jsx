@@ -20,8 +20,8 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
   const panelRefs = useRef({})
   const firstRun = useRef(true)
 
-  useReveal(scope, { stagger: 0.1 })
-  useTextReveal(scope, { stagger: 0.06 })
+  useReveal(scope)
+  useTextReveal(scope)
 
   useGSAP(
     () => {
