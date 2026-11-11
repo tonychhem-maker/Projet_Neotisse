@@ -1,0 +1,147 @@
+/* Bannière de la page À propos — calée au pixel sur la maquette Figma
+   (frame « A propos » 424:445, 1440×4027 ; la bannière va de y80 à y890,
+   soit 810px).
+
+   Toutes les dimensions desktop sont exprimées en `cqw` (1cqw = 1/100 de la
+   largeur de la page, soit px/14.4 pour la maquette 1440) : la section reste
+   homothétique à la maquette à n'importe quelle largeur ≥861px. */
+
+.a-propos-hero {
+  position: relative;
+  height: 56.25cqw; /* 810px */
+  background: #f4efe6;
+}
+
+/* Fil droit : gabarit de rendu Figma (1018,0,461×559), il descend du haut de
+   page le long du bord droit et passe derrière l'en-tête (fond crème opaque,
+   sa partie haute est simplement recouverte). */
+.a-propos-hero__fil--droite {
+  position: absolute;
+  left: 70.7361cqw; /* 1018px */
+  top: 0;
+  width: 32.0139cqw; /* 461px */
+  height: 38.8194cqw; /* 559px */
+  z-index: 0;
+}
+
+/* Fil gauche : gabarit (–288,435,483×630), il dépasse du bord gauche de la
+   fenêtre (le rognage est assuré par `overflow-x: clip` sur la page) et se
+   poursuit derrière la grande image de la section suivante. */
+.a-propos-hero__fil--gauche {
+  position: absolute;
+  left: -19.9861cqw; /* -288px */
+  top: 24.6528cqw; /* 355px */
+  width: 33.5417cqw; /* 483px */
+  height: 43.75cqw; /* 630px */
+  z-index: 0;
+}
+
+/* Titre centré sur deux lignes (210,111,1020×246 dans la maquette). */
+.a-propos-hero__title {
+  position: absolute;
+  z-index: 1;
+  left: 14.5833cqw; /* 210px */
+  top: 7.7083cqw; /* 111px */
+  width: 70.8333cqw; /* 1020px */
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 4.4444cqw; /* 64px */
+  line-height: 1.92; /* 122.9px */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-align: center;
+  color: #095228;
+}
+
+.a-propos-hero__line {
+  display: block;
+}
+
+/* Logo tampon : (605,469,230×225) dans la maquette. */
+.a-propos-hero__logo {
+  position: absolute;
+  z-index: 1;
+  left: 42.0139cqw; /* 605px */
+  top: 27.0139cqw; /* 389px */
+  width: 15.9722cqw; /* 230px */
+  height: 15.625cqw; /* 225px */
+  object-fit: contain;
+}
+
+/* Paragraphe d'accroche : (310,726,821×90), Outfit 24px, interlignage 30px. */
+.a-propos-hero__text {
+  position: absolute;
+  z-index: 1;
+  left: 21.5278cqw; /* 310px */
+  top: 44.8611cqw; /* 646px */
+  width: 57.0139cqw; /* 821px */
+  text-align: center;
+  font-size: 1.6667cqw; /* 24px */
+  line-height: 1.2583; /* 30.2px */
+  color: #000;
+}
+.a-propos-hero__text p {
+  margin: 0;
+}
+
+/* Flèche vers le bas (fichier maquette 15×42), centrée à x720. */
+.a-propos-hero__arrow {
+  position: absolute;
+  z-index: 1;
+  left: 50cqw;
+  top: 53.3333cqw; /* 768px */
+  width: 1.0417cqw; /* 15px */
+  height: 2.9167cqw; /* 42px */
+  transform: translateX(-50%);
+}
+
+/* Écrans étroits : mise en page en flux, les fils décoration disparaissent. */
+@media (max-width: 860px) {
+  .a-propos-hero {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px 48px;
+  }
+
+  .a-propos-hero__fil {
+    display: none;
+  }
+
+  .a-propos-hero__title {
+    position: static;
+    order: 1;
+    width: 100%;
+    font-size: clamp(26px, 8vw, 48px);
+  }
+
+  .a-propos-hero__logo {
+    position: static;
+    order: 2;
+    width: min(180px, 46vw);
+    height: auto;
+    aspect-ratio: 230 / 225;
+    margin-top: 24px;
+  }
+
+  .a-propos-hero__text {
+    position: static;
+    order: 3;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 24px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .a-propos-hero__arrow {
+    position: static;
+    order: 4;
+    width: 12px;
+    height: 34px;
+    margin-top: 24px;
+    transform: none;
+  }
+}

@@ -1,0 +1,12 @@
+/* Page À propos.
+
+   Les fils textile décorent des bords de la maquette (le fil gauche dépasse
+   de la fenêtre à gauche, le fil droit à droite) : le rognage se fait ici,
+   sur la page entière, pour qu'aucune barre de défilement horizontale
+   n'apparaisse. `clip` plutôt que `hidden` : le conteneur ne devient pas une
+   surface défilable. */
+
+.a-propos-page {
+  overflow-x: clip;
+  background: #f4efe6;
+}

@@ -1,0 +1,123 @@
+/* Section « histoire » de la page À propos — calée sur la maquette
+   (frame « A propos » 424:445) : grande image de y982 à y1499 (62px des
+   bords), rangée titre/texte + photo de y1593 à y1931.
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440). */
+
+.a-propos-histoire {
+  position: relative;
+  margin-top: 6.3889cqw; /* 92px sous la bannière */
+}
+
+/* Grande image : (62,982,1317×517) dans la maquette. */
+.a-propos-histoire__banner {
+  position: relative;
+  z-index: 1;
+  width: 91.4583cqw; /* 1317px */
+  height: 35.9028cqw; /* 517px */
+  margin: 0 4.2361cqw 0 4.3056cqw; /* droite 61px, gauche 62px */
+}
+.a-propos-histoire__banner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mot « Neotisse » : rendu Figma (43,8|36,8 sous l'image, encre 527×115),
+   Boldonse 96px, blanc à 74 %. */
+.a-propos-histoire__banner-title {
+  position: absolute;
+  left: 3.0417cqw; /* 43.8px */
+  top: 2.5556cqw; /* 36.8px */
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 6.6667cqw; /* 96px */
+  line-height: 1.2; /* 115.2px, hauteur d'encre de la maquette */
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+/* Rangée histoire : textes à gauche (62px du bord, largeur 708px), photo à
+   droite (428×338, alignée sur le bord droit de la grande image). */
+.a-propos-histoire__row {
+  display: grid;
+  grid-template-columns: 49.1667cqw 29.7222cqw; /* 708px | 428px */
+  justify-content: space-between;
+  margin-top: 6.5278cqw; /* 94px sous la grande image */
+  padding-left: 4.3056cqw; /* 62px */
+  padding-right: 4.2361cqw; /* 61px */
+}
+
+.a-propos-histoire__title {
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 2.7778cqw; /* 40px */
+  line-height: 1.92; /* 76.8px */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #085a2b;
+}
+
+/* Texte posé à 98px sous le titre (y1691 dans la maquette) : la boîte de
+   ligne du titre fait 76.8px, l'écart vaut 21.2px. */
+.a-propos-histoire__text {
+  display: flow-root;
+  margin-top: 1.4722cqw; /* 21.2px */
+  font-size: 1.3889cqw; /* 20px */
+  line-height: 1.5; /* 30px */
+  color: #000;
+}
+
+.a-propos-histoire__figure {
+  height: 23.4722cqw; /* 338px */
+  margin: 0;
+}
+.a-propos-histoire__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Écrans étroits : tout en colonne. */
+@media (max-width: 860px) {
+  .a-propos-histoire {
+    margin-top: 40px;
+  }
+
+  .a-propos-histoire__banner {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1317 / 517;
+    margin: 0 20px;
+  }
+
+  .a-propos-histoire__banner-title {
+    left: 16px;
+    top: 12px;
+    font-size: clamp(32px, 9vw, 56px);
+  }
+
+  .a-propos-histoire__row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+
+  .a-propos-histoire__title {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .a-propos-histoire__text {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .a-propos-histoire__figure {
+    height: auto;
+    aspect-ratio: 428 / 338;
+  }
+}

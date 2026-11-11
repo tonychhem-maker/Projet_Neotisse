@@ -1,0 +1,182 @@
+/* Section « équipe » de la page À propos — calée sur la maquette
+   (frame « A propos » 424:445) : deux fiches membre (photo 411×592 à 62px du
+   bord, nom + fonction à x484, biographie à x835 sur 433px de large), deux
+   fils textile en arrière-plan, puis flèche et lien « voir plus ».
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440). */
+
+.a-propos-equipe {
+  position: relative;
+  margin-top: 8.3333cqw; /* 120px sous la section histoire */
+  padding-bottom: 5.625cqw; /* 81px avant le pied de page */
+}
+
+/* Fils du milieu : gabarits de rendu Figma (270,6|2396 et 264,5|3133 dans la
+   frame), dernier plan : les photos et les textes glissent par-dessus. */
+.a-propos-equipe__fil {
+  position: absolute;
+  z-index: 0;
+}
+.a-propos-equipe__fil--un {
+  left: 18.7917cqw; /* 270.6px */
+  top: 23.9583cqw; /* 345px sous le début de section */
+  width: 39.2361cqw; /* 565px */
+  height: 21.8056cqw; /* 314px */
+}
+.a-propos-equipe__fil--deux {
+  left: 18.3681cqw; /* 264.5px */
+  top: 75.1667cqw; /* 1082.4px sous le début de section */
+  width: 42.7083cqw; /* 615px */
+  height: 20.625cqw; /* 297px */
+}
+
+/* Fiche membre : photo | nom + fonction | biographie. La maquette pose le
+   nom 11px après la photo (colonne de 422px) et la biographie juste après le
+   nom (x835). */
+.a-propos-member {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 29.3056cqw 24.375cqw 30.0694cqw; /* 422 | 351 | 433px */
+  align-items: start;
+  padding-left: 4.3056cqw; /* 62px */
+}
+
+.a-propos-member + .a-propos-member {
+  margin-top: 9.3056cqw; /* 134px entre les fiches */
+}
+
+.a-propos-member__figure {
+  width: 28.5417cqw; /* 411px */
+  height: 41.1111cqw; /* 592px */
+  margin: 0;
+}
+.a-propos-member__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.a-propos-member__name {
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 2.7778cqw; /* 40px */
+  line-height: 1.92; /* 76.8px */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #085a2b;
+}
+
+/* Fonction collée sous le nom (y2205 pour un nom posé à y2051 : la boîte de
+   deux lignes du nom fait 153.6px, l'écart est nul). */
+.a-propos-member__role {
+  margin: 0;
+  font-size: 1.1111cqw; /* 16px */
+  line-height: 1.2625; /* 20.2px */
+  text-transform: uppercase;
+  color: #35985f;
+}
+
+/* Biographie posée à 86px sous le haut de la fiche (y2137). */
+.a-propos-member__bio {
+  display: flow-root;
+  margin: 5.9722cqw 0 0; /* 86px */
+  font-size: 1.3889cqw; /* 20px */
+  line-height: 1.5; /* 30px */
+  color: #000;
+}
+
+/* Flèche et lien « voir plus » : la flèche est à 150px sous la dernière
+   fiche, le lien 17px plus bas, le tout centré sur la page. */
+.a-propos-equipe__more {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1806cqw; /* 17px */
+  margin-top: 10.4167cqw; /* 150px */
+}
+
+.a-propos-equipe__arrow {
+  width: 1.0417cqw; /* 15px */
+  height: 2.9167cqw; /* 42px */
+}
+
+.a-propos-equipe__link {
+  font-size: 1.4583cqw; /* 21px */
+  line-height: 1.15; /* 24px */
+  letter-spacing: 0.0347cqw; /* 0.5px */
+  color: #35985f;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 0.25s ease;
+}
+.a-propos-equipe__link:hover {
+  color: #085a2b;
+}
+.a-propos-equipe__link:focus-visible {
+  outline: 2px solid #35985f;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Écrans étroits : fiche en colonne, fils décoration supprimés. */
+@media (max-width: 860px) {
+  .a-propos-equipe {
+    margin-top: 56px;
+    padding-bottom: 48px;
+  }
+
+  .a-propos-equipe__fil {
+    display: none;
+  }
+
+  .a-propos-member {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .a-propos-member + .a-propos-member {
+    margin-top: 56px;
+  }
+
+  .a-propos-member__figure {
+    width: min(320px, 70vw);
+    height: auto;
+    aspect-ratio: 411 / 592;
+  }
+
+  .a-propos-member__name {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .a-propos-member__role {
+    margin-top: 6px;
+    font-size: 13px;
+  }
+
+  .a-propos-member__bio {
+    margin-top: 0;
+    font-size: 14px;
+  }
+
+  .a-propos-equipe__more {
+    gap: 10px;
+    margin-top: 48px;
+  }
+
+  .a-propos-equipe__arrow {
+    width: 12px;
+    height: 34px;
+  }
+
+  .a-propos-equipe__link {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+}

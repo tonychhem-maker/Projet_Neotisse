@@ -67,6 +67,29 @@ export const ATELIERS_QUERY = `{
   }
 }`
 
+export const ABOUT_QUERY = `{
+  "page": *[_id == "aboutPage"][0]{
+    "heroTitle": heroTitle,
+    "heroText": heroText,
+    "bannerImage": bannerImage ${IMAGE_PROJECTION},
+    "bannerTitle": bannerTitle,
+    "histoireTitle": histoireTitle,
+    "histoireText": histoireText,
+    "histoireImage": histoireImage ${IMAGE_PROJECTION},
+    "members": members[]->{
+      "id": _id,
+      "name": name,
+      "role": role,
+      "bio": bio,
+      "photo": photo ${IMAGE_PROJECTION}
+    },
+    "moreLink": moreLink{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    }
+  }
+}`
+
 export const CONTACT_QUERY = `{
   "title": *[_id == "contactInfo"][0].title,
   "intro": *[_id == "contactInfo"][0].intro,
