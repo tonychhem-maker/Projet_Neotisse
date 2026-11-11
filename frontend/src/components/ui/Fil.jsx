@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '../../lib/smoothScroll'
+import { gsap } from '../../lib/smoothScroll'
 
 /**
  * Fil textile inline (SVG importé avec `?raw`) dont le tracé suit le scroll.
@@ -13,11 +13,17 @@ import { gsap, ScrollTrigger } from '../../lib/smoothScroll'
  * au chargement.
  *
  * Sans JavaScript, ou en réduction des mouvements, le fil reste entièrement
- * tracé : rien n'est jamais masqué par défaut.
+ * tracé et immobile : rien n'est jamais masqué par défaut.
+ *
+ * `float` ajoute une dérive continue (deux oscillations de périodes
+ * différentes sur x et y, qui se composent en un flottement organique) :
+ * le fil semble « vivant » même à l'arrêt. Transformations uniquement —
+ * le tracé au scroll et la mise en page ne bougent pas.
  *
  *   <Fil svg={filHero} className="ateliers-hero__fil" />
+ *   <Fil svg={filOndule} className="livre-dor-page__fil--ondule" float />
  */
-export default function Fil({ svg, className = '' }) {
+export default function Fil({ svg, className = '', float = false }) {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -52,15 +58,39 @@ export default function Fil({ svg, className = '' }) {
       },
     )
 
+    // Dérive continue : deux tweens de périodes différentes sur x et y se
+    // composent en un flottement organique, jamais tout à fait répétitif.
+    // GSAP lit la transformation CSS existante (rotation des fils posés en
+    // biais) et la conserve.
+    const drifts = float
+      ? [
+          gsap.to(root, {
+            x: 18,
+            duration: 6.5,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true,
+          }),
+          gsap.to(root, {
+            y: -22,
+            duration: 4.2,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true,
+          }),
+        ]
+      : []
+
     return () => {
       tween.scrollTrigger?.kill()
       tween.kill()
+      drifts.forEach((drift) => drift.kill())
       paths.forEach((path) => {
         path.style.strokeDasharray = ''
         path.style.strokeDashoffset = ''
       })
     }
-  }, [svg])
+  }, [svg, float])
 
   return (
     <div

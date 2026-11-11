@@ -1,17 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Honeypot from '../ui/Honeypot'
+import { gsap } from '../../lib/smoothScroll'
 import { isContactFormConfigured, sendTestimonial } from '../../lib/forms'
 import './LivreDorIntro.css'
 
 const emptyForm = { nom: '', prenom: '', message: '', honeypot: '' }
+
+const DELAI_AUTO = 6000 // défilement automatique : un avis toutes les 6 s
 
 /**
  Bloc supérieur de la page Livre d'or, calé sur la maquette (frame
  « Livre d'or » 424:684, de y80 à y1079) :
 
  - à gauche : le titre (64px, x53 y185), le filet (457px, épaisseur 3px,
-   y370), le témoignage vedette (18/30, x53 y394) puis le bloc auteur
-   (portrait 74px + nom 24px, y719, collé en bas de la colonne) ;
+   y370), les flèches précédent/suivant, le témoignage vedette (18/30, x53
+   y394) puis le bloc auteur (portrait 74px + nom 24px, y719, collé en bas
+   de la colonne) ;
  - à droite : le formulaire « partagez votre avis » (32px, x871 y215), deux
    champs « nom » et « Prénom » (libellé 16px + soulignement), la zone de
    message (532×368, x844 y504, sable à 71 %) et le bouton « Poster mon
@@ -19,12 +23,99 @@ const emptyForm = { nom: '', prenom: '', message: '', honeypot: '' }
 
  Les dimensions desktop sont en `cqw` (px/14.4 sur la maquette 1440).
  Aucun contenu n'est masqué par défaut : sans JavaScript, le formulaire
- affiche ses champs et le bouton d'envoi natif.
+ affiche ses champs et le bouton d'envoi natif, la vedette reste affichée.
+
+ Le témoignage vedette est le premier avis d'une petite galerie : suivent
+ les témoignages publiés (contenus fictifs de repli tant que le back-office
+ n'est pas rempli, dédoublonnés d'avec la vedette). Les flèches passent
+ d'un avis à l'autre ; sans interaction, le défilement est automatique
+ (toutes les 6 s), suspendu au survol et au focus, et désactivé en
+ réduction des mouvements. La transition GSAP (fondu + montée) ne touche
+ que l'opacité et la transformation.
  */
-export default function LivreDorIntro({ title = '', sectionTitle = '', featured = {} }) {
+export default function LivreDorIntro({
+  title = '',
+  sectionTitle = '',
+  featured = {},
+  testimonials = [],
+}) {
   const [form, setForm] = useState(emptyForm)
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
+
+  // Galerie d'avis : la vedette d'abord, puis les témoignages publiés. Les
+  // doublons exacts (même auteur, même message) sont retirés — le repli
+  // fictif reprend volontairement le texte de la vedette en première carte.
+  const slides = useMemo(() => {
+    const list = [featured, ...testimonials].filter(
+      (a) => a && (a.message || a.author),
+    )
+    const vus = new Set()
+    return list.filter((a) => {
+      const cle = `${a.author ?? ''}|${a.message ?? ''}`
+      if (vus.has(cle)) return false
+      vus.add(cle)
+      return true
+    })
+  }, [featured, testimonials])
+
+  const [index, setIndex] = useState(0)
+  const count = slides.length
+  const current = count > 0 ? index % count : 0
+  const slide = slides[current] ?? {}
+
+  const survolRef = useRef(false)
+  const slideRef = useRef(null)
+  const premierRenduRef = useRef(true)
+
+  function avisPrecedent() {
+    setIndex((i) => (i - 1 + count) % count)
+  }
+
+  function avisSuivant() {
+    setIndex((i) => (i + 1) % count)
+  }
+
+  // Défilement automatique. L'effet redémarre à chaque changement d'avis :
+  // les 6 s sont comptées depuis le dernier avis affiché, manuel ou auto.
+  useEffect(() => {
+    if (count < 2) return undefined
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+
+    const id = window.setInterval(() => {
+      if (!survolRef.current && !document.hidden) {
+        setIndex((i) => (i + 1) % count)
+      }
+    }, DELAI_AUTO)
+
+    return () => window.clearInterval(id)
+  }, [count, index])
+
+  // Transition d'un avis à l'autre (fondu + montée). Saute le premier
+  // rendu : la vedette est visible immédiatement, sans fondu d'entrée.
+  useEffect(() => {
+    const el = slideRef.current
+    if (!el) return undefined
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+    if (premierRenduRef.current) {
+      premierRenduRef.current = false
+      return undefined
+    }
+
+    const tween = gsap.fromTo(
+      el,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+    )
+    return () => {
+      tween.kill()
+      gsap.set(el, { clearProps: 'opacity,transform' })
+    }
+  }, [current])
 
   function update(key) {
     return (event) => {
@@ -69,37 +160,99 @@ export default function LivreDorIntro({ title = '', sectionTitle = '', featured 
     }
   }
 
-  const avatar = featured.avatar?.src
+  const avatar = slide.avatar?.src
 
   return (
     <section className="livre-dor-intro" aria-labelledby="livre-dor-title">
-      <div className="livre-dor-intro__left">
+      {/* Le survol et le focus dans la colonne suspendent le défilement
+          automatique (focus et blur se propagent via focusin/focusout). */}
+      <div
+        className="livre-dor-intro__left"
+        onMouseEnter={() => {
+          survolRef.current = true
+        }}
+        onMouseLeave={() => {
+          survolRef.current = false
+        }}
+        onFocus={() => {
+          survolRef.current = true
+        }}
+        onBlur={() => {
+          survolRef.current = false
+        }}
+      >
         <h1 className="livre-dor-intro__title" id="livre-dor-title">
           {title}
         </h1>
         <div className="livre-dor-intro__rule" aria-hidden="true" />
-        {featured.message && (
-          <blockquote className="livre-dor-intro__quote">
-            <p>{featured.message}</p>
-          </blockquote>
+
+        {count > 1 && (
+          <nav className="livre-dor-intro__nav" aria-label="Naviguer entre les avis">
+            <button
+              type="button"
+              className="livre-dor-intro__nav-btn livre-dor-intro__nav-btn--prev"
+              aria-label="Avis précédent"
+              onClick={avisPrecedent}
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M20 12H5m0 0 6-6m-6 6 6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="livre-dor-intro__nav-btn"
+              aria-label="Avis suivant"
+              onClick={avisSuivant}
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M4 12h15m0 0-6-6m6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </nav>
         )}
-        {featured.author && (
-          <figure className="livre-dor-intro__author">
-            {avatar ? (
-              <img
-                className="livre-dor-intro__avatar"
-                src={avatar}
-                alt={featured.avatar.alt || ''}
-              />
-            ) : (
-              <span className="livre-dor-intro__avatar livre-dor-intro__avatar--placeholder" aria-hidden="true" />
-            )}
-            <figcaption className="livre-dor-intro__name">
-              {featured.author}
-              {featured.organisation ? ` — ${featured.organisation}` : ''}
-            </figcaption>
-          </figure>
-        )}
+
+        <div
+          ref={slideRef}
+          className="livre-dor-intro__slide"
+          role="group"
+          aria-roledescription="témoignage"
+          aria-label={count > 1 ? `Avis ${current + 1} sur ${count}` : undefined}
+        >
+          {slide.message && (
+            <blockquote className="livre-dor-intro__quote">
+              <p>{slide.message}</p>
+            </blockquote>
+          )}
+          {slide.author && (
+            <figure className="livre-dor-intro__author">
+              {avatar ? (
+                <img
+                  className="livre-dor-intro__avatar"
+                  src={avatar}
+                  alt={slide.avatar.alt || ''}
+                />
+              ) : (
+                <span className="livre-dor-intro__avatar livre-dor-intro__avatar--placeholder" aria-hidden="true" />
+              )}
+              <figcaption className="livre-dor-intro__name">
+                {slide.author}
+                {slide.organisation ? ` — ${slide.organisation}` : ''}
+              </figcaption>
+            </figure>
+          )}
+        </div>
       </div>
 
       <form className="livre-dor-intro__form" onSubmit={handleSubmit} noValidate>

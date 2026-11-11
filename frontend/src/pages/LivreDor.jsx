@@ -4,7 +4,7 @@ import LivreDorCommentaires from '../components/sections/LivreDorCommentaires'
 import LivreDorIntro from '../components/sections/LivreDorIntro'
 import { LIVRE_DOR_FALLBACK } from '../data/livreDor'
 import filBoucle1 from '../assets/apropos/fil-milieu-1.svg?raw'
-import filBoucle2 from '../assets/apropos/fil-gauche.svg?raw'
+import filOndule from '../assets/livredor/fil-ondule.svg?raw'
 import { LIVRE_DOR_QUERY, useSanityContent } from '../lib/queries'
 import './LivreDor.css'
 
@@ -16,10 +16,12 @@ import './LivreDor.css'
  *
  * Le contenu éditorial vient du document Sanity « Page Livre d'or » ; les
  * cartes affichent les trois derniers témoignages publiés (documents
- * « Livre d'or » publiés). Trois fils textile décorent la page (couches
- * « Fil textile — courbes et boucle » de la maquette), posés aux coordonnées
- * relevées et inclinés comme dans Figma ; leur tracé suit le scroll
- * (composant `Fil`), sans jamais masquer le contenu.
+ * « Livre d'or » publiés). Trois fils textile décorent la page : deux fils
+ * de la maquette (couches « Fil textile — courbes et boucle », posés aux
+ * coordonnées relevées et inclinés comme dans Figma), plus un fil ondulant
+ * qui remplace celui de la maquette (il passait sur la zone de message) —
+ * il ne recouvre aucun contenu et dérive doucement en continu (GSAP). Leur
+ * tracé suit le scroll (composant `Fil`).
  */
 export default function LivreDor() {
   const fallback = useMemo(() => LIVRE_DOR_FALLBACK, [])
@@ -36,17 +38,20 @@ export default function LivreDor() {
 
   return (
     <div className="livre-dor-page cq">
-      {/* Fils textile : (397,1162) et (−275,706) inclinés à −108,79°, (862,806)
-          incliné à −37,59° dans la frame (position du centre de l'encombrement
-          relevé dans Figma) ; au-dessus du fond, sous rien d'interactif. */}
+      {/* Fils textile : (397,1162) et (−275,706) inclinés à −108,79° dans la
+          frame (position du centre de l'encombrement relevée dans Figma) ;
+          au-dessus du fond, sous rien d'interactif. Le fil ondulant est posé
+          sous le bouton d'envoi et à droite du lien central, il ne recouvre
+          aucun contenu (voir LivreDor.css). */}
       <Fil svg={filBoucle1} className="livre-dor-page__fil livre-dor-page__fil--cartes" />
       <Fil svg={filBoucle1} className="livre-dor-page__fil livre-dor-page__fil--gauche" />
-      <Fil svg={filBoucle2} className="livre-dor-page__fil livre-dor-page__fil--droite" />
+      <Fil svg={filOndule} className="livre-dor-page__fil livre-dor-page__fil--ondule" float />
 
       <LivreDorIntro
         title={page.heroTitle}
         sectionTitle={page.sectionTitle}
         featured={featured}
+        testimonials={testimonials}
       />
 
       <LivreDorCommentaires seeAllLink={page.seeAllLink} testimonials={testimonials} />

@@ -12,12 +12,16 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Fils textile (couches « Fil textile — courbes et boucle » de la maquette).
+   Fils textile.
 
    Dimensions et angles relevés dans Figma : deux fils inclinés à −108,79°
-   (538×311), un à −37,59° (467,73×608,76). Ils sont posés d'après le centre
-   de leur encombrement, au-dessus des textes comme dans la maquette, mais
-   sous les cartes de témoignages et le pied de page. Opacité 75 %.
+   (538×311), posés d'après le centre de leur encombrement, au-dessus des
+   textes comme dans la maquette, mais sous les cartes de témoignages et le
+   pied de page. Opacité 75 %.
+
+   Le troisième fil de la maquette (467,73×608,76 incliné à −37,59°) passait
+   sur la zone de message du formulaire : il est remplacé par un fil
+   ondulant (voir `--ondule`).
 --------------------------------------------------------------------------- */
 
 .livre-dor-page__fil {
@@ -46,14 +50,21 @@
   transform: rotate(108.79deg);
 }
 
-/* Fil droit : encombrement (862,86 — 406) 467,73×608,76, incliné à −37,59°
-   dans Figma (soit +37,59° en CSS). */
-.livre-dor-page__fil--droite {
-  left: 59.9215cqw; /* 862,87px */
-  top: 22.6389cqw; /* 326px */
-  width: 32.4811cqw; /* 467,73px */
-  height: 42.275cqw; /* 608,76px */
-  transform: rotate(37.59deg);
+/* Fil ondulant : remplace le fil droit de la maquette (qui recouvrait la
+   zone de message). Posé dans la bande libre du bas de l'intro — sous le
+   bouton d'envoi (bas à y953) et à droite du lien « voir tous les
+   commentaires » (centré, il s'arrête vers x820) —. L'encre du tracé ne
+   remplit pas tout le SVG (viewBox 480×210, tracé de y44 à y200) : à
+   `top: 63cqw`, elle reste à plus de 60px du bouton comme des cartes,
+   marge qui absorbe la dérive continue (±22px, prop `float` de `Fil`).
+   Le fil sort à droite de la fenêtre (rogné par la page, pas de barre
+   horizontale). L'inclinaison est dessinée dans le SVG, aucune rotation
+   CSS. */
+.livre-dor-page__fil--ondule {
+  left: 79cqw; /* 1137,6px */
+  top: 63cqw; /* 907,2px */
+  width: 30cqw; /* 432px */
+  height: 13.125cqw; /* 189px (ratio du viewBox 480×210) */
 }
 
 /* Les cartes recouvrent le fil du milieu : la maquette peint Frame 115

@@ -1,6 +1,7 @@
 /* Bloc supérieur du Livre d'or — calé sur la maquette (frame « Livre d'or »
-   424:684, de y80 à y1079) : titre + filet + témoignage vedette + bloc auteur
-   à gauche (x53, largeur 457px), formulaire à droite (x844, largeur 532px).
+   424:684, de y80 à y1079) : titre + filet + flèches de navigation +
+   témoignage vedette + bloc auteur à gauche (x53, largeur 457px),
+   formulaire à droite (x844, largeur 532px).
 
    Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440) : homothétie
    exacte à toute largeur ≥861px. */
@@ -37,7 +38,56 @@
 .livre-dor-intro__rule {
   margin-top: 4.3403cqw; /* 62.5px sous le titre (filet à y370) */
   height: 0.2083cqw; /* 3px */
+  /* Vert moyen de la charte (#35985f, comme le lien « voir tous les
+     commentaires ») : le #095228 de la maquette est trop foncé à cette
+     épaisseur pour se lire comme du vert. */
+  background: #35985f;
+}
+
+/* Flèches précédent / suivant sous le filet : la vedette est le premier
+   avis d'une galerie (défilement automatique, suspendu au survol). */
+.livre-dor-intro__nav {
+  display: flex;
+  gap: 0.6944cqw; /* 10px */
+  margin-top: 1.7361cqw; /* 25px sous le filet */
+}
+
+.livre-dor-intro__nav-btn {
+  display: grid;
+  place-items: center;
+  width: 2.6389cqw; /* 38px */
+  height: 2.6389cqw;
+  padding: 0;
+  border: 1px solid rgba(9, 82, 40, 0.4);
+  border-radius: 50%;
+  background: transparent;
+  color: #095228;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.livre-dor-intro__nav-btn svg {
+  width: 1.25cqw; /* 18px */
+  height: 1.25cqw;
+}
+.livre-dor-intro__nav-btn--prev svg {
+  transform: scaleX(-1); /* même glyphe, pointé vers la gauche */
+}
+.livre-dor-intro__nav-btn:hover {
   background: #095228;
+  border-color: #095228;
+  color: #fff;
+}
+.livre-dor-intro__nav-btn:focus-visible {
+  outline: 2px solid #095228;
+  outline-offset: 3px;
+}
+
+/* Un avis à la fois : la citation suit les flèches, l'auteur reste collé
+   en bas de la colonne (margin-top: auto sur .livre-dor-intro__author). */
+.livre-dor-intro__slide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .livre-dor-intro__quote {
@@ -235,6 +285,19 @@
   .livre-dor-intro__rule {
     margin-top: 32px;
     height: 2px;
+  }
+
+  .livre-dor-intro__nav {
+    margin-top: 16px;
+    gap: 10px;
+  }
+  .livre-dor-intro__nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .livre-dor-intro__nav-btn svg {
+    width: 18px;
+    height: 18px;
   }
 
   .livre-dor-intro__quote {
