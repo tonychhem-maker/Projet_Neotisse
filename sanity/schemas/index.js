@@ -1,4 +1,5 @@
 import { aboutPage } from './documents/aboutPage'
+import { actualitesPage } from './documents/actualitesPage'
 import { ateliersPage } from './documents/ateliersPage'
 import { availability } from './documents/availability'
 import { contactInfo } from './documents/contactInfo'
@@ -38,6 +39,7 @@ export const schemaTypes = [
   contactInfo,
   deplacementsPage,
   livreDorPage,
+  actualitesPage,
   legalPage,
 
   // Objets réutilisables

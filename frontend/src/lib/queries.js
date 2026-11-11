@@ -137,6 +137,29 @@ export const DEPLACEMENTS_QUERY = `{
   }
 }`
 
+export const ACTUALITES_QUERY = `{
+  "page": *[_id == "actualitesPage"][0]{
+    "heroTitle": heroTitle,
+    "introText": introText,
+    "moreLink": moreLink{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    }
+  },
+  "posts": *[_type == "post"] | order(publishedAt desc) [0...1] {
+    "id": _id,
+    "title": title,
+    "category": category,
+    "dateLabel": dateLabel,
+    "publishedAt": publishedAt,
+    "link": link{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    },
+    "image": coverImage ${IMAGE_PROJECTION}
+  }
+}`
+
 export const SITE_SETTINGS_QUERY = `{
   "name": *[_id == "siteSettings"][0].name,
   "baseline": *[_id == "siteSettings"][0].baseline,

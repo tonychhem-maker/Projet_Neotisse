@@ -1,0 +1,99 @@
+/* Page Actualités.
+
+   Les fils textile dépassent de la fenêtre (le fil gauche sort à gauche de
+   la maquette, le fil de droite à droite) : le rognage se fait ici, sur la
+   page entière, pour qu'aucune barre de défilement horizontale
+   n'apparaisse. `clip` plutôt que `hidden` : le conteneur ne devient pas
+   une surface défilable. */
+
+.actualites-page {
+  position: relative;
+  overflow-x: clip;
+  background: #f4efe6;
+}
+
+/* ---------------------------------------------------------------------------
+   Fils textile (couches « Fil textile — courbes et boucle » de la maquette).
+
+   Le SVG exporté porte l'art sans la rotation Figma (611×473 et 569×412) :
+   elle est appliquée ici, en négatif (rotation Figma = sens antihoraire,
+   CSS = horaire). Chaque fil est posé d'après le centre de son encombrement
+   Figma. Opacité 75 % (opacité de trait de la maquette).
+--------------------------------------------------------------------------- */
+
+.actualites-page__fil {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* Fil gauche : encombrement (−112,164) 641×471, sous le titre et l'intro
+   (les textes de la maquette passent dessous). */
+.actualites-page__fil--gauche {
+  left: -6.7361cqw; /* centre x 208,5px */
+  top: 5.7639cqw; /* centre y 319,5px sous le haut de page */
+  width: 42.4306cqw; /* 611px */
+  height: 32.8472cqw; /* 473px */
+  transform: rotate(-1.52deg);
+}
+
+/* Fil droit : encombrement (1058,1126) 600×410, sous les cartes. */
+.actualites-page__fil--droite {
+  left: 74.5486cqw; /* centre x 1358px */
+  top: 72.5694cqw; /* centre y 1251px */
+  width: 39.5139cqw; /* 569px */
+  height: 28.6111cqw; /* 412px */
+  transform: rotate(-1.59deg);
+}
+
+/* ---------------------------------------------------------------------------
+   Héros : titre (Boldonse 64px, deux lignes centrées, x432 y180 dans la
+   frame) puis texte d'introduction (Outfit 20px/30, x375 y526, 708px).
+--------------------------------------------------------------------------- */
+
+.actualites-hero__titre {
+  margin: 6.9444cqw auto 0; /* 100px sous le header (titre à y180) */
+  max-width: 40cqw; /* 576px */
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 4.4444cqw; /* 64px */
+  line-height: 8.5417cqw; /* 123px */
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: #095228;
+}
+
+.actualites-hero__intro {
+  margin: 6.9444cqw auto 0; /* 100px (texte à y526) */
+  max-width: 49.1667cqw; /* 708px */
+  font-size: 1.3889cqw; /* 20px */
+  line-height: 2.0833cqw; /* 30px */
+  text-align: center;
+  color: #000;
+}
+
+/* Écrans étroits : les fils sont masqués (décor uniquement desktop) et le
+   héros reprend une largeur confortable. */
+@media (max-width: 860px) {
+  .actualites-page__fil {
+    display: none;
+  }
+
+  .actualites-hero__titre {
+    margin-top: 48px;
+    max-width: none;
+    padding: 0 20px;
+    font-size: 32px;
+    line-height: 1.4;
+  }
+
+  .actualites-hero__intro {
+    margin-top: 24px;
+    max-width: none;
+    padding: 0 20px;
+    font-size: 16px;
+    line-height: 26px;
+  }
+}

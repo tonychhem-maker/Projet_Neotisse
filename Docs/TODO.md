@@ -21,10 +21,12 @@
 - [x] Mettre en place les animations au scroll (Lenis + GSAP ScrollTrigger) en respectant `prefers-reduced-motion`.
 - [x] Adapter les pages aux écrans mobiles et desktop.
 - [ ] Vérifier l'accessibilité (navigation clavier, contrastes, lecteurs d'écran).
+  - Relevé Lighthouse du 11/11/2026 (page Actualités) : liens « voir plus » verts `#35985f` en contraste insuffisant sur fond crème/beige (2,6 à 3,2:1 au lieu de 4,5:1) — motif présent sur toutes les pages, à corriger globalement (les cibles tactiles du footer et l'absence de robots.txt sont aussi à traiter).
 
 ## 4. Vérification et mise en ligne
 - [ ] Vérifier les liens, la navigation, les formulaires et l'affichage du contenu provenant de Sanity.
 - [ ] Tester les pages sur mobile et desktop et corriger les problèmes relevés.
 - [ ] Remplacer les contenus fictifs du livre d'or par les vrais témoignages (saisie de la page + modération des avis dans Sanity).
+- [ ] Remplacer les contenus fictifs des actualités par les vraies publications (documents « Page Actualités » et « Actualité » dans Sanity : titre, résumé, date, image de couverture, lien).
 - [ ] Renseigner les variables d'environnement de production (endpoint Formspree du livre d'or, projet Sanity).
 - [ ] Faire la mise en ligne.

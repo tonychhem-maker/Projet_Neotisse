@@ -34,6 +34,23 @@ export const post = defineType({
       validation: (rule) => rule.max(200),
     }),
     defineField({
+      name: 'dateLabel',
+      title: 'Précision de date',
+      type: 'string',
+      group: 'content',
+      description:
+        'Affichée sous le mois sur la carte (ex : du 9 au 10). Le mois et l’année viennent de la date de publication.',
+      validation: (rule) => rule.max(60),
+    }),
+    defineField({
+      name: 'link',
+      title: 'Lien « voir plus » de la carte',
+      type: 'link',
+      group: 'content',
+      description:
+        'Optionnel : sans lien, la carte n’affiche pas son bouton « voir plus ».',
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Image de couverture',
       type: 'image',

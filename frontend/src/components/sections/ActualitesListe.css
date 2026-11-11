@@ -1,0 +1,282 @@
+/* Liste des actualités — calée sur la maquette (frame « Actualités »
+   424:683). Les dimensions desktop sont en `cqw` (px/14.4 sur 1440). */
+
+.actualites-liste {
+  position: relative;
+  z-index: 3; /* les cartes recouvrent le fil de droite, comme dans la
+                 maquette (le fil est au bas de la pile) */
+  margin-top: 11.6667cqw; /* 168px sous le texte d'intro (cartes à y934) */
+}
+
+/* Deux cartes d'événement (1346×359, écart 69px, collées au bord gauche). */
+.actualites-liste__cartes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4.7917cqw; /* 69px */
+}
+
+.actualites-carte {
+  position: relative;
+  width: 93.4722cqw; /* 1346px */
+  height: 24.9306cqw; /* 359px */
+  background: #e4dcce;
+}
+
+/* Photo pleine hauteur à gauche : teinte beige de la maquette (photo à
+   80–85 % sous un voile #E4DCCE) et fondu diagonal vers le fond de carte —
+   dans Figma, le bord du fondu va de x660 en haut à x430 en bas, soit un
+   axe à 122,7° avec son milieu à 73,8 % de la longueur du dégradé. */
+.actualites-carte__media {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 46.1111cqw; /* 664px */
+}
+.actualites-carte__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(122.7deg, #000 66%, transparent 82%);
+  mask-image: linear-gradient(122.7deg, #000 66%, transparent 82%);
+}
+.actualites-carte__image--vide {
+  -webkit-mask-image: none;
+  mask-image: none;
+  opacity: 1;
+  background: #d9d9d9;
+}
+.actualites-carte__voile {
+  position: absolute;
+  inset: 0;
+  background: rgba(228, 220, 206, 0.45);
+}
+
+/* Mois + précision de date (colonne centrale x642, largeur 305px). */
+.actualites-carte__date {
+  position: absolute;
+  left: 44.5833cqw; /* 642px */
+  top: 10cqw; /* 144px */
+  width: 21.1806cqw; /* 305px */
+  margin: 0;
+  text-align: center;
+}
+
+.actualites-carte__mois {
+  display: block;
+  /* une seule ligne, comme dans la maquette (le texte déborde
+     légèrement de sa colonne, centré) */
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 3.3333cqw; /* 48px */
+  line-height: 1;
+  letter-spacing: -0.0667cqw; /* -0.96px */
+  text-transform: uppercase;
+  color: #000;
+}
+
+.actualites-carte__jours {
+  display: block;
+  margin-top: 0.8333cqw; /* 12px */
+  font-size: 1.25cqw; /* 18px */
+  line-height: 2.0833cqw; /* 30px */
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* Structure / titre (colonne droite x975, largeur 455px). */
+.actualites-carte__texte {
+  position: absolute;
+  left: 67.7083cqw; /* 975px */
+  top: 8.6806cqw; /* 125px */
+  width: 31.5972cqw; /* 455px */
+}
+
+.actualites-carte__kicker {
+  display: block;
+  font-size: 1.5278cqw; /* 22px */
+  line-height: 1.6667cqw; /* 24px */
+  letter-spacing: -0.0306cqw; /* -0.44px */
+  color: #095228;
+}
+
+.actualites-carte__titre {
+  margin: 0.7639cqw 0 0; /* 11px */
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 2.2222cqw; /* 32px */
+  line-height: 2.4306cqw; /* 35px */
+  letter-spacing: -0.0444cqw; /* -0.64px */
+  color: #000;
+}
+
+/* Lien « voir plus » de la carte : texte + pastille verte à chevron. */
+.actualites-carte__lien {
+  position: absolute;
+  left: 50.2083cqw; /* 723px */
+  top: 20.625cqw; /* 297px */
+  display: flex;
+  align-items: center;
+  gap: 1.1111cqw; /* 16px */
+  font-size: 1.4583cqw; /* 21px */
+  line-height: 1.6667cqw; /* 24px */
+  letter-spacing: 0.0347cqw; /* 0.5px */
+  color: #35985f;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.25s ease;
+}
+.actualites-carte__lien:hover {
+  color: #095228;
+}
+.actualites-carte__lien:focus-visible {
+  outline: 2px solid #095228;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.actualites-carte__pastille {
+  width: 2.7083cqw; /* 39px */
+  height: 2.8472cqw; /* 41px */
+}
+
+/* Lien « voir plus d'événements » centré sous les cartes. */
+.actualites-liste__plus {
+  margin: 5.5556cqw auto 0; /* 80px (lien à y1801) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6667cqw; /* 24px */
+  width: fit-content;
+  font-size: 1.4583cqw; /* 21px */
+  line-height: 1.6667cqw; /* 24px */
+  letter-spacing: 0.0347cqw; /* 0.5px */
+  color: #35985f;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.25s ease;
+}
+.actualites-liste__plus:hover {
+  color: #095228;
+}
+.actualites-liste__plus:focus-visible {
+  outline: 2px solid #095228;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.actualites-liste__plus-fleche {
+  width: 2.9167cqw; /* 42px */
+  height: 1.0417cqw; /* 15px */
+}
+
+/* Bande dégradée qui fond la page vers le pied de page (1440×108). */
+.actualites-liste__bande {
+  margin-top: 2.0139cqw; /* 29px (bande à y1854) */
+  height: 7.5cqw; /* 108px */
+  background: linear-gradient(
+    180deg,
+    #f4efe6 0%,
+    rgba(228, 221, 207, 0.55) 52.88%,
+    rgba(214, 204, 187, 0.48) 100%
+  );
+  backdrop-filter: blur(4px);
+}
+
+/* Écrans étroits : les cartes passent en pile verticale (photo, date,
+   texte, lien) et la décoration desktop disparaît. */
+@media (max-width: 860px) {
+  .actualites-liste {
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+
+  .actualites-liste__cartes {
+    gap: 24px;
+  }
+
+  .actualites-carte {
+    width: 100%;
+    height: auto;
+    padding-bottom: 24px;
+  }
+
+  .actualites-carte__media {
+    position: static;
+    display: block;
+    width: 100%;
+    height: 220px;
+  }
+
+  .actualites-carte__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .actualites-carte__date {
+    position: static;
+    width: auto;
+    margin-top: 16px;
+  }
+
+  .actualites-carte__mois {
+    font-size: 28px;
+    letter-spacing: -0.5px;
+  }
+
+  .actualites-carte__jours {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .actualites-carte__texte {
+    position: static;
+    width: auto;
+    margin-top: 12px;
+    padding: 0 16px;
+  }
+
+  .actualites-carte__kicker {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .actualites-carte__titre {
+    margin-top: 4px;
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .actualites-carte__lien {
+    position: static;
+    margin: 16px 16px 0;
+    font-size: 15px;
+  }
+
+  .actualites-carte__pastille {
+    width: 32px;
+    height: 34px;
+  }
+
+  .actualites-liste__plus {
+    margin-top: 32px;
+    font-size: 15px;
+  }
+
+  .actualites-liste__plus-fleche {
+    width: 32px;
+    height: 12px;
+  }
+
+  .actualites-liste__bande {
+    margin-top: 24px;
+    height: 60px;
+  }
+}
