@@ -2,6 +2,8 @@ import { aboutPage } from './documents/aboutPage'
 import { ateliersPage } from './documents/ateliersPage'
 import { availability } from './documents/availability'
 import { contactInfo } from './documents/contactInfo'
+import { deplacement } from './documents/deplacement'
+import { deplacementsPage } from './documents/deplacementsPage'
 import { homePage } from './documents/homePage'
 import { legalPage } from './documents/legalPage'
 import { livreDorPage } from './documents/livreDorPage'
@@ -26,6 +28,7 @@ export const schemaTypes = [
   teamMember,
   testimonial,
   availability,
+  deplacement,
 
   // Singletons (un seul document de chaque type)
   siteSettings,
@@ -33,6 +36,7 @@ export const schemaTypes = [
   ateliersPage,
   aboutPage,
   contactInfo,
+  deplacementsPage,
   livreDorPage,
   legalPage,
 

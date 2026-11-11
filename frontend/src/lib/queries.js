@@ -124,6 +124,19 @@ export const LIVRE_DOR_QUERY = `{
   }
 }`
 
+export const DEPLACEMENTS_QUERY = `{
+  "page": *[_id == "deplacementsPage"][0]{
+    "heroTitle": heroTitle
+  },
+  "items": *[_type == "deplacement"] | order(date asc, order asc) {
+    "_id": _id,
+    "date": date,
+    "city": city,
+    "partnerName": partner->name,
+    "partnerLogo": partner->logo ${IMAGE_PROJECTION}
+  }
+}`
+
 export const SITE_SETTINGS_QUERY = `{
   "name": *[_id == "siteSettings"][0].name,
   "baseline": *[_id == "siteSettings"][0].baseline,

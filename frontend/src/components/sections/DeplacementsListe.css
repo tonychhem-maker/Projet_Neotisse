@@ -1,0 +1,155 @@
+/* Liste des déplacements — calée sur la maquette (frame « Déplacements »
+   446:1739, 1440×1480) : titre + 4 lignes 498×83 (écart 24) + filet vertical.
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440) : homothétie
+   exacte à toute largeur ≥861px. Tous les textes restent visibles sans
+   JavaScript (rendu statique) et aucun contenu n'est masqué. */
+
+.deplacements {
+  position: relative;
+  box-sizing: border-box;
+  padding: 7.2917cqw 4.4444cqw 26.5278cqw 2.0833cqw; /* haut 105 (titre à y185), droite 64, bas 382 (pied de page à y1135), gauche 30 */
+}
+
+/* Titre : boîte 908×83 (y185→268) dans la maquette. */
+.deplacements__title {
+  margin: 0;
+  max-width: 63.0556cqw; /* 908px */
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 4.4444cqw; /* 64px */
+  line-height: 1.2969; /* boîte 83px */
+  letter-spacing: -0.02em; /* −2 % */
+  color: #095228;
+}
+
+/* Liste : 498px de large, 4 items de 83px, écart 24 (y349→753). */
+.deplacements__liste {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6667cqw; /* 24px */
+  margin: 5.625cqw 0 0; /* 81px sous la boîte du titre (y268→349) */
+  padding: 0;
+  width: 34.5833cqw; /* 498px */
+}
+
+/* Ligne : fond sable, 83px de haut. */
+.deplacements-item {
+  position: relative;
+  display: block;
+  height: 5.7639cqw; /* 83px */
+  background: #e4dcce;
+}
+
+/* Onde textile bicolore derrière le texte (171,5×84,1 à x156, débordant
+   d'un demi-pixel du haut de la ligne comme dans Figma). */
+.deplacements-item__vague {
+  position: absolute;
+  left: 10.8333cqw; /* 156px */
+  top: -0.0382cqw; /* −0,55px */
+  width: 11.9097cqw; /* 171,5px */
+  height: 5.8414cqw; /* 84,11px */
+  pointer-events: none;
+}
+.deplacements-item__vague svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Logo du partenaire : encart 83×55 posé au bord gauche, centré
+   verticalement (y14→69 dans l'item). L'asset de repli ne contient que
+   l'encre du logo (47×41 dans la maquette) : il est calé à cette taille. */
+.deplacements-item__logo {
+  position: absolute;
+  left: 0;
+  top: 0.9722cqw; /* 14px */
+  width: 5.7639cqw; /* 83px */
+  height: 3.8194cqw; /* 55px */
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* Date « Le 2 novembre 2027 » : boîte 160px de large à x107, centrée. */
+.deplacements-item__date {
+  position: absolute;
+  left: 7.4306cqw; /* 107px */
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-family: 'Outfit', var(--font-sans);
+  font-weight: 500;
+  font-size: 1.25cqw; /* 18px */
+  line-height: 1.37; /* boîte ~24,7px */
+  color: #000;
+  white-space: nowrap;
+}
+
+/* « - Ville » : boîte 89×42 à x380, centrée verticalement. */
+.deplacements-item__city {
+  position: absolute;
+  left: 26.3889cqw; /* 380px */
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-family: 'Outfit', var(--font-sans);
+  font-weight: 500;
+  font-size: 2.1319cqw; /* 30,7px */
+  line-height: 1.37; /* boîte ~42px */
+  color: #000;
+  white-space: nowrap;
+}
+
+/* Filet vertical vert : x568, 457px de haut, de y346 à y803 (18px au-dessus
+   de la liste). */
+.deplacements__ligne {
+  position: absolute;
+  left: 39.4444cqw; /* 568px */
+  top: 18.4722cqw; /* 266px sous le haut de la section (y346) */
+  width: 0.1389cqw; /* 2px */
+  height: 31.7361cqw; /* 457px */
+  background: #095228;
+}
+
+/* Écrans étroits : la maquette n'a pas de version mobile ; on empile les
+   lignes en pleine largeur, on masque le filet vertical (décor desktop) et
+   les ondes respirationnent avec la ligne. */
+@media (max-width: 860px) {
+  .deplacements {
+    padding: 3.5rem 1.5rem 3rem;
+  }
+  .deplacements__title {
+    font-size: 2.25rem;
+    line-height: 1.3;
+  }
+  .deplacements__liste {
+    width: 100%;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+  .deplacements-item {
+    height: 4rem;
+  }
+  .deplacements-item__vague,
+  .deplacements__ligne {
+    display: none;
+  }
+  .deplacements-item__logo {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4.5rem;
+    height: 3rem;
+  }
+  .deplacements-item__date {
+    left: 5.5rem;
+    font-size: 0.9375rem;
+  }
+  .deplacements-item__city {
+    left: auto;
+    right: 1rem;
+    font-size: 1.25rem;
+  }
+}

@@ -1,0 +1,10 @@
+/* Page Déplacements.
+
+   La maquette n'ajoute pas de décor débordant de la fenêtre : le rognage
+   horizontal est conservé par prudence (comme sur les autres pages). */
+
+.deplacements-page {
+  position: relative;
+  overflow-x: clip;
+  background: #f4efe6;
+}

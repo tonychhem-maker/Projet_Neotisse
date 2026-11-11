@@ -4,6 +4,7 @@ export const singletonTypes = new Set([
   'ateliersPage',
   'aboutPage',
   'contactInfo',
+  'deplacementsPage',
   'livreDorPage',
 ])
 
@@ -33,12 +34,17 @@ export function deskStructure(S) {
         .title('Page Livre d’or')
         .id('livreDorPage')
         .child(S.document().schemaType('livreDorPage').documentId('livreDorPage')),
+      S.listItem()
+        .title('Page Déplacements')
+        .id('deplacementsPage')
+        .child(S.document().schemaType('deplacementsPage').documentId('deplacementsPage')),
 
       S.divider(),
 
       S.documentTypeListItem('workshop').title('Ateliers'),
       S.documentTypeListItem('workshopFormat').title('Formats d’atelier'),
       S.documentTypeListItem('availability').title('Disponibilités'),
+      S.documentTypeListItem('deplacement').title('Déplacements'),
       S.documentTypeListItem('post').title('Actualités'),
       S.documentTypeListItem('teamMember').title('Équipe'),
       S.documentTypeListItem('partner').title('Partenaires'),
