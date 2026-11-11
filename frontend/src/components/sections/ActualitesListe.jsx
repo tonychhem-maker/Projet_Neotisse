@@ -25,13 +25,19 @@ function formatMoisAnnee(iso) {
  * Carte d'événement, calée sur la maquette (1346×359, fond #E4DCCE) :
  * photo teintée à gauche (664×359), mois + précision de date au centre
  * (x642, Outfit 48px / 18px, capitales), pastille « voir plus » (pastille
- * verte 39×41 + chevron blanc) puis structure / titre à droite (x975,
+ * verte 39×41 + chevron blanc) puis sur-titre / titre à droite (x975,
  * Outfit 22px vert sapin / 32px Light noir).
+ *
+ * Tout est alimenté par le document Sanity « Actualité » : image de
+ * couverture, sur-titre (ou catégorie à défaut), date d'événement
+ * (ou publication à défaut), précision de date, titre et lien.
  */
 function ActualitesCarte({ post }) {
   const image = post.image?.src
-  const kicker = post.kicker ?? (post.category ? `${CATEGORIES[post.category]} -` : null)
-  const mois = post.monthYear || formatMoisAnnee(post.publishedAt)
+  // Sur-titre saisi dans Sanity ; à défaut, dérivé de la catégorie.
+  const kicker = post.kicker || (post.category ? `${CATEGORIES[post.category]} -` : null)
+  // Mois affiché : date de l'événement, sinon date de publication.
+  const mois = post.monthYear || formatMoisAnnee(post.eventDate || post.publishedAt)
 
   return (
     <li className="actualites-carte-item">

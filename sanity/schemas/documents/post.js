@@ -34,12 +34,28 @@ export const post = defineType({
       validation: (rule) => rule.max(200),
     }),
     defineField({
+      name: 'kicker',
+      title: 'Sur-titre',
+      type: 'string',
+      group: 'content',
+      description:
+        'Petit texte vert affiché au-dessus du titre de la carte (ex : « Musée - »). Si vide, il est dérivé de la catégorie.',
+      validation: (rule) => rule.max(60),
+    }),
+    defineField({
+      name: 'eventDate',
+      title: 'Date de l’événement',
+      type: 'date',
+      group: 'content',
+      description:
+        'Seuls le mois et l’année sont affichés sur la carte (ex : octobre 2027). Si vide, la date de publication est utilisée.',
+    }),
+    defineField({
       name: 'dateLabel',
       title: 'Précision de date',
       type: 'string',
       group: 'content',
-      description:
-        'Affichée sous le mois sur la carte (ex : du 9 au 10). Le mois et l’année viennent de la date de publication.',
+      description: 'Affichée sous le mois sur la carte (ex : du 9 au 10).',
       validation: (rule) => rule.max(60),
     }),
     defineField({

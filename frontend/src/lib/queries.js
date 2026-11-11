@@ -149,7 +149,9 @@ export const ACTUALITES_QUERY = `{
   "posts": *[_type == "post"] | order(publishedAt desc) [0...1] {
     "id": _id,
     "title": title,
+    "kicker": kicker,
     "category": category,
+    "eventDate": eventDate,
     "dateLabel": dateLabel,
     "publishedAt": publishedAt,
     "link": link{
