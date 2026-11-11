@@ -42,6 +42,7 @@ function observe(root, selector) {
   if (!targets.length) return () => {}
 
   const mark = (el) => el.classList.add('is-revealed')
+  const watched = new WeakSet()
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -49,23 +50,41 @@ function observe(root, selector) {
         if (!entry.isIntersecting) return
         mark(entry.target)
         observer.unobserve(entry.target)
+        watched.delete(entry.target)
       })
     },
     { rootMargin: REVEAL_MARGIN, threshold: 0 },
   )
 
-  targets.forEach((el) => {
+  // Ajoute un élément à l'observation, ou l'affiche tout de suite s'il est déjà
+  // dans la fenêtre (dans ce cas, sans transition).
+  const watch = (el) => {
+    if (el.classList.contains('is-revealed') || watched.has(el)) return
     const rect = el.getBoundingClientRect()
-    // Déjà dans la fenêtre : visible tout de suite, sans transition.
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       el.classList.add('is-instant')
       mark(el)
       return
     }
     observer.observe(el)
-  })
+    watched.add(el)
+  }
 
-  return () => observer.disconnect()
+  targets.forEach(watch)
+
+  // Filet de sécurité : les éléments montés après le passage initial (état
+  // React modifié juste après le montage) ne seraient jamais observés et
+  // resteraient sous leur masque. On repasse sur la liste peu après.
+  const timers = [0, 150, 500].map((delay) =>
+    window.setTimeout(() => {
+      ;[...root.querySelectorAll(selector)].forEach(watch)
+    }, delay),
+  )
+
+  return () => {
+    timers.forEach((id) => window.clearTimeout(id))
+    observer.disconnect()
+  }
 }
 
 /**

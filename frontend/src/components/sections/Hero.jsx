@@ -88,7 +88,9 @@ export default function Hero({
             // La hero est fixée sous la navbar pendant toute la chute des
             // cartes. `pinType: 'fixed'` évite la transformation d'ancêtre du
             // mode `transform` (défaut) quand la page est lissée par Lenis.
-            start: 'top 72px',
+            // Le départ suit la hauteur réelle du header (80px à 1440, moins
+            // ailleurs car il se met à l'échelle en `cqw`).
+            start: () => `top ${document.querySelector('.site-header')?.offsetHeight ?? 80}px`,
             end: '+=220%',
             pin: root.current,
             pinType: 'fixed',

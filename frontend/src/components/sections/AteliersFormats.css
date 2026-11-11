@@ -1,0 +1,244 @@
+/* Formats d'atelier — calés sur la maquette (frame « Ateliers », de y1018 à
+   y2476) : textes à gauche (55px du bord, largeur 664px), pile d'images à
+   droite (720px de large, 403px de haut chacune, bord droit de la fenêtre).
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440) : homothétie
+   exacte à toute largeur ≥861px. */
+
+.ateliers-formats {
+  position: relative;
+  padding-left: 3.8194cqw; /* 55px */
+}
+
+.ateliers-formats__inner {
+  display: grid;
+  grid-template-columns: 46.1806cqw 50cqw; /* 665px | 720px (images à x720 pile) */
+  align-items: start;
+}
+
+/* Colonne de textes : l'écart de 40px de la maquette est porté par les
+   marges (et non par un `gap`) pour que les formats repliés, clippés dans
+   le conteneur animé, ne laissent aucun espace parasite. */
+.ateliers-formats__texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.ateliers-format + .ateliers-format,
+.ateliers-formats__collapse .ateliers-format:first-child {
+  margin-top: 2.7778cqw; /* 40px */
+}
+
+.ateliers-format__title {
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 2.7778cqw; /* 40px */
+  line-height: 1.92; /* 76.8px */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #085a2b;
+}
+
+.ateliers-format__text {
+  margin: 2.7778cqw 0 0; /* 40px sous le titre */
+  font-size: 1.3889cqw; /* 20px */
+  line-height: 1.5; /* 30px */
+  color: #000;
+}
+
+/* Colonne d'images : bord droit de la fenêtre, sans gouttière. Surélevée
+   d'un plan : le fil du milieu passe derrière les images. */
+.ateliers-formats__images {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ateliers-format__figure {
+  height: 27.9861cqw; /* 403px */
+  margin: 0;
+}
+.ateliers-format__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* La deuxième image de la pile est arrondie (rayon 8px dans la maquette). */
+.ateliers-format__figure--rounded img {
+  border-radius: 0.5556cqw; /* 8px */
+}
+
+/* ---------------------------------------------------------------------------
+   Dépliage des formats supplémentaires.
+
+   Le conteneur glisse de 0fr à 1fr : sa hauteur passe de 0 à sa hauteur
+   naturelle, transitionnée par le navigateur ( quel que soit le contenu,
+   texte ou image). Le contenu s'estompe et se cale pendant l'ouverture.
+   Replié, rien ne déborde : tout est clippé par `.collapse-inner`.
+--------------------------------------------------------------------------- */
+.ateliers-formats__collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ateliers-formats__collapse.is-open {
+  grid-template-rows: 1fr;
+}
+
+.ateliers-formats__collapse-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ateliers-formats__collapse-content {
+  opacity: 0;
+  transform: translateY(-1em);
+  transition:
+    opacity 0.45s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ateliers-formats__collapse.is-open .ateliers-formats__collapse-content {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ateliers-formats__collapse,
+  .ateliers-formats__collapse-content {
+    transition: none;
+  }
+}
+
+/* Fil du milieu : (614,1597,637×479) dans la frame, sous les images
+   (dernier plan, la colonne d'images le recouvre) ; fondu à l'apparition,
+   le tracé se dessine par-dessus lui-même. */
+.ateliers-formats__fil {
+  animation: ateliers-fil-in 0.6s ease both;
+}
+@keyframes ateliers-fil-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ateliers-formats__fil {
+    animation: none;
+  }
+}
+
+/* Fil du milieu : (614,1597,637×479) dans la frame. Plaqué au dernier plan
+   (z-index 0) : la colonne d'images (z-index 1) glisse par-dessus. */
+.ateliers-formats__fil {
+  position: absolute;
+  left: 42.6389cqw; /* 614px */
+  top: 40.2083cqw; /* 579px sous le début de section */
+  width: 44.2361cqw; /* 637px */
+  height: 33.2639cqw; /* 479px */
+  z-index: 0;
+}
+
+/* Flèche et lien « voir plus » : la flèche est à 67px sous la pile d'images,
+   le lien 16px plus bas. Le bloc est recentré sur la page (x720 dans la
+   maquette), le padding gauche de la section le décalant sinon. */
+.ateliers-formats__more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1111cqw; /* 16px */
+  width: 100cqw;
+  margin-left: -3.8194cqw; /* -55px */
+  margin-top: 4.6528cqw; /* 67px */
+}
+
+.ateliers-formats__arrow {
+  width: 1.0417cqw; /* 15px */
+  height: 2.9167cqw; /* 42px */
+}
+
+.ateliers-formats__toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: 1.4583cqw; /* 21px */
+  line-height: 1.15;
+  letter-spacing: 0.0347cqw; /* 0.5px */
+  color: #35985f;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+.ateliers-formats__toggle:hover {
+  color: #085a2b;
+}
+.ateliers-formats__toggle:focus-visible {
+  outline: 2px solid #35985f;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Écrans étroits : une seule colonne, images sous les textes. */
+@media (max-width: 860px) {
+  .ateliers-formats {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ateliers-formats__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ateliers-format + .ateliers-format,
+  .ateliers-formats__collapse .ateliers-format:first-child {
+    margin-top: 28px;
+  }
+
+  .ateliers-format__title {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .ateliers-format__text {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .ateliers-format__figure {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .ateliers-format__figure--rounded img {
+    border-radius: 6px;
+  }
+
+  .ateliers-formats__fil {
+    display: none;
+  }
+
+  .ateliers-formats__more {
+    gap: 10px;
+    width: auto;
+    margin-left: 0;
+    margin-top: 32px;
+  }
+
+  .ateliers-formats__arrow {
+    width: 12px;
+    height: 34px;
+  }
+
+  .ateliers-formats__toggle {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+}

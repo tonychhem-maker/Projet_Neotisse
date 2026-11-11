@@ -36,6 +36,37 @@ export const HOME_QUERY = `{
   }
 }`
 
+export const ATELIERS_QUERY = `{
+  "page": *[_id == "ateliersPage"][0]{
+    "heroTitle": heroTitle,
+    "heroText": heroText,
+    "heroImage": heroImage ${IMAGE_PROJECTION},
+    "secondaryTitle": secondaryTitle,
+    "secondarySections": secondarySections[]{
+      "_key": _key,
+      "title": title,
+      "text": text
+    },
+    "ctaTitle": ctaTitle,
+    "ctaLink": ctaLink{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    }
+  },
+  "featuredFormats": *[_id == "ateliersPage"][0].formats[]->{
+    "id": _id,
+    "title": title,
+    "text": description,
+    "image": image ${IMAGE_PROJECTION}
+  },
+  "allFormats": *[_type == "workshopFormat" && visible != false] | order(order asc, _createdAt asc) {
+    "id": _id,
+    "title": title,
+    "text": description,
+    "image": image ${IMAGE_PROJECTION}
+  }
+}`
+
 export const CONTACT_QUERY = `{
   "title": *[_id == "contactInfo"][0].title,
   "intro": *[_id == "contactInfo"][0].intro,

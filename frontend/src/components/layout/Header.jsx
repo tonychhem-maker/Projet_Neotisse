@@ -1,39 +1,31 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import logoHeader from '../../assets/ateliers/logo-header.png'
 import { siteNav } from '../../data/navigation'
+import './Header.css'
 
 function navLinkClass({ isActive }) {
-  return [
-    'whitespace-nowrap transition-colors hover:text-leaf',
-    isActive ? 'text-pine underline underline-offset-[6px]' : 'text-pine/85',
-  ].join(' ')
+  return isActive ? 'is-active' : undefined
 }
 
+/**
+ * En-tête conforme à la maquette : 80px de haut (5.5556cqw), logo 74×73 à
+ * 30px du bord, nav répartie sur 941px en DM Sans 21px, à 160px du logo.
+ * Comme la page Ateliers, il se met à l'échelle homothétiquement (le pied de
+ * page et les sections utilisent la même unité `cqw`).
+ */
 export default function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-pine/10 bg-[#f4efe6]">
-      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center gap-6 px-10">
-        <Link
-          to="/"
-          aria-label="Neotisse — accueil"
-          className="flex shrink-0 flex-col items-center leading-none"
-        >
-          <img
-            src="/assets/logos/neotisse.png"
-            alt=""
-            className="h-14 w-auto object-contain"
-          />
-          <span className="mt-0.5 text-[8px] uppercase tracking-[0.2em] text-pine">
-            Neotisse
-          </span>
+    <header className="site-header cq">
+      <div className="site-header__inner">
+        <Link to="/" aria-label="Neotisse — accueil" className="site-header__logo">
+          <img src={logoHeader} alt="" width="74" height="73" />
         </Link>
 
-        {/* Les liens occupent l'espace restant et restent sur une seule ligne :
-            la nav prend la place disponible plutôt que de déborder. */}
-        <nav aria-label="Navigation principale" className="hidden min-w-0 flex-1 lg:block">
-          <ul className="flex items-center justify-center gap-x-[clamp(1rem,2.2vw,2.5rem)] text-[clamp(0.95rem,1.1vw,1.125rem)]">
+        <nav aria-label="Navigation principale" className="site-header__nav">
+          <ul>
             {siteNav.map((item) => (
               <li key={item.to}>
                 <NavLink to={item.to} className={navLinkClass}>
@@ -44,20 +36,17 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Réserve une place symétrique au logo pour que la nav soit centrée */}
-        <span aria-hidden="true" className="hidden w-[104px] shrink-0 lg:block" />
-
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="menu-mobile"
           aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-          className="ml-auto rounded p-2 lg:hidden"
+          className="site-header__burger"
         >
-          <span className="block h-0.5 w-6 bg-pine" />
-          <span className="mt-1.5 block h-0.5 w-6 bg-pine" />
-          <span className="mt-1.5 block h-0.5 w-6 bg-pine" />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
 
@@ -65,9 +54,9 @@ export default function Header() {
         <nav
           id="menu-mobile"
           aria-label="Navigation mobile"
-          className="border-t border-pine/10 bg-[#f4efe6] px-10 pb-6 lg:hidden"
+          className="site-header__mobile"
         >
-          <ul className="flex flex-col gap-4 pt-4 text-[15px]">
+          <ul>
             {siteNav.map((item) => (
               <li key={item.to}>
                 <NavLink

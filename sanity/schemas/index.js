@@ -1,4 +1,5 @@
 import { aboutPage } from './documents/aboutPage'
+import { ateliersPage } from './documents/ateliersPage'
 import { availability } from './documents/availability'
 import { contactInfo } from './documents/contactInfo'
 import { homePage } from './documents/homePage'
@@ -28,6 +29,7 @@ export const schemaTypes = [
   // Singletons (un seul document de chaque type)
   siteSettings,
   homePage,
+  ateliersPage,
   aboutPage,
   contactInfo,
   legalPage,

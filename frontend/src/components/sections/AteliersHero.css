@@ -1,0 +1,161 @@
+/* Bannière de la page Ateliers — calée au pixel sur la maquette Figma
+   (frame « Ateliers » 1440×3904 ; la bannière va de y80 à y1018, soit 938px).
+
+   Toutes les dimensions desktop sont exprimées en `cqw` (1cqw = 1/100 de la
+   largeur de la page, soit px/14.4 pour la maquette 1440) : la section reste
+   homothétique à la maquette à n'importe quelle largeur ≥861px. */
+
+.ateliers-hero {
+  position: relative;
+  height: 65.1389cqw; /* 938px */
+  background: #f4efe6;
+}
+
+/* Fil textile : gabarit de rendu Figma (126,110,461×556, ramené sous
+   l'en-tête de 80px). Le tracé se dessine à l'arrivée (voir `Fil`). */
+.ateliers-hero__fil {
+  position: absolute;
+  left: 8.75cqw; /* 126px */
+  top: 2.0833cqw; /* 30px */
+  width: 31.9444cqw; /* 461px */
+  height: 38.6111cqw; /* 556px */
+  z-index: 0;
+}
+
+/* Photo : (558,126,323×465) dans la maquette, derrière le titre. */
+.ateliers-hero__figure {
+  position: absolute;
+  z-index: 1;
+  left: 38.75cqw; /* 558px */
+  top: 3.1944cqw; /* 46px */
+  width: 22.4306cqw; /* 323px */
+  height: 32.2917cqw; /* 465px */
+  margin: 0;
+}
+.ateliers-hero__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Titre sur une seule ligne, par-dessus la photo. */
+.ateliers-hero__title {
+  position: absolute;
+  z-index: 2;
+  left: 9.375cqw; /* 135px */
+  top: 9.4444cqw; /* 136px */
+  width: 81.25cqw; /* 1170px */
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 6.6667cqw; /* 96px */
+  line-height: 1.92; /* 184.32px */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #095228;
+  white-space: nowrap;
+}
+
+.ateliers-hero__word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Espace entre les deux mots : un espace ordinaire est rogné en bord de
+   `inline-block`, il a donc sa propre largeur en `em`. */
+.ateliers-hero__gap {
+  display: inline-block;
+  width: 0.22em;
+  height: 0;
+}
+
+/* Paragraphe d'accroche : (354,606,731×185), Outfit 20px, interlignage 30px. */
+.ateliers-hero__text {
+  position: absolute;
+  z-index: 2;
+  left: 24.5833cqw; /* 354px */
+  top: 36.5278cqw; /* 526px */
+  width: 50.7639cqw; /* 731px */
+  text-align: center;
+  font-size: 1.3889cqw; /* 20px */
+  line-height: 1.5; /* 30px */
+  letter-spacing: 0.1389cqw; /* 2px */
+  color: #000;
+}
+.ateliers-hero__text p {
+  margin: 0;
+}
+
+/* Flèche vers le bas (fichier maquette 15×42), centrée à x720. */
+.ateliers-hero__arrow {
+  position: absolute;
+  z-index: 2;
+  left: 50cqw;
+  top: 51.7361cqw; /* 745px */
+  width: 1.0417cqw; /* 15px */
+  height: 2.9167cqw; /* 42px */
+  transform: translateX(-50%);
+}
+
+/* Écrans étroits : mise en page en flux, le fil décoration disparaît. */
+@media (max-width: 860px) {
+  .ateliers-hero {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20px 48px;
+  }
+
+  .ateliers-hero__fil {
+    display: none;
+  }
+
+  .ateliers-hero__title {
+    position: static;
+    order: 1;
+    width: 100%;
+    font-size: clamp(28px, 9.4vw, 64px);
+    white-space: normal;
+  }
+
+  .ateliers-hero__figure {
+    position: static;
+    order: 2;
+    width: min(240px, 62vw);
+    height: auto;
+    aspect-ratio: 323 / 465;
+    margin-top: 20px;
+  }
+
+  .ateliers-hero__text {
+    position: static;
+    order: 3;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+  }
+
+  .ateliers-hero__arrow {
+    position: static;
+    order: 4;
+    width: 12px;
+    height: 34px;
+    margin-top: 24px;
+    transform: none;
+  }
+}
+
+/* Écrans très étroits : le titre revient sur deux lignes, un mot par ligne. */
+@media (max-width: 420px) {
+  .ateliers-hero__title {
+    white-space: normal;
+  }
+  .ateliers-hero__word {
+    display: block;
+  }
+}

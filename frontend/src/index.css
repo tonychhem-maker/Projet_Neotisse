@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Outfit:wght@300;400;500;600;700&family=Anton&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Outfit:wght@300;400;500;600;700&family=Anton&family=DM+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -52,6 +52,31 @@
   h3 {
     @apply font-serif;
   }
+}
+
+/* Conteneur de requêtes de conteneur : les descendants peuvent exprimer
+   leurs dimensions en `cqw`, ramenées à la largeur réelle du conteneur.
+   Utilisé par le pied de page et la page Ateliers (mise à l'échelle
+   homothétique de la maquette 1440px : 1cqw = largeur/100). */
+.cq {
+  container-type: inline-size;
+}
+
+/* ---------------------------------------------------------------------------
+   Fil textile inline (`components/ui/Fil.jsx`).
+
+   Le SVG maquette est inséré tel quel ; seul le tracé est animé, par la
+   classe elle-même (voir le composant : sans JS ou en réduction des
+   mouvements, le fil est entièrement dessiné).
+--------------------------------------------------------------------------- */
+.fil {
+  pointer-events: none;
+}
+.fil svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 /* Ligne masquée pour la révélation de texte au scroll (`useTextReveal`).

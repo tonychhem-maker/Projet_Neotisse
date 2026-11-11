@@ -1,0 +1,138 @@
+/* En-tête — calé sur la maquette (frame « Ateliers », y0 à y80) : fond crème,
+   bord #DEE5ED, logo 74×73 à 30px du bord, nav répartie sur 941px (DM Sans
+   21px, #095228) à 160px du logo. La nav n'est pas centrée : la maquette
+   laisse un vide à droite.
+
+   L'en-tête est son propre conteneur de requêtes (classe `cq`) : ses
+   dimensions en `cqw` suivent l'échelle du contenu des pages. */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-sizing: border-box;
+  height: 5.5556cqw; /* 80px, bord compris */
+  border-bottom: 1px solid #dee5ed;
+  background: #f4efe6;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 2.0833cqw; /* 30px */
+}
+
+.site-header__logo {
+  display: flex;
+  flex-shrink: 0;
+}
+.site-header__logo img {
+  width: 5.1389cqw; /* 74px */
+  height: 5.0694cqw; /* 73px */
+  object-fit: contain;
+}
+
+.site-header__nav {
+  min-width: 0;
+  max-width: calc(100% - 16.25cqw); /* logo + marges (30+74+160 = 264px) */
+  margin-left: 11.1111cqw; /* 160px */
+}
+
+.site-header__nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 65.2778cqw; /* 941px */
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-header__nav a {
+  color: #095228;
+  font-family: var(--font-dm);
+  font-size: 1.4583cqw; /* 21px */
+  line-height: 1.15; /* 24px */
+  letter-spacing: 0.0347cqw; /* 0.5px */
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.site-header__nav a:hover {
+  color: #35985f;
+}
+.site-header__nav a.is-active {
+  color: #095228;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1px;
+}
+
+.site-header__burger {
+  display: none;
+  margin-left: auto;
+  padding: 8px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+.site-header__burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #095228;
+}
+.site-header__burger span + span {
+  margin-top: 6px;
+}
+
+/* Menu mobile. */
+.site-header__mobile {
+  border-top: 1px solid #dee5ed;
+  background: #f4efe6;
+  padding: 12px 20px 20px;
+}
+.site-header__mobile ul {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+}
+.site-header__mobile a {
+  color: #095228;
+  text-decoration: none;
+}
+.site-header__mobile a.is-active {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Sous la nav desktop (1024px) : gabarit compact en pixels. */
+@media (max-width: 1023px) {
+  .site-header {
+    height: 64px;
+  }
+
+  .site-header__inner {
+    padding: 0 20px;
+  }
+
+  .site-header__logo img {
+    width: 52px;
+    height: 51px;
+  }
+
+  .site-header__nav {
+    display: none;
+  }
+
+  .site-header__burger {
+    display: block;
+  }
+}

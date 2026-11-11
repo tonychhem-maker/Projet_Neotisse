@@ -1,0 +1,98 @@
+/* Sections secondaires — calées sur la maquette (de y2524 à y2972) :
+   colonne gauche à 55px (largeur 664px), colonne droite à 720px (titre
+   en retrait de 71px, texte de 43px), filet vertical dégradé à x720.
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440). */
+
+.ateliers-secondary {
+  position: relative;
+  /* La maquette place ces titres 148px sous le lien « voir plus ». */
+  margin-top: 10.2778cqw; /* 148px */
+  padding-left: 3.8194cqw; /* 55px */
+}
+
+.ateliers-secondary__grid {
+  display: grid;
+  grid-template-columns: 46.1111cqw 49.9306cqw; /* 664px | 719px */
+}
+
+/* Titre droit : posé à x791, soit 71px après la colonne. */
+.ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__title {
+  margin-left: 4.9306cqw; /* 71px */
+}
+/* Texte droit : posé à x763, soit 43px après la colonne. */
+.ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__text {
+  margin-left: 2.9861cqw; /* 43px */
+}
+
+/* Titres posés sur une réserve de 77px (une ligne en maquette) : le texte
+   de la colonne droite (« Expérimentation archéologique », deux lignes)
+   déborde visuellement sous la réserve sans repousser le texte, qui reste
+   aligné à 179px du haut comme à gauche. */
+.ateliers-secondary__title {
+  height: 5.3472cqw; /* 77px */
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 2.7778cqw; /* 40px */
+  line-height: 1.92; /* 76.8px */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #085a2b;
+}
+
+/* La maquette pose le texte à y2703, soit 179px sous le haut de section ;
+   la réserve de titre est parcourue de -8.8px (marge du masque de
+   révélation) : l'écart vaut 110.8px. `flow-root` évite que la marge
+   négative du masque ne remonte le paragraphe. */
+.ateliers-secondary__text {
+  display: flow-root;
+  width: 46.1111cqw; /* 664px */
+  margin-top: 7.6944cqw; /* 110.8px */
+  font-size: 1.3889cqw; /* 20px */
+  line-height: 1.5; /* 30px */
+  color: #000;
+}
+
+/* Filet vertical : x720, de y2591 à y2972, dégradé vers le bas. */
+.ateliers-secondary__line {
+  position: absolute;
+  left: 50cqw; /* 720px */
+  top: 4.6528cqw; /* 67px sous le début de section */
+  width: 0.1389cqw; /* 2px */
+  height: 26.4583cqw; /* 381px */
+  background: linear-gradient(180deg, #35985f, rgba(53, 152, 95, 0));
+}
+
+/* Écrans étroits : une seule colonne, filet reporté en séparateur. */
+@media (max-width: 860px) {
+  .ateliers-secondary {
+    margin-top: 72px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ateliers-secondary__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__title,
+  .ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__text {
+    margin-left: 0;
+  }
+
+  .ateliers-secondary__title {
+    height: auto;
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .ateliers-secondary__text {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .ateliers-secondary__line {
+    display: none;
+  }
+}

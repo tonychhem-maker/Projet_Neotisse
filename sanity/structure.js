@@ -1,6 +1,7 @@
 export const singletonTypes = new Set([
   'siteSettings',
   'homePage',
+  'ateliersPage',
   'aboutPage',
   'contactInfo',
 ])
@@ -15,6 +16,10 @@ export function deskStructure(S) {
         .title('Page d’accueil')
         .id('homePage')
         .child(S.document().schemaType('homePage').documentId('homePage')),
+      S.listItem()
+        .title('Page Ateliers')
+        .id('ateliersPage')
+        .child(S.document().schemaType('ateliersPage').documentId('ateliersPage')),
       S.listItem()
         .title('Page À propos')
         .id('aboutPage')

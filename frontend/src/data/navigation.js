@@ -4,19 +4,19 @@
 export const siteNav = [
   { label: 'Accueil', to: '/' },
   { label: 'Ateliers', to: '/ateliers-de-mediation-textile' },
-  { label: 'Déplacements', to: '/deplacements' },
   { label: 'Actualités', to: '/actualites' },
   { label: "Livre d'or", to: '/livre-d-or' },
+  { label: 'Déplacements', to: '/deplacements' },
   { label: 'À propos', to: '/a-propos' },
   { label: 'Contact', to: '/contact' },
 ]
 
-// Liens du pied de page (« Lien Rapide » dans la maquette).
+// Liens du pied de page (« Lien Rapide » dans la maquette) : quatre liens,
+// sans Partenaires.
 export const footerNav = [
   { label: 'Accueil', to: '/' },
   { label: 'Ateliers', to: '/ateliers-de-mediation-textile' },
   { label: 'À propos', to: '/a-propos' },
-  { label: 'Partenaires', to: '/partenaires' },
   { label: 'Contact', to: '/contact' },
 ]
 

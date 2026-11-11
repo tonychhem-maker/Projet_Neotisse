@@ -1,0 +1,255 @@
+/* Pied de page — calé sur la maquette (frame « Ateliers », de y3559 à y3904,
+   soit 345px) : fond #095228, colonnes à x142 / x478 / x702 / x1038, textes
+   Poppins blancs, chevrons et icônes vert #35985F, logo blanc détouré
+   rogné en bas à droite.
+
+   Le pied de page est son propre conteneur de requêtes (classe `cq`) : ses
+   dimensions en `cqw` suivent la même échelle que le contenu des pages. */
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: #095228;
+  color: #fff;
+  font-family: 'Poppins', var(--font-sans);
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 21.25cqw 13.4722cqw 21.25cqw 1fr; /* 306 | 194 | 306 | … */
+  column-gap: 2.0833cqw; /* 30px */
+  box-sizing: border-box;
+  min-height: 23.9583cqw; /* 345px */
+  padding: 5.4861cqw 9.8611cqw 5.4861cqw 9.8611cqw; /* 79px 142px */
+  font-size: 1.1111cqw; /* 16px */
+}
+
+/* Colonne 1 : baseline + réseaux sociaux. */
+.footer__baseline {
+  max-width: 21.25cqw; /* 306px */
+  margin: 0;
+  font-weight: 300;
+  line-height: 1.875; /* 30px */
+}
+
+.footer__socials {
+  display: flex;
+  gap: 1.3889cqw; /* 20px */
+  margin: 1.3889cqw 0 0; /* 20px */
+  padding: 0;
+  list-style: none;
+}
+
+.footer__social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4306cqw; /* 35px */
+  height: 2.4306cqw;
+  border-radius: 50%;
+  background: #fff;
+  color: #35985f;
+  font-size: 1.1111cqw;
+  font-weight: 600;
+  transition: background-color 0.25s ease;
+}
+.footer__social:hover {
+  background: #e4dcce;
+}
+.footer__social svg {
+  width: 1.0417cqw; /* 15px */
+  height: 1.0417cqw;
+}
+
+/* Titres de colonnes (« Lien Rapide », « Blog », « Contact »). */
+.footer__heading {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.footer__col > .footer__links,
+.footer__col > .footer__post,
+.footer__col > .footer__contact {
+  margin-top: 2.1528cqw; /* 31px : titre y3638 → contenu y3669 */
+}
+
+/* Lien rapide : chevron vert + libellé, 20px d'écart. */
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  /* Pas de 33px entre chaque lien dans la maquette (y3669 → y3702) ; la
+     ligne fait 18.4px (16px × 1.15), l'écart complète à 14.6px. */
+  gap: 1.0139cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__links li {
+  display: flex;
+  align-items: center;
+  gap: 0.4167cqw; /* 6px */
+  line-height: 1.15;
+}
+
+.footer__chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0.9028cqw; /* 13px */
+  height: 0.9028cqw;
+}
+.footer__chevron svg {
+  width: 100%;
+  height: 100%;
+}
+
+.footer__link {
+  color: inherit;
+  transition: color 0.25s ease;
+}
+.footer__link:hover {
+  color: #7fc49d;
+}
+
+/* Blog : une entrée, chevron plus grand (15px dans la maquette). */
+.footer__post {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4167cqw; /* 6px */
+}
+
+.footer__chevron--post {
+  width: 1.0417cqw; /* 15px */
+  height: 1.0417cqw;
+  margin-top: 0.3472cqw; /* 5px */
+}
+
+.footer__post-title {
+  color: inherit;
+  font-weight: 500;
+  line-height: 1.5; /* 24px */
+  transition: color 0.25s ease;
+}
+.footer__post-title:hover {
+  color: #7fc49d;
+}
+
+.footer__post-date {
+  margin: 0.4167cqw 0 0; /* 6px */
+  font-size: 0.9028cqw; /* 13px */
+  line-height: 1;
+}
+
+/* Contact : icônes vertes 25px, rangées espacées de 20px. */
+.footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3889cqw; /* 20px */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__contact li {
+  display: flex;
+  align-items: center;
+  gap: 0.9722cqw; /* 14px */
+}
+
+.footer__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 1.7361cqw; /* 25px */
+  height: 1.7361cqw;
+}
+.footer__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Logo blanc détouré : (1316,3801,163×163), rogné par les deux bords. */
+.footer__logo {
+  position: absolute;
+  right: -2.7083cqw; /* -39px */
+  bottom: -4.1667cqw; /* -60px */
+  width: 11.3194cqw; /* 163px */
+  height: 11.3194cqw;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+/* Écrans étroits : colonnes empilées. */
+@media (max-width: 860px) {
+  .footer__inner {
+    grid-template-columns: 1fr;
+    row-gap: 32px;
+    min-height: 0;
+    padding: 40px 24px 48px;
+    font-size: 15px;
+  }
+
+  .footer__baseline {
+    max-width: 340px;
+  }
+
+  .footer__socials {
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .footer__social {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  .footer__social svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .footer__col > .footer__links,
+  .footer__col > .footer__post,
+  .footer__col > .footer__contact {
+    margin-top: 14px;
+  }
+
+  .footer__links,
+  .footer__contact {
+    gap: 12px;
+  }
+
+  .footer__links li,
+  .footer__contact li,
+  .footer__post {
+    gap: 10px;
+  }
+
+  .footer__chevron {
+    width: 11px;
+    height: 11px;
+  }
+  .footer__chevron--post {
+    width: 13px;
+    height: 13px;
+    margin-top: 4px;
+  }
+
+  .footer__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footer__post-date {
+    margin-top: 4px;
+    font-size: 12px;
+  }
+
+  .footer__logo {
+    right: -14px;
+    bottom: -22px;
+    width: 76px;
+    height: 76px;
+  }
+}
