@@ -1,0 +1,71 @@
+/* Page Livre d'or.
+
+   Les fils textile dépassent de la fenêtre (le fil gauche sort à gauche de
+   la maquette) : le rognage se fait ici, sur la page entière, pour
+   qu'aucune barre de défilement horizontale n'apparaisse. `clip` plutôt que
+   `hidden` : le conteneur ne devient pas une surface défilable. */
+
+.livre-dor-page {
+  position: relative;
+  overflow-x: clip;
+  background: #f4efe6;
+}
+
+/* ---------------------------------------------------------------------------
+   Fils textile (couches « Fil textile — courbes et boucle » de la maquette).
+
+   Dimensions et angles relevés dans Figma : deux fils inclinés à −108,79°
+   (538×311), un à −37,59° (467,73×608,76). Ils sont posés d'après le centre
+   de leur encombrement, au-dessus des textes comme dans la maquette, mais
+   sous les cartes de témoignages et le pied de page. Opacité 75 %.
+--------------------------------------------------------------------------- */
+
+.livre-dor-page__fil {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* Fil de la rangée de cartes : encombrement (397,1162) 467,73×608,76,
+   incliné à −108,79° dans Figma (soit +108,79° en CSS, sens horaire). */
+.livre-dor-page__fil--cartes {
+  left: 25.1297cqw; /* 361,87px */
+  top: 85.478cqw; /* 1230,88px sous le haut de la page */
+  width: 37.3611cqw; /* 538px */
+  height: 21.5972cqw; /* 311px */
+  transform: rotate(108.79deg);
+}
+
+/* Fil gauche : encombrement (−275,706) 467,73×608,76, même angle. */
+.livre-dor-page__fil--gauche {
+  left: -21.5375cqw; /* −310,14px */
+  top: 53.8111cqw; /* 774,88px */
+  width: 37.3611cqw; /* 538px */
+  height: 21.5972cqw; /* 311px */
+  transform: rotate(108.79deg);
+}
+
+/* Fil droit : encombrement (862,86 — 406) 467,73×608,76, incliné à −37,59°
+   dans Figma (soit +37,59° en CSS). */
+.livre-dor-page__fil--droite {
+  left: 59.9215cqw; /* 862,87px */
+  top: 22.6389cqw; /* 326px */
+  width: 32.4811cqw; /* 467,73px */
+  height: 42.275cqw; /* 608,76px */
+  transform: rotate(37.59deg);
+}
+
+/* Les cartes recouvrent le fil du milieu : la maquette peint Frame 115
+   (cartes) au-dessus des fils. */
+.livre-dor-comments__cards {
+  position: relative;
+  z-index: 3;
+}
+
+/* Écrans étroits : les fils sont masqués (décor uniquement desktop). */
+@media (max-width: 860px) {
+  .livre-dor-page__fil {
+    display: none;
+  }
+}

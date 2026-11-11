@@ -1,0 +1,167 @@
+/* Témoignages du Livre d'or — calés sur la maquette (frame « Livre d'or »
+   424:684, de y1079 à y1780) : flèche + lien centrés (y1079/y1137), rangée de
+   trois cartes sable (459×425, interstice 12px, y1242, largeur 1401px),
+   filet large (1377px) avant le pied de page (y1691).
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440). */
+
+.livre-dor-comments {
+  position: relative;
+  /* pas de z-index ici : les cartes doivent rester dans le contexte de la
+     page pour recouvrir les fils (z-index 2) comme dans la maquette */
+  padding-bottom: 6.1111cqw; /* 88px jusqu'au pied de page (y1780) */
+}
+
+/* Flèche + lien : même gabarit que les autres pages (16px entre les deux). */
+.livre-dor-comments__more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1111cqw; /* 16px */
+}
+
+.livre-dor-comments__arrow {
+  width: 1.0417cqw; /* 15px */
+  height: 2.9167cqw; /* 42px */
+}
+
+.livre-dor-comments__link {
+  font-family: var(--font-sans);
+  font-size: 1.4583cqw; /* 21px */
+  line-height: 1.6667cqw; /* 24px */
+  letter-spacing: 0.0347cqw; /* 0.5px */
+  color: #35985f;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 0.25s ease;
+}
+.livre-dor-comments__link:hover {
+  color: #095228;
+}
+.livre-dor-comments__link:focus-visible {
+  outline: 2px solid #35985f;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Rangée de cartes : 1401px de large, centrée (19px de marge à gauche). */
+.livre-dor-comments__cards {
+  display: flex;
+  gap: 0.8333cqw; /* 12px */
+  list-style: none;
+  margin: 5.625cqw auto 0; /* 81px sous le lien (cartes à y1242) */
+  padding: 0;
+  width: 97.2917cqw; /* 1401px */
+}
+
+.livre-dor-card {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-height: 29.5139cqw; /* 425px */
+  padding: 0.6944cqw; /* 10px */
+  background: #e4dcce;
+}
+
+.livre-dor-card__body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 11.3889cqw; /* 164px entre le texte et l'auteur, comme dans la maquette */
+  height: 100%;
+  padding: 1.7361cqw 2.7778cqw; /* 25px | 40px */
+}
+
+.livre-dor-card__quote {
+  margin: 0;
+}
+.livre-dor-card__quote p {
+  margin: 0;
+  font-size: 1.25cqw; /* 18px */
+  line-height: 2.0833cqw; /* 30px */
+  color: #000;
+}
+
+.livre-dor-card__author {
+  display: flex;
+  align-items: center;
+  gap: 1.1111cqw; /* 16px */
+  margin: 0;
+}
+.livre-dor-card__avatar {
+  box-sizing: border-box;
+  width: 5.1389cqw; /* 74px */
+  height: 5.1389cqw;
+  border-radius: 50%;
+  background: #d9d9d9;
+  flex-shrink: 0;
+}
+.livre-dor-card__name {
+  margin: 0;
+  font-size: 1.6667cqw; /* 24px */
+  line-height: 1.2;
+  color: #095228;
+}
+
+.livre-dor-comments__rule {
+  margin: 1.6667cqw 2.0833cqw 0 2.2917cqw; /* 24px haut, filet à y1691 (x33, largeur 1377px) */
+  height: 1px;
+  background: #095228;
+}
+
+/* Écrans étroits : cartes empilées. */
+@media (max-width: 860px) {
+  .livre-dor-comments {
+    padding-bottom: 48px;
+  }
+
+  .livre-dor-comments__more {
+    gap: 10px;
+  }
+
+  .livre-dor-comments__arrow {
+    width: 12px;
+    height: 34px;
+  }
+
+  .livre-dor-comments__link {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .livre-dor-comments__cards {
+    flex-direction: column;
+    gap: 20px;
+    width: auto;
+    margin: 32px 20px 0;
+  }
+
+  .livre-dor-card {
+    min-height: 0;
+    padding: 8px;
+  }
+
+  .livre-dor-card__body {
+    gap: 32px;
+    padding: 20px;
+  }
+
+  .livre-dor-card__quote p {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .livre-dor-card__avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .livre-dor-card__name {
+    font-size: 18px;
+  }
+
+  .livre-dor-comments__rule {
+    margin: 32px 20px 0;
+    height: 1px;
+  }
+}

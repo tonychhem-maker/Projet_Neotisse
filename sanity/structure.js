@@ -4,6 +4,7 @@ export const singletonTypes = new Set([
   'ateliersPage',
   'aboutPage',
   'contactInfo',
+  'livreDorPage',
 ])
 
 export function deskStructure(S) {
@@ -28,6 +29,10 @@ export function deskStructure(S) {
         .title('Page Contact')
         .id('contactInfo')
         .child(S.document().schemaType('contactInfo').documentId('contactInfo')),
+      S.listItem()
+        .title('Page Livre d’or')
+        .id('livreDorPage')
+        .child(S.document().schemaType('livreDorPage').documentId('livreDorPage')),
 
       S.divider(),
 

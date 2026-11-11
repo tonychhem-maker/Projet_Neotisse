@@ -101,6 +101,29 @@ export const CONTACT_QUERY = `{
   "instagram": *[_id == "siteSettings"][0].socialLinks[label match "instagram*"][0].href
 }`
 
+export const LIVRE_DOR_QUERY = `{
+  "page": *[_id == "livreDorPage"][0]{
+    "heroTitle": heroTitle,
+    "sectionTitle": sectionTitle,
+    "seeAllLink": seeAllLink{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    },
+    "featured": featured{
+      "author": author,
+      "organisation": organisation,
+      "message": message,
+      "avatar": avatar ${IMAGE_PROJECTION}
+    }
+  },
+  "testimonials": *[_type == "testimonial" && status == "published" && defined(publishedAt)] | order(publishedAt desc)[0..2] {
+    "id": _id,
+    "author": author,
+    "organisation": organisation,
+    "message": message
+  }
+}`
+
 export const SITE_SETTINGS_QUERY = `{
   "name": *[_id == "siteSettings"][0].name,
   "baseline": *[_id == "siteSettings"][0].baseline,

@@ -4,6 +4,7 @@ import { availability } from './documents/availability'
 import { contactInfo } from './documents/contactInfo'
 import { homePage } from './documents/homePage'
 import { legalPage } from './documents/legalPage'
+import { livreDorPage } from './documents/livreDorPage'
 import { partner } from './documents/partner'
 import { post } from './documents/post'
 import { siteSettings } from './documents/siteSettings'
@@ -32,6 +33,7 @@ export const schemaTypes = [
   ateliersPage,
   aboutPage,
   contactInfo,
+  livreDorPage,
   legalPage,
 
   // Objets réutilisables

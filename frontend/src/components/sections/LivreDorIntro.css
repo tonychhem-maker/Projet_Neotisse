@@ -1,0 +1,306 @@
+/* Bloc supérieur du Livre d'or — calé sur la maquette (frame « Livre d'or »
+   424:684, de y80 à y1079) : titre + filet + témoignage vedette + bloc auteur
+   à gauche (x53, largeur 457px), formulaire à droite (x844, largeur 532px).
+
+   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440) : homothétie
+   exacte à toute largeur ≥861px. */
+
+.livre-dor-intro {
+  display: grid;
+  grid-template-columns: 31.7361cqw 23.1944cqw 36.9444cqw; /* 457px | 334px | 532px */
+  align-items: start; /* chaque colonne garde sa hauteur : l'auteur vedette
+                          reste à y719 (bas de sa colonne), non étiré par le
+                          formulaire plus haut */
+  padding: 7.2917cqw 4.4444cqw 0 3.6806cqw; /* 105px haut (titre à y185), 64px droite, 53px gauche */
+  min-height: 62.0833cqw; /* 894px de contenu : la flèche des témoignages tombe à y1079 */
+  box-sizing: content-box;
+}
+
+/* Colonne gauche : titre, filet, vedette, auteur (collé en bas). */
+.livre-dor-intro__left {
+  display: flex;
+  flex-direction: column;
+  min-height: 42.2222cqw; /* 608px : du haut du titre (y185) au bas de l'auteur (y793) */
+  max-width: 31.7361cqw; /* 457px */
+}
+
+.livre-dor-intro__title {
+  margin: 0;
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: 4.4444cqw; /* 64px */
+  line-height: 1.92; /* boîte ~123px comme dans la maquette */
+  letter-spacing: 0;
+  color: #095228;
+}
+
+.livre-dor-intro__rule {
+  margin-top: 4.3403cqw; /* 62.5px sous le titre (filet à y370) */
+  height: 0.2083cqw; /* 3px */
+  background: #095228;
+}
+
+.livre-dor-intro__quote {
+  margin: 1.4236cqw 0 0; /* 20.5px sous le filet (texte à y394) */
+}
+.livre-dor-intro__quote p {
+  margin: 0;
+  font-size: 1.25cqw; /* 18px */
+  line-height: 2.0833cqw; /* 30px */
+  color: #095228;
+}
+
+.livre-dor-intro__author {
+  display: flex;
+  align-items: center;
+  gap: 1.1111cqw; /* 16px */
+  /* Collé en bas de la colonne : le bas du bloc tombe à y793 dans la frame
+     (auteur à y719), comme dans la maquette, quelle que soit la longueur du
+     témoignage. */
+  margin-top: auto;
+}
+.livre-dor-intro__avatar {
+  box-sizing: border-box;
+  width: 5.1389cqw; /* 74px */
+  height: 5.1389cqw;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.livre-dor-intro__avatar--placeholder {
+  display: inline-block;
+  background: #d9d9d9;
+}
+.livre-dor-intro__name {
+  margin: 0;
+  font-size: 1.6667cqw; /* 24px */
+  line-height: 1.2;
+  color: #095228;
+}
+
+/* Colonne formulaire. Libellés à x871 (27px de plus que la zone de message). */
+.livre-dor-intro__form {
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1.875cqw; /* 27px */
+}
+
+.livre-dor-intro__form-title {
+  margin: 2.0833cqw 0 0; /* 30px : titre à y215 */
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 2.2222cqw; /* 32px */
+  line-height: 1.25; /* boîte 40px */
+  color: #095228;
+}
+
+.livre-dor-intro__field {
+  margin-top: 4.3056cqw; /* 62px : libellé « nom » à y317 */
+  display: flex;
+  flex-direction: column;
+}
+.livre-dor-intro__field--second {
+  margin-top: 4.0972cqw; /* 59px : libellé « Prénom » à y409 */
+}
+
+.livre-dor-intro__label {
+  font-size: 1.1111cqw; /* 16px */
+  line-height: 1.25; /* boîte 20px */
+  color: #000;
+}
+.livre-dor-intro__label--sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.livre-dor-intro__input {
+  height: 0.9028cqw; /* 13px : la maquette ne dessine que le soulignement */
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid #095228;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 1.1111cqw; /* 16px */
+  color: #095228;
+}
+.livre-dor-intro__input:focus-visible {
+  outline: 2px solid #095228;
+  outline-offset: 2px;
+}
+
+.livre-dor-intro__message-wrap {
+  position: relative;
+  margin-top: 4.3056cqw; /* 62px : zone de message à y504 */
+  /* la zone remonte à x844, 27px à gauche des libellés */
+  margin-left: -1.875cqw;
+}
+
+.livre-dor-intro__message {
+  box-sizing: border-box;
+  display: block; /* évite l'espace de ligne sous la zone (le bouton reste à y900) */
+  width: 36.9444cqw; /* 532px */
+  height: 25.5556cqw; /* 368px */
+  padding: 1.6667cqw 1.9444cqw; /* 24px | 28px */
+  border: 0;
+  background: rgba(228, 220, 206, 0.71); /* sable à 71 % */
+  resize: none;
+  font-family: var(--font-sans);
+  font-size: 1.1111cqw; /* 16px */
+  line-height: 1.5;
+  color: #095228;
+}
+.livre-dor-intro__message::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+.livre-dor-intro__message:focus-visible {
+  outline: 2px solid #095228;
+  outline-offset: 2px;
+}
+
+.livre-dor-intro__error {
+  margin: 0.6944cqw 0 0; /* 10px */
+  font-size: 1.0417cqw; /* 15px */
+  color: #b3261e;
+}
+
+.livre-dor-intro__notice {
+  margin: 1.3889cqw 0 0; /* 20px */
+  max-width: 36.9444cqw;
+  padding: 0.9722cqw 1.1111cqw; /* 14px | 16px */
+  border: 1px solid #e4dcce;
+  background: rgba(228, 220, 206, 0.4);
+  font-size: 1.0417cqw; /* 15px */
+  color: #095228;
+}
+.livre-dor-intro__notice code {
+  padding: 0 0.2083cqw;
+  border-radius: 2px;
+  background: #f4efe6;
+}
+
+.livre-dor-intro__status {
+  margin: 1.3889cqw 0 0; /* 20px */
+  padding: 0.9722cqw 1.1111cqw; /* 14px | 16px */
+  border: 1px solid #35985f;
+  font-size: 1.0417cqw; /* 15px */
+  color: #095228;
+}
+
+.livre-dor-intro__submit {
+  /* centré sur la zone de message (x844-1376) : centre à x1110,5 dans la
+     maquette, soit 115px du bord gauche des libellés (x871) */
+  margin: 1.9444cqw 0 0 7.9861cqw; /* 28px haut (y900) */
+  width: 17.2917cqw; /* 249px */
+  height: 3.6806cqw; /* 53px */
+  border: 0;
+  background: #095228;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 1.25cqw; /* 18px */
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.livre-dor-intro__submit:hover:enabled {
+  background: #35985f;
+}
+.livre-dor-intro__submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+.livre-dor-intro__submit:focus-visible {
+  outline: 2px solid #095228;
+  outline-offset: 3px;
+}
+
+/* Écrans étroits : une seule colonne, formulaire sous la vedette. */
+@media (max-width: 860px) {
+  .livre-dor-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 48px 20px 0;
+    min-height: 0;
+  }
+
+  .livre-dor-intro__left {
+    min-height: 0;
+    max-width: none;
+  }
+
+  .livre-dor-intro__rule {
+    margin-top: 32px;
+    height: 2px;
+  }
+
+  .livre-dor-intro__quote {
+    margin-top: 16px;
+  }
+  .livre-dor-intro__quote p {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .livre-dor-intro__author {
+    margin-top: 28px;
+  }
+  .livre-dor-intro__avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .livre-dor-intro__name {
+    font-size: 18px;
+  }
+
+  .livre-dor-intro__form {
+    padding-left: 0;
+  }
+
+  .livre-dor-intro__form-title {
+    margin-top: 0;
+    font-size: 24px;
+  }
+
+  .livre-dor-intro__field,
+  .livre-dor-intro__field--second,
+  .livre-dor-intro__message-wrap {
+    margin-top: 24px;
+  }
+
+  .livre-dor-intro__label {
+    font-size: 14px;
+  }
+
+  .livre-dor-intro__input {
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .livre-dor-intro__message-wrap {
+    margin-left: 0;
+  }
+  .livre-dor-intro__message {
+    width: 100%;
+    height: 180px;
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+
+  .livre-dor-intro__notice,
+  .livre-dor-intro__status,
+  .livre-dor-intro__error {
+    font-size: 14px;
+  }
+
+  .livre-dor-intro__submit {
+    margin: 24px auto 0;
+    width: 100%;
+    max-width: 280px;
+    height: 48px;
+    font-size: 16px;
+  }
+}
