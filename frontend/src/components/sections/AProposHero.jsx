@@ -22,9 +22,9 @@ gsap.registerPlugin(useGSAP)
  *
  * Deux fils textile décorent la bannière : l'un part du bord droit derrière
  * l'en-tête, l'autre longe le bord gauche et passe derrière la grande image
- * de la section suivante. Leurs tracés se dessinent à l'arrivée (composant
- * `Fil`) ; sans JavaScript ni en réduction des mouvements, ils sont
- * entièrement tracés.
+ * de la section suivante. Leurs tracés suivent le scroll (composant `Fil`,
+ * ScrollTrigger en scrub) ; sans JavaScript ni en réduction des mouvements,
+ * ils sont entièrement tracés.
  */
 export default function AProposHero({ title = '', text = [] }) {
   const scope = useRef(null)

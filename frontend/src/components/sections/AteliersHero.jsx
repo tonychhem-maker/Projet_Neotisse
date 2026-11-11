@@ -15,8 +15,9 @@ gsap.registerPlugin(useGSAP)
  * et la flèche vers le bas.
  *
  * Animation d'arrivée : « ATELIERS » glisse depuis la gauche et « SUR-MESURE »
- * depuis la droite, le fil se dessine en parallèle (composant `Fil`).
- * Pas de pin ni de scrub. Rien n'est animé en réduction des mouvements.
+ * depuis la droite. Le fil, lui, suit le scroll (composant `Fil`, en scrub).
+ * Pas de pin ni de scrub sur le titre. Rien n'est animé en réduction des
+ * mouvements.
  */
 export default function AteliersHero({ title = '', words = [], text = [], imageSrc }) {
   const scope = useRef(null)

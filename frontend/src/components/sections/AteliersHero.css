@@ -12,7 +12,7 @@
 }
 
 /* Fil textile : gabarit de rendu Figma (126,110,461×556, ramené sous
-   l'en-tête de 80px). Le tracé se dessine à l'arrivée (voir `Fil`). */
+   l'en-tête de 80px). Le tracé suit le scroll (voir `Fil`). */
 .ateliers-hero__fil {
   position: absolute;
   left: 8.75cqw; /* 126px */

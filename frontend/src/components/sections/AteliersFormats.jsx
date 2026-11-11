@@ -18,7 +18,8 @@ import './AteliersFormats.css'
  * mouvements, le basculement reste instantané.
  *
  * Le fil du milieu ne traverse que les images 2 et 3 : il n'apparaît qu'une
- * fois déplié, et se dessine pendant que le contenu se déroule.
+ * fois déplié, puis se trace en suivant le scroll pendant que le contenu se
+ * déroule sous les yeux.
  *
  * Aucune autre animation au scroll ici : cette section est le cœur de la
  * page, son contenu visible doit apparaître sans détour. Les images sont
