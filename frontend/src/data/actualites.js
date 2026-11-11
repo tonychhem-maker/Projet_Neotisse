@@ -16,7 +16,7 @@ import carteFestival from '../assets/actualites/carte-festival.jpg'
 
 export const ACTUALITES_FALLBACK = {
   page: {
-    heroTitle: 'Actualités et événements',
+    heroTitle: 'Actualités et\nevénements',
     introText:
       'Initiez-vous au tissage aux tablettes et réalisez votre propre galon ! Cette technique ancienne permet de produire des bandes textiles étroites à l’aide de petites tablettes percées, qui servent à organiser et à manipuler les fils. Au fil de l’atelier, les participants découvrent le fonctionnement de cet outil, comprennent le principe de l’entrecroisement des fils et expérimentent les gestes nécessaires à la réalisation d’un galon.',
     moreLink: {

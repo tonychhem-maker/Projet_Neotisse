@@ -1,3 +1,7 @@
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import { gsap } from '../lib/smoothScroll'
+import { useReveal, useTextReveal } from '../lib/reveal'
 import Fil from '../components/ui/Fil'
 import ActualitesListe from '../components/sections/ActualitesListe'
 import { ACTUALITES_FALLBACK } from '../data/actualites'
@@ -6,10 +10,12 @@ import filDroit from '../assets/actualites/fil-droite.svg?raw'
 import { ACTUALITES_QUERY, useSanityContent } from '../lib/queries'
 import './Actualites.css'
 
+gsap.registerPlugin(useGSAP)
+
 /**
  * Page Actualités, calée sur la maquette (frame « Actualités » 424:683,
  * 1440×2307) : titre et texte d'introduction centrés, deux cartes
- * d'événement (photo teintée, date en capitales, structure + titre, pastille
+ * d'événement (photo teintée, date en capitales, sur-titre + titre, pastille
  * « voir plus »), lien « voir plus d'événements » puis bande dégradée avant
  * le pied de page.
  *
@@ -21,6 +27,12 @@ import './Actualites.css'
  * leur tracé suit le scroll (composant `Fil`), sans jamais gêner la lecture
  * ni les interactions. La maquette double le fil de gauche à l'identique :
  * un seul suffit au rendu.
+ *
+ * Animations (même langage que les autres pages) : les lignes du titre
+ * arrivent de part et d'autre et se rejoignent au centre (timeline GSAP au
+ * montage) ; le reste de la page se révèle au scroll via les hooks partagés
+ * `useTextReveal` / `useReveal` (masques de lignes et fondus montants). Rien
+ * n'est animé en réduction des mouvements.
  */
 export default function Actualites() {
   const fallback = ACTUALITES_FALLBACK
@@ -29,8 +41,48 @@ export default function Actualites() {
   const page = data.page ?? fallback.page
   const posts = Array.isArray(data.posts) && data.posts.length > 0 ? data.posts : fallback.posts
 
+  const scope = useRef(null)
+  const lignes = String(page.heroTitle ?? '').split(/\r?\n/).filter(Boolean)
+
+  useTextReveal(scope)
+  useReveal(scope)
+
+  useGSAP(
+    () => {
+      const root = scope.current
+      if (!root) return undefined
+
+      const mm = gsap.matchMedia()
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const spans = root.querySelectorAll('.actualites-hero__ligne')
+
+        // Les lignes arrivent de part et d'autre et se rejoignent au centre :
+        // la première depuis la gauche, la seconde depuis la droite, etc.
+        const assemble = gsap
+          .timeline({ delay: 0.15 })
+          .from(
+            spans,
+            {
+              x: (index) => (index % 2 === 0 ? -1 : 1) * window.innerWidth * 0.75,
+              opacity: 0,
+              duration: 1.25,
+              ease: 'expo.out',
+              stagger: 0.06,
+            },
+            0,
+          )
+
+        return () => assemble.kill()
+      })
+
+      return () => mm.revert()
+    },
+    { scope },
+  )
+
   return (
-    <div className="actualites-page cq">
+    <div className="actualites-page cq" ref={scope}>
       {/* Fils textile : centres d'encombrement relevés dans Figma (208,5 ×
           399,5 et 1358 × 1331, rotation −1,52° / −1,59° en CSS) ; au-dessus
           du texte à gauche, sous les cartes à droite, sous rien d'interactif. */}
@@ -39,7 +91,11 @@ export default function Actualites() {
 
       <header className="actualites-hero" aria-labelledby="actualites-title">
         <h1 className="actualites-hero__titre" id="actualites-title">
-          {page.heroTitle}
+          {lignes.map((ligne, index) => (
+            <span className="actualites-hero__ligne" key={`${ligne}-${index}`}>
+              {ligne}
+            </span>
+          ))}
         </h1>
         {page.introText && <p className="actualites-hero__intro">{page.introText}</p>}
       </header>

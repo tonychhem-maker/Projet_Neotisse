@@ -21,8 +21,9 @@ export const actualitesPage = defineType({
       title: 'Titre principal',
       type: 'string',
       group: 'hero',
-      initialValue: 'Actualités et événements',
-      description: 'Affiché en très grand, centré, en haut de page.',
+      initialValue: 'Actualités et\nevénements',
+      description:
+        'Affiché en très grand, centré, en haut de page. Un retour à la ligne crée une nouvelle ligne animée.',
       validation: (rule) => rule.required().max(60),
     }),
     defineField({

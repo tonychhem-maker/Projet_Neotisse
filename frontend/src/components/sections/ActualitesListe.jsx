@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { useReveal, useTextReveal } from '../../lib/reveal'
 import flecheLienUrl from '../../assets/actualites/fleche-lien.svg?url'
 import flechePastilleUrl from '../../assets/actualites/fleche-pastille.svg?url'
 import './ActualitesListe.css'
@@ -40,7 +42,7 @@ function ActualitesCarte({ post }) {
   const mois = post.monthYear || formatMoisAnnee(post.eventDate || post.publishedAt)
 
   return (
-    <li className="actualites-carte-item">
+    <li className="actualites-carte-item" data-reveal>
       <article className="actualites-carte">
         <span className="actualites-carte__media">
           {image ? (
@@ -57,8 +59,16 @@ function ActualitesCarte({ post }) {
         </p>
 
         <div className="actualites-carte__texte">
-          {kicker && <span className="actualites-carte__kicker">{kicker}</span>}
-          <h2 className="actualites-carte__titre">{post.title}</h2>
+          {kicker && (
+            <span className="actualites-carte__kicker reveal-line">
+              <span className="block">{kicker}</span>
+            </span>
+          )}
+          <h2 className="actualites-carte__titre">
+            <span className="reveal-line">
+              <span className="block">{post.title}</span>
+            </span>
+          </h2>
         </div>
 
         {post.link?.to && (
@@ -82,11 +92,23 @@ function ActualitesCarte({ post }) {
  * - la bande dégradée (1440×108, flou d'arrière-plan) qui fond la page vers
  *   le pied de page (y1854).
  *
+ * Animations au scroll (hooks partagés du site) : chaque carte monte en
+ * fondu quand elle entre dans la fenêtre (`data-reveal`), son sur-titre et
+ * son titre glissent depuis un masque (`reveal-line`) ; le lien centré fait
+ * de même. Rien n'est masqué ni animé en réduction des mouvements.
+ *
  * Les dimensions desktop sont en `cqw` (px/14.4 sur la maquette 1440).
  */
 export default function ActualitesListe({ posts = [], moreLink = {} }) {
+  const scope = useRef(null)
+
+  // Révélations au scroll : cartes et lien en fondu-montée (`data-reveal`),
+  // sur-titres et titres des cartes en lignes masquées (`reveal-line`).
+  useTextReveal(scope)
+  useReveal(scope)
+
   return (
-    <section className="actualites-liste" aria-label="Actualités et événements">
+    <section className="actualites-liste" ref={scope} aria-label="Actualités et événements">
       {posts.length > 0 && (
         <ul className="actualites-liste__cartes">
           {posts.map((post, index) => (
@@ -96,7 +118,7 @@ export default function ActualitesListe({ posts = [], moreLink = {} }) {
       )}
 
       {moreLink.label && (
-        <a className="actualites-liste__plus" href={moreLink.to || '#actualites'}>
+        <a className="actualites-liste__plus" href={moreLink.to || '#actualites'} data-reveal>
           <img className="actualites-liste__plus-fleche" src={flecheLienUrl} alt="" aria-hidden="true" />
           {moreLink.label}
         </a>

@@ -65,6 +65,12 @@
   color: #095228;
 }
 
+/* Ligne explicite du titre (le retour à la ligne du contenu Sanity) :
+   chaque ligne est animée indépendamment à l'arrivée sur la page. */
+.actualites-hero__ligne {
+  display: block;
+}
+
 .actualites-hero__intro {
   margin: 6.9444cqw auto 0; /* 100px (texte à y526) */
   max-width: 49.1667cqw; /* 708px */
