@@ -149,7 +149,9 @@ async function main() {
     const nodeId = rest[0]
     const scaleIndex = rest.indexOf('--scale')
     const scale = scaleIndex >= 0 ? rest[scaleIndex + 1] : '1'
-    const res = await api(`/v1/images/${fileKey}?ids=${nodeId}&format=png&scale=${scale}`, token)
+    const formatIndex = rest.indexOf('--format')
+    const format = formatIndex >= 0 ? rest[formatIndex + 1] : 'png'
+    const res = await api(`/v1/images/${fileKey}?ids=${nodeId}&format=${format}&scale=${scale}`, token)
     console.log(JSON.stringify(res, null, 2))
     return
   }
