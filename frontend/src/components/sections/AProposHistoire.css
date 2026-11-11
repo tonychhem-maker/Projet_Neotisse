@@ -24,6 +24,21 @@
   object-fit: cover;
 }
 
+/* Parallax de la grande image : elle ne déborde de son cadre que lorsque
+   l'animation est active (classe posée par `AProposHistoire`, jamais en
+   réduction des mouvements). L'image fait 125 % de la hauteur du cadre,
+   remontée de 12,5 % : elle peut glisser de 10 % de sa propre hauteur
+   (12,5 % du cadre) dans un sens ou l'autre sans jamais laisser de vide. */
+.a-propos-histoire__banner.is-animated {
+  overflow: hidden;
+}
+.a-propos-histoire__banner.is-animated img {
+  position: relative;
+  height: 125%;
+  top: -12.5%;
+  will-change: transform;
+}
+
 /* Mot « Neotisse » : rendu Figma (43,8|36,8 sous l'image, encre 527×115),
    Boldonse 96px, blanc à 74 %. */
 .a-propos-histoire__banner-title {
