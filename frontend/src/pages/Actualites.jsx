@@ -85,9 +85,22 @@ export default function Actualites() {
     <div className="actualites-page cq" ref={scope}>
       {/* Fils textile : centres d'encombrement relevés dans Figma (208,5 ×
           399,5 et 1358 × 1331, rotation −1,52° / −1,59° en CSS) ; au-dessus
-          du texte à gauche, sous les cartes à droite, sous rien d'interactif. */}
-      <Fil svg={filGauche} className="actualites-page__fil actualites-page__fil--gauche" />
-      <Fil svg={filDroit} className="actualites-page__fil actualites-page__fil--droite" />
+          du texte à gauche, sous les cartes à droite, sous rien d'interactif.
+          Fenêtres de tracé ajustées pour que le dessin soit visible :
+          le fil gauche est presque vide au chargement (start « top 30% »)
+          et se trace pendant les premiers tours de molette ; le fil droit
+          achève son tracé à l'approche du pied de page (end « bottom 40% »,
+          sinon il reste inachevé sur les écrans standards). */}
+      <Fil
+        svg={filGauche}
+        className="actualites-page__fil actualites-page__fil--gauche"
+        start="top 30%"
+      />
+      <Fil
+        svg={filDroit}
+        className="actualites-page__fil actualites-page__fil--droite"
+        end="bottom 40%"
+      />
 
       <header className="actualites-hero" aria-labelledby="actualites-title">
         <h1 className="actualites-hero__titre" id="actualites-title">
