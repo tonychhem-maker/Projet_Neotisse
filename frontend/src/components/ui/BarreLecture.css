@@ -3,8 +3,8 @@
   top: 23vh; /* posée comme dans la maquette (y314 d'une page 1387) */
   bottom: auto;
   height: 49vh; /* 678px de haut dans la maquette 1387 */
-  right: 2.9861cqw; /* 43px du bord droit */
-  width: max(2px, 0.2083cqw); /* 3px */
+  right: calc(43 * var(--u)); /* 43px du bord droit */
+  width: max(2px, 3 * var(--u)); /* 3px */
   background: rgba(53, 152, 95, 0.45); /* le rail, portion non remplie */
   pointer-events: none;
   z-index: 10;

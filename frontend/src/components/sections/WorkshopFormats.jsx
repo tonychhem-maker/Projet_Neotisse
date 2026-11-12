@@ -96,16 +96,16 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                   className="group flex w-full items-center justify-between border-t border-[#0b4f2a]/70 pt-4 pb-3 text-left"
                 >
                   <span className="flex items-baseline gap-9">
-                    <span className="font-sans text-[20px] text-[#2f8a55]">
+                    <span className="font-sans text-[16px] text-[#2f8a55] md:text-[calc(20*var(--u))]">
                       {format.id}
                     </span>
-                    <span className="reveal-line font-serif text-[30px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] lg:text-[34px]">
+                    <span className="reveal-line font-serif text-[24px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] md:text-[calc(30*var(--u))] lg:text-[calc(34*var(--u))]">
                       <span className="block">{format.title}</span>
                     </span>
                   </span>
                   <span
                     aria-hidden="true"
-                    className="text-[22px] text-[#2f8a55] transition-transform duration-500"
+                    className="text-[18px] text-[#2f8a55] transition-transform duration-500 md:text-[calc(22*var(--u))]"
                     style={{ transform: open ? 'rotate(180deg)' : 'none' }}
                   >
                     ↑
@@ -124,16 +124,16 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                       <img
                         src={format.image}
                         alt=""
-                        className="h-[250px] w-[300px] max-w-full object-cover"
+                        className="h-[200px] w-[240px] max-w-full object-cover md:h-[calc(250*var(--u))] md:w-[calc(300*var(--u))]"
                       />
                     )}
                     <div className="pt-4">
-                      <p className="reveal-line max-w-[300px] text-[12px] leading-[1.9] text-[#0a0a0a]">
+                      <p className="reveal-line max-w-[300px] text-[14px] leading-[1.9] text-[#0a0a0a] md:text-[calc(18*var(--u))]">
                         <span className="block">{format.text}</span>
                       </p>
                       <Link
                         to={format.link ?? '/contact'}
-                        className="mt-6 inline-flex items-center gap-2 text-[12px] font-medium text-[#0a0a0a] underline underline-offset-4"
+                        className="mt-6 inline-flex items-center gap-2 text-[12px] font-medium text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
                       >
                         CONTACTEZ-NOUS
                         <span aria-hidden="true">→</span>

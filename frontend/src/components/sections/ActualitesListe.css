@@ -5,7 +5,7 @@
   position: relative;
   z-index: 3; /* les cartes recouvrent le fil de droite, comme dans la
                  maquette (le fil est au bas de la pile) */
-  margin-top: 11.6667cqw; /* 168px sous le texte d'intro (cartes à y934) */
+  margin-top: calc(168 * var(--u)); /* 168px sous le texte d'intro (cartes à y934) */
 }
 
 /* Deux cartes d'événement (1346×359, écart 69px, collées au bord gauche). */
@@ -15,13 +15,13 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4.7917cqw; /* 69px */
+  gap: calc(69 * var(--u)); /* 69px */
 }
 
 .actualites-carte {
   position: relative;
-  width: 93.4722cqw; /* 1346px */
-  height: 24.9306cqw; /* 359px */
+  width: calc(1346 * var(--u)); /* 1346px */
+  height: calc(359 * var(--u)); /* 359px */
   background: #e4dcce;
 }
 
@@ -34,7 +34,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 46.1111cqw; /* 664px */
+  width: calc(664 * var(--u)); /* 664px */
 }
 .actualites-carte__image {
   display: block;
@@ -60,9 +60,9 @@
 /* Mois + précision de date (colonne centrale x642, largeur 305px). */
 .actualites-carte__date {
   position: absolute;
-  left: 44.5833cqw; /* 642px */
-  top: 10cqw; /* 144px */
-  width: 21.1806cqw; /* 305px */
+  left: calc(642 * var(--u)); /* 642px */
+  top: calc(144 * var(--u)); /* 144px */
+  width: calc(305 * var(--u)); /* 305px */
   margin: 0;
   text-align: center;
 }
@@ -74,18 +74,18 @@
   white-space: nowrap;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 3.3333cqw; /* 48px */
+  font-size: calc(48 * var(--u)); /* 48px */
   line-height: 1;
-  letter-spacing: -0.0667cqw; /* -0.96px */
+  letter-spacing: calc(-0.96 * var(--u)); /* -0.96px */
   text-transform: uppercase;
   color: #000;
 }
 
 .actualites-carte__jours {
   display: block;
-  margin-top: 0.8333cqw; /* 12px */
-  font-size: 1.25cqw; /* 18px */
-  line-height: 2.0833cqw; /* 30px */
+  margin-top: calc(12 * var(--u)); /* 12px */
+  font-size: calc(18 * var(--u)); /* 18px */
+  line-height: calc(30 * var(--u)); /* 30px */
   text-transform: uppercase;
   color: #000;
 }
@@ -93,40 +93,40 @@
 /* Structure / titre (colonne droite x975, largeur 455px). */
 .actualites-carte__texte {
   position: absolute;
-  left: 67.7083cqw; /* 975px */
-  top: 8.6806cqw; /* 125px */
-  width: 31.5972cqw; /* 455px */
+  left: calc(975 * var(--u)); /* 975px */
+  top: calc(125 * var(--u)); /* 125px */
+  width: calc(455 * var(--u)); /* 455px */
 }
 
 .actualites-carte__kicker {
   display: block;
-  font-size: 1.5278cqw; /* 22px */
-  line-height: 1.6667cqw; /* 24px */
-  letter-spacing: -0.0306cqw; /* -0.44px */
+  font-size: calc(22 * var(--u)); /* 22px */
+  line-height: calc(24 * var(--u)); /* 24px */
+  letter-spacing: calc(-0.44 * var(--u)); /* -0.44px */
   color: #095228;
 }
 
 .actualites-carte__titre {
-  margin: 0.7639cqw 0 0; /* 11px */
+  margin: calc(11 * var(--u)) 0 0; /* 11px */
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 2.2222cqw; /* 32px */
-  line-height: 2.4306cqw; /* 35px */
-  letter-spacing: -0.0444cqw; /* -0.64px */
+  font-size: calc(32 * var(--u)); /* 32px */
+  line-height: calc(35 * var(--u)); /* 35px */
+  letter-spacing: calc(-0.64 * var(--u)); /* -0.64px */
   color: #000;
 }
 
 /* Lien « voir plus » de la carte : texte + pastille verte à chevron. */
 .actualites-carte__lien {
   position: absolute;
-  left: 50.2083cqw; /* 723px */
-  top: 20.625cqw; /* 297px */
+  left: calc(723 * var(--u)); /* 723px */
+  top: calc(297 * var(--u)); /* 297px */
   display: flex;
   align-items: center;
-  gap: 1.1111cqw; /* 16px */
-  font-size: 1.4583cqw; /* 21px */
-  line-height: 1.6667cqw; /* 24px */
-  letter-spacing: 0.0347cqw; /* 0.5px */
+  gap: calc(16 * var(--u)); /* 16px */
+  font-size: calc(21 * var(--u)); /* 21px */
+  line-height: calc(24 * var(--u)); /* 24px */
+  letter-spacing: calc(0.5 * var(--u)); /* 0.5px */
   color: #35985f;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -142,21 +142,21 @@
 }
 
 .actualites-carte__pastille {
-  width: 2.7083cqw; /* 39px */
-  height: 2.8472cqw; /* 41px */
+  width: calc(39 * var(--u)); /* 39px */
+  height: calc(41 * var(--u)); /* 41px */
 }
 
 /* Lien « voir plus d'événements » centré sous les cartes. */
 .actualites-liste__plus {
-  margin: 5.5556cqw auto 0; /* 80px (lien à y1801) */
+  margin: calc(80 * var(--u)) auto 0; /* 80px (lien à y1801) */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.6667cqw; /* 24px */
+  gap: calc(24 * var(--u)); /* 24px */
   width: fit-content;
-  font-size: 1.4583cqw; /* 21px */
-  line-height: 1.6667cqw; /* 24px */
-  letter-spacing: 0.0347cqw; /* 0.5px */
+  font-size: calc(21 * var(--u)); /* 21px */
+  line-height: calc(24 * var(--u)); /* 24px */
+  letter-spacing: calc(0.5 * var(--u)); /* 0.5px */
   color: #35985f;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -172,14 +172,14 @@
 }
 
 .actualites-liste__plus-fleche {
-  width: 2.9167cqw; /* 42px */
-  height: 1.0417cqw; /* 15px */
+  width: calc(42 * var(--u)); /* 42px */
+  height: calc(15 * var(--u)); /* 15px */
 }
 
 /* Bande dégradée qui fond la page vers le pied de page (1440×108). */
 .actualites-liste__bande {
-  margin-top: 2.0139cqw; /* 29px (bande à y1854) */
-  height: 7.5cqw; /* 108px */
+  margin-top: calc(29 * var(--u)); /* 29px (bande à y1854) */
+  height: calc(108 * var(--u)); /* 108px */
   background: linear-gradient(
     180deg,
     #f4efe6 0%,

@@ -2,13 +2,13 @@
    (frame « A propos » 424:445, 1440×4027 ; la bannière va de y80 à y890,
    soit 810px).
 
-   Toutes les dimensions desktop sont exprimées en `cqw` (1cqw = 1/100 de la
+   Toutes les dimensions desktop sont exprimées en `calc(14.4 * var(--u))` (= 1/100 de la
    largeur de la page, soit px/14.4 pour la maquette 1440) : la section reste
    homothétique à la maquette à n'importe quelle largeur ≥861px. */
 
 .a-propos-hero {
   position: relative;
-  height: 56.25cqw; /* 810px */
+  height: calc(810 * var(--u)); /* 810px */
   background: #f4efe6;
 }
 
@@ -17,10 +17,10 @@
    sa partie haute est simplement recouverte). */
 .a-propos-hero__fil--droite {
   position: absolute;
-  left: 70.7361cqw; /* 1018px */
+  left: calc(1018.6 * var(--u)); /* 1018px */
   top: 0;
-  width: 32.0139cqw; /* 461px */
-  height: 38.8194cqw; /* 559px */
+  width: calc(461 * var(--u)); /* 461px */
+  height: calc(559 * var(--u)); /* 559px */
   z-index: 0;
 }
 
@@ -29,10 +29,10 @@
    poursuit derrière la grande image de la section suivante. */
 .a-propos-hero__fil--gauche {
   position: absolute;
-  left: -19.9861cqw; /* -288px */
-  top: 24.6528cqw; /* 355px */
-  width: 33.5417cqw; /* 483px */
-  height: 43.75cqw; /* 630px */
+  left: calc(-287.8 * var(--u)); /* -288px */
+  top: calc(355 * var(--u)); /* 355px */
+  width: calc(483 * var(--u)); /* 483px */
+  height: calc(630 * var(--u)); /* 630px */
   z-index: 0;
 }
 
@@ -40,13 +40,13 @@
 .a-propos-hero__title {
   position: absolute;
   z-index: 1;
-  left: 14.5833cqw; /* 210px */
-  top: 7.7083cqw; /* 111px */
-  width: 70.8333cqw; /* 1020px */
+  left: calc(210 * var(--u)); /* 210px */
+  top: calc(111 * var(--u)); /* 111px */
+  width: calc(1020 * var(--u)); /* 1020px */
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 4.4444cqw; /* 64px */
+  font-size: calc(64 * var(--u)); /* 64px */
   line-height: 1.92; /* 122.9px */
   letter-spacing: 0;
   text-transform: uppercase;
@@ -62,10 +62,10 @@
 .a-propos-hero__logo {
   position: absolute;
   z-index: 1;
-  left: 42.0139cqw; /* 605px */
-  top: 27.0139cqw; /* 389px */
-  width: 15.9722cqw; /* 230px */
-  height: 15.625cqw; /* 225px */
+  left: calc(605 * var(--u)); /* 605px */
+  top: calc(389 * var(--u)); /* 389px */
+  width: calc(230 * var(--u)); /* 230px */
+  height: calc(225 * var(--u)); /* 225px */
   object-fit: contain;
 }
 
@@ -73,11 +73,11 @@
 .a-propos-hero__text {
   position: absolute;
   z-index: 1;
-  left: 21.5278cqw; /* 310px */
-  top: 44.8611cqw; /* 646px */
-  width: 57.0139cqw; /* 821px */
+  left: calc(310 * var(--u)); /* 310px */
+  top: calc(646 * var(--u)); /* 646px */
+  width: calc(821 * var(--u)); /* 821px */
   text-align: center;
-  font-size: 1.6667cqw; /* 24px */
+  font-size: calc(24 * var(--u)); /* 24px */
   line-height: 1.2583; /* 30.2px */
   color: #000;
 }
@@ -89,10 +89,10 @@
 .a-propos-hero__arrow {
   position: absolute;
   z-index: 1;
-  left: 50cqw;
-  top: 53.3333cqw; /* 768px */
-  width: 1.0417cqw; /* 15px */
-  height: 2.9167cqw; /* 42px */
+  left: calc(720 * var(--u));
+  top: calc(768 * var(--u)); /* 768px */
+  width: calc(15 * var(--u)); /* 15px */
+  height: calc(42 * var(--u)); /* 42px */
   transform: translateX(-50%);
 }
 

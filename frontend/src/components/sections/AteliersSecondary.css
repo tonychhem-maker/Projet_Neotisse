@@ -7,22 +7,22 @@
 .ateliers-secondary {
   position: relative;
   /* La maquette place ces titres 148px sous le lien « voir plus ». */
-  margin-top: 10.2778cqw; /* 148px */
-  padding-left: 3.8194cqw; /* 55px */
+  margin-top: calc(148 * var(--u)); /* 148px */
+  padding-left: calc(55 * var(--u)); /* 55px */
 }
 
 .ateliers-secondary__grid {
   display: grid;
-  grid-template-columns: 46.1111cqw 49.9306cqw; /* 664px | 719px */
+  grid-template-columns: calc(664 * var(--u)) calc(719 * var(--u)); /* 664px | 719px */
 }
 
 /* Titre droit : posé à x791, soit 71px après la colonne. */
 .ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__title {
-  margin-left: 4.9306cqw; /* 71px */
+  margin-left: calc(71 * var(--u)); /* 71px */
 }
 /* Texte droit : posé à x763, soit 43px après la colonne. */
 .ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__text {
-  margin-left: 2.9861cqw; /* 43px */
+  margin-left: calc(43 * var(--u)); /* 43px */
 }
 
 /* Titres posés sur une réserve de 77px (une ligne en maquette) : le texte
@@ -30,11 +30,11 @@
    déborde visuellement sous la réserve sans repousser le texte, qui reste
    aligné à 179px du haut comme à gauche. */
 .ateliers-secondary__title {
-  height: 5.3472cqw; /* 77px */
+  height: calc(77 * var(--u)); /* 77px */
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 2.7778cqw; /* 40px */
+  font-size: calc(40 * var(--u)); /* 40px */
   line-height: 1.92; /* 76.8px */
   letter-spacing: 0;
   text-transform: uppercase;
@@ -47,9 +47,9 @@
    négative du masque ne remonte le paragraphe. */
 .ateliers-secondary__text {
   display: flow-root;
-  width: 46.1111cqw; /* 664px */
-  margin-top: 7.6944cqw; /* 110.8px */
-  font-size: 1.3889cqw; /* 20px */
+  width: calc(664 * var(--u)); /* 664px */
+  margin-top: calc(110.8 * var(--u)); /* 110.8px */
+  font-size: calc(20 * var(--u)); /* 20px */
   line-height: 1.5; /* 30px */
   color: #000;
 }
@@ -57,10 +57,10 @@
 /* Filet vertical : x720, de y2591 à y2972, dégradé vers le bas. */
 .ateliers-secondary__line {
   position: absolute;
-  left: 50cqw; /* 720px */
-  top: 4.6528cqw; /* 67px sous le début de section */
-  width: 0.1389cqw; /* 2px */
-  height: 26.4583cqw; /* 381px */
+  left: calc(720 * var(--u)); /* 720px */
+  top: calc(67 * var(--u)); /* 67px sous le début de section */
+  width: calc(2 * var(--u)); /* 2px */
+  height: calc(381 * var(--u)); /* 381px */
   background: linear-gradient(180deg, #35985f, rgba(53, 152, 95, 0));
 }
 

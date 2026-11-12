@@ -128,7 +128,7 @@ export default function Contact() {
   })
 
   return (
-    <section className="contact" ref={scope}>
+    <section className="contact cq" ref={scope}>
       <svg
         aria-hidden="true"
         className="contact-thread"

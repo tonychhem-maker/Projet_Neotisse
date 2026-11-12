@@ -51,7 +51,7 @@ export default function LaisserUnMot() {
   }
 
   return (
-    <>
+    <div className="cq">
       <PageHeader eyebrow="Livre d'or" title="Laisser un mot">
         Partagez votre expérience après un atelier Neotisse.
       </PageHeader>
@@ -59,8 +59,8 @@ export default function LaisserUnMot() {
       <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
         {status === 'success' ? (
           <div role="status" className="rounded-2xl border border-leaf bg-leaf/10 p-8 text-center">
-            <h2 className="text-2xl text-pine">Merci pour votre message !</h2>
-            <p className="mt-3 text-body">
+            <h2 className="text-[20px] md:text-[calc(24*var(--u))] text-pine">Merci pour votre message !</h2>
+            <p className="mt-3 text-[15px] md:text-[calc(20*var(--u))]">
               Votre message sera relu par l’équipe avant d’être publié dans le livre d’or.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -147,6 +147,6 @@ export default function LaisserUnMot() {
           </form>
         )}
       </section>
-    </>
+    </div>
   )
 }

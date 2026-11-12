@@ -5,8 +5,8 @@
    Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440). */
 
 .ateliers-cta {
-  margin-top: 11.6667cqw; /* 168px */
-  padding-bottom: 10.9722cqw; /* 158px */
+  margin-top: calc(168 * var(--u)); /* 168px */
+  padding-bottom: calc(158 * var(--u)); /* 158px */
   text-align: center;
 }
 
@@ -14,7 +14,7 @@
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 4.4444cqw; /* 64px */
+  font-size: calc(64 * var(--u)); /* 64px */
   line-height: 1.92; /* 122.88px */
   letter-spacing: 0;
   text-transform: uppercase;
@@ -28,9 +28,9 @@
 }
 
 .ateliers-cta__arrow {
-  width: 1.0417cqw; /* 15px */
-  height: 2.9167cqw; /* 42px */
-  margin-top: 1.8056cqw; /* 26px */
+  width: calc(15 * var(--u)); /* 15px */
+  height: calc(42 * var(--u)); /* 42px */
+  margin-top: calc(26 * var(--u)); /* 26px */
 }
 
 /* Bouton maquette : 351×53, rayon 30, texte Outfit 24px en 600. */
@@ -38,13 +38,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24.375cqw; /* 351px */
-  height: 3.6806cqw; /* 53px */
-  margin-top: 3.1944cqw; /* 46px */
-  border-radius: 2.0833cqw; /* 30px */
+  width: calc(351 * var(--u)); /* 351px */
+  height: calc(53 * var(--u)); /* 53px */
+  margin-top: calc(46 * var(--u)); /* 46px */
+  border-radius: calc(30 * var(--u)); /* 30px */
   background: #095228;
   color: #f4efe6;
-  font-size: 1.6667cqw; /* 24px */
+  font-size: calc(24 * var(--u)); /* 24px */
   font-weight: 600;
   transition: background-color 0.25s ease;
 }

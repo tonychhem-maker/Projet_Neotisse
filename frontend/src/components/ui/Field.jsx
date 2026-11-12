@@ -27,7 +27,7 @@ export default function Field({
 
   return (
     <div className={className}>
-      <label htmlFor={id} className="text-sm font-semibold text-pine">
+      <label htmlFor={id} className="text-[13px] font-semibold text-pine md:text-[calc(16*var(--u))]">
         {label}
         {required && (
           <span className="ml-1 text-leaf" aria-hidden="true">

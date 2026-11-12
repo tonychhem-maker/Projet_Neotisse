@@ -9,17 +9,17 @@
      conteneur (elle décalerait la flèche de retour, posée en absolu). */
   display: flow-root;
   background: #f4efe6;
-  margin-bottom: 3.4722cqw; /* 50px avant le pied de page (footer à y1042) */
+  margin-bottom: calc(50 * var(--u)); /* 50px avant le pied de page (footer à y1042) */
 }
 
 /* Flèche de retour : (67,168) dans la maquette, pointe vers la gauche
    (la flèche du réutilisable pointe à droite : effet miroir CSS). */
 .actualite-detail__retour {
   position: absolute;
-  left: 4.6528cqw; /* 67px */
-  top: 6.1111cqw; /* 88px sous l'en-tête */
-  width: 2.9167cqw; /* 42px */
-  height: 1.0417cqw; /* 15px */
+  left: calc(67 * var(--u)); /* 67px */
+  top: calc(88 * var(--u)); /* 88px sous l'en-tête */
+  width: calc(42 * var(--u)); /* 42px */
+  height: calc(15 * var(--u)); /* 15px */
   transform: scaleX(-1);
   transition: transform 0.25s ease;
 }
@@ -29,7 +29,7 @@
   height: 100%;
 }
 .actualite-detail__retour:hover {
-  transform: scaleX(-1) translateX(0.4167cqw); /* glisse vers la gauche */
+  transform: scaleX(-1) translateX(calc(6 * var(--u))); /* glisse vers la gauche */
 }
 .actualite-detail__retour:focus-visible {
   outline: 2px solid #095228;
@@ -40,12 +40,12 @@
 /* Titre : (184,185) 1072px, Boldonse 64px sur 123px, deux lignes
    centrées possibles selon la longueur du titre. */
 .actualite-detail__titre {
-  margin: 7.2917cqw auto 0; /* 105px sous l'en-tête */
-  max-width: 74.4444cqw; /* 1072px */
+  margin: calc(105 * var(--u)) auto 0; /* 105px sous l'en-tête */
+  max-width: calc(1072 * var(--u)); /* 1072px */
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 4.4444cqw; /* 64px */
-  line-height: 8.5417cqw; /* 123px */
+  font-size: calc(64 * var(--u)); /* 64px */
+  line-height: calc(123 * var(--u)); /* 123px */
   letter-spacing: 0;
   text-align: center;
   text-transform: uppercase;
@@ -63,8 +63,8 @@
   margin: 0;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 1.6667cqw; /* 24px */
-  line-height: 2.0833cqw; /* 30px */
+  font-size: calc(24 * var(--u)); /* 24px */
+  line-height: calc(30 * var(--u)); /* 30px */
   text-align: center;
   text-transform: uppercase;
   color: #000;
@@ -75,18 +75,18 @@
 .actualite-detail__bloc {
   display: flex;
   align-items: center;
-  gap: 9.0972cqw; /* 131px */
-  margin-top: 1.3889cqw; /* 20px sous la date */
-  margin-left: 4.6528cqw; /* 67px */
-  width: 82.9167cqw; /* 1194px */
+  gap: calc(131 * var(--u)); /* 131px */
+  margin-top: calc(20 * var(--u)); /* 20px sous la date */
+  margin-left: calc(67 * var(--u)); /* 67px */
+  width: calc(1194 * var(--u)); /* 1194px */
 }
 
 /* Image portrait 355×511 (Rectangle 52). */
 .actualite-detail__figure {
   flex: none;
   margin: 0;
-  width: 24.6528cqw; /* 355px */
-  height: 35.4861cqw; /* 511px */
+  width: calc(355 * var(--u)); /* 355px */
+  height: calc(511 * var(--u)); /* 511px */
 }
 .actualite-detail__figure img {
   display: block;
@@ -97,35 +97,35 @@
 
 /* Corps du texte : 708px, Outfit 20px/30px noir. */
 .actualite-detail__texte {
-  width: 49.1667cqw; /* 708px */
+  width: calc(708 * var(--u)); /* 708px */
 }
 .actualite-detail__texte p,
 .actualite-detail__texte li {
-  margin: 0 0 2.0833cqw; /* respiration entre les paragraphes */
+  margin: 0 0 calc(30 * var(--u)); /* respiration entre les paragraphes */
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 1.3889cqw; /* 20px */
-  line-height: 2.0833cqw; /* 30px */
+  font-size: calc(20 * var(--u)); /* 20px */
+  line-height: calc(30 * var(--u)); /* 30px */
   color: #000;
 }
 .actualite-detail__texte h3 {
-  margin: 2.7778cqw 0 1.0417cqw; /* 40px / 15px */
+  margin: calc(40 * var(--u)) 0 calc(15 * var(--u)); /* 40px / 15px */
   font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 1.6667cqw; /* 24px */
-  line-height: 2.0833cqw; /* 30px */
+  font-size: calc(24 * var(--u)); /* 24px */
+  line-height: calc(30 * var(--u)); /* 30px */
   color: #095228;
 }
 .actualite-detail__texte blockquote {
-  margin: 2.0833cqw 0;
-  padding-left: 1.3889cqw; /* 20px */
+  margin: calc(30 * var(--u)) 0;
+  padding-left: calc(20 * var(--u)); /* 20px */
   border-left: 2px solid #35985f;
   font-style: italic;
   color: #095228;
 }
 .actualite-detail__texte :is(ul, ol) {
-  margin: 0 0 2.0833cqw;
-  padding-left: 1.7361cqw; /* 25px */
+  margin: 0 0 calc(30 * var(--u));
+  padding-left: calc(25 * var(--u)); /* 25px */
 }
 .actualite-detail__texte a {
   color: #095228;

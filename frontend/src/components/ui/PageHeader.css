@@ -1,0 +1,63 @@
+/* En-tête de page générique (eyebrow, titre, chapeau). Typographie alignée
+   sur l'échelle commune de la maquette 1440px (`--u`, voir index.css) :
+   H1 64px, chapeau 20px, surtitre 16px. */
+
+.page-header {
+  border-bottom: 1px solid var(--color-sand);
+  background: color-mix(in oklab, var(--color-sand) 40%, transparent);
+}
+
+.page-header__inner {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 64px 16px;
+}
+
+@media (min-width: 768px) {
+  .page-header__inner {
+    padding: calc(80 * var(--u)) calc(32 * var(--u));
+  }
+}
+
+.page-header__eyebrow {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-leaf);
+}
+
+@media (min-width: 768px) {
+  .page-header__eyebrow {
+    margin-bottom: calc(12 * var(--u));
+    font-size: calc(16 * var(--u));
+  }
+}
+
+.page-header__title {
+  margin: 0;
+  font-size: 36px;
+  color: var(--color-pine);
+}
+
+@media (min-width: 768px) {
+  .page-header__title {
+    font-size: calc(64 * var(--u));
+    line-height: 1.35;
+  }
+}
+
+.page-header__intro {
+  margin-top: 24px;
+  max-width: 672px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .page-header__intro {
+    margin-top: calc(24 * var(--u));
+    font-size: calc(20 * var(--u));
+  }
+}

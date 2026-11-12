@@ -85,7 +85,7 @@ export default function Home() {
   }, [content.partners])
 
   return (
-    <>
+    <div className="cq">
       <Hero title={content.heroTitle ?? HERO_TITLE} lines={heroLines} />
 
       <AboutBlock
@@ -100,6 +100,6 @@ export default function Home() {
       <Partners {...partners} />
 
       <ClosingCta {...CTA_FALLBACK} />
-    </>
+    </div>
   )
 }

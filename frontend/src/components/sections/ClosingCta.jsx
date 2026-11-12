@@ -16,7 +16,7 @@ export default function ClosingCta({
   return (
     <section className="relative" ref={scope}>
       <div className="mx-auto w-full max-w-[1230px] px-10 pb-24 pt-10 text-center">
-        <h2 className="mx-auto max-w-[800px] font-serif text-[34px] uppercase leading-[1.35] text-[#0b4f2a] lg:text-display">
+        <h2 className="mx-auto max-w-[800px] font-serif text-[28px] uppercase leading-[1.35] text-[#0b4f2a] md:text-[calc(34*var(--u))] lg:text-[calc(60*var(--u))]">
           <span className="reveal-line">
             <span className="block">{titleLine1}</span>
           </span>
@@ -28,14 +28,14 @@ export default function ClosingCta({
           <span
             data-reveal
             aria-hidden="true"
-            className="text-[26px] leading-none text-[#2f8a55]"
+            className="text-[20px] leading-none text-[#2f8a55] md:text-[calc(26*var(--u))]"
           >
             ↓
           </span>
           <Link
             data-reveal
             to={to}
-            className="mt-8 inline-block rounded-full bg-[#0b4f2a] px-9 py-3 text-[13px] font-medium text-[#f4efe6] transition-colors duration-300 hover:bg-[#2f8a55]"
+            className="mt-8 inline-block rounded-full bg-[#0b4f2a] px-9 py-3 text-[13px] font-medium text-[#f4efe6] transition-colors duration-300 hover:bg-[#2f8a55] md:text-[calc(14*var(--u))]"
           >
             {label}
           </Link>

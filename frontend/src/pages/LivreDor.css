@@ -34,19 +34,19 @@
 /* Fil de la rangée de cartes : encombrement (397,1162) 467,73×608,76,
    incliné à −108,79° dans Figma (soit +108,79° en CSS, sens horaire). */
 .livre-dor-page__fil--cartes {
-  left: 25.1297cqw; /* 361,87px */
-  top: 85.478cqw; /* 1230,88px sous le haut de la page */
-  width: 37.3611cqw; /* 538px */
-  height: 21.5972cqw; /* 311px */
+  left: calc(361.87 * var(--u)); /* 361,87px */
+  top: calc(1230.88 * var(--u)); /* 1230,88px sous le haut de la page */
+  width: calc(538 * var(--u)); /* 538px */
+  height: calc(311 * var(--u)); /* 311px */
   transform: rotate(108.79deg);
 }
 
 /* Fil gauche : encombrement (−275,706) 467,73×608,76, même angle. */
 .livre-dor-page__fil--gauche {
-  left: -21.5375cqw; /* −310,14px */
-  top: 53.8111cqw; /* 774,88px */
-  width: 37.3611cqw; /* 538px */
-  height: 21.5972cqw; /* 311px */
+  left: calc(-310.14 * var(--u)); /* −310,14px */
+  top: calc(774.88 * var(--u)); /* 774,88px */
+  width: calc(538 * var(--u)); /* 538px */
+  height: calc(311 * var(--u)); /* 311px */
   transform: rotate(108.79deg);
 }
 
@@ -55,16 +55,16 @@
    bouton d'envoi (bas à y953) et à droite du lien « voir tous les
    commentaires » (centré, il s'arrête vers x820) —. L'encre du tracé ne
    remplit pas tout le SVG (viewBox 480×210, tracé de y44 à y200) : à
-   `top: 63cqw`, elle reste à plus de 60px du bouton comme des cartes,
+   `top: calc(907.2 * var(--u))`, elle reste à plus de 60px du bouton comme des cartes,
    marge qui absorbe la dérive continue (±22px, prop `float` de `Fil`).
    Le fil sort à droite de la fenêtre (rogné par la page, pas de barre
    horizontale). L'inclinaison est dessinée dans le SVG, aucune rotation
    CSS. */
 .livre-dor-page__fil--ondule {
-  left: 79cqw; /* 1137,6px */
-  top: 63cqw; /* 907,2px */
-  width: 30cqw; /* 432px */
-  height: 13.125cqw; /* 189px (ratio du viewBox 480×210) */
+  left: calc(1137.6 * var(--u)); /* 1137,6px */
+  top: calc(907.2 * var(--u)); /* 907,2px */
+  width: calc(432 * var(--u)); /* 432px */
+  height: calc(189 * var(--u)); /* 189px (ratio du viewBox 480×210) */
 }
 
 /* Les cartes recouvrent le fil du milieu : la maquette peint Frame 115

@@ -56,11 +56,31 @@
 
 /* Conteneur de requêtes de conteneur : les descendants peuvent exprimer
    leurs dimensions en `cqw`, ramenées à la largeur réelle du conteneur.
-   Utilisé par le pied de page et la page Ateliers (mise à l'échelle
-   homothétique de la maquette 1440px : 1cqw = largeur/100). */
+   Utilisé par toutes les pages (mise à l'échelle homothétique de la
+   maquette 1440px : 1cqw = largeur/100). */
 .cq {
   container-type: inline-size;
 }
+
+/* ---------------------------------------------------------------------------
+   Échelle commune de la maquette 1440px.
+
+   `--u` vaut 1px de la maquette, ramené à la largeur réelle du viewport
+   (1px maquette = 1/14.4 svw) et multiplié par le facteur global demandé
+   (0.875 ≈ -12.5% : tout le site est légèrement plus compact que la
+   maquette d'origine). Chaque valeur s'écrit `calc(N * var(--u))` où N est
+   la taille en pixels dans la maquette : ajuster le facteur ci-dessous
+   redimensionne l'ensemble du site d'un seul geste.
+
+   L'unité choisie est `svw` plutôt que `cqw` : la largeur d'un `cqw`
+   dépend de la présence de la barre de défilement (elle diffère donc
+   d'une page à l'autre), alors que `svw` donne la même base partout.
+--------------------------------------------------------------------------- */
+:root {
+  --cq-scale: 0.875;
+  --u: calc(0.0694444svw * var(--cq-scale));
+}
+
 
 /* ---------------------------------------------------------------------------
    Fil textile inline (`components/ui/Fil.jsx`).

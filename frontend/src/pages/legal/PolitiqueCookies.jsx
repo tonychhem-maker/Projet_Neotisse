@@ -3,11 +3,11 @@ import Placeholder from '../../components/ui/Placeholder'
 
 export default function PolitiqueCookies() {
   return (
-    <>
+    <div className="cq">
       <PageHeader title="Politique de cookies">
         Les cookies utilisés sur le site Neotisse et leur finalité.
       </PageHeader>
       <Placeholder label="Politique de cookies" />
-    </>
+    </div>
   )
 }

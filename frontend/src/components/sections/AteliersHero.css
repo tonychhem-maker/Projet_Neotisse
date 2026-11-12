@@ -1,13 +1,13 @@
 /* Bannière de la page Ateliers — calée au pixel sur la maquette Figma
    (frame « Ateliers » 1440×3904 ; la bannière va de y80 à y1018, soit 938px).
 
-   Toutes les dimensions desktop sont exprimées en `cqw` (1cqw = 1/100 de la
+   Toutes les dimensions desktop sont exprimées en `calc(14.4 * var(--u))` (= 1/100 de la
    largeur de la page, soit px/14.4 pour la maquette 1440) : la section reste
    homothétique à la maquette à n'importe quelle largeur ≥861px. */
 
 .ateliers-hero {
   position: relative;
-  height: 65.1389cqw; /* 938px */
+  height: calc(938 * var(--u)); /* 938px */
   background: #f4efe6;
 }
 
@@ -15,10 +15,10 @@
    l'en-tête de 80px). Le tracé suit le scroll (voir `Fil`). */
 .ateliers-hero__fil {
   position: absolute;
-  left: 8.75cqw; /* 126px */
-  top: 2.0833cqw; /* 30px */
-  width: 31.9444cqw; /* 461px */
-  height: 38.6111cqw; /* 556px */
+  left: calc(126 * var(--u)); /* 126px */
+  top: calc(30 * var(--u)); /* 30px */
+  width: calc(460 * var(--u)); /* 461px */
+  height: calc(556 * var(--u)); /* 556px */
   z-index: 0;
 }
 
@@ -26,10 +26,10 @@
 .ateliers-hero__figure {
   position: absolute;
   z-index: 1;
-  left: 38.75cqw; /* 558px */
-  top: 3.1944cqw; /* 46px */
-  width: 22.4306cqw; /* 323px */
-  height: 32.2917cqw; /* 465px */
+  left: calc(558 * var(--u)); /* 558px */
+  top: calc(46 * var(--u)); /* 46px */
+  width: calc(323 * var(--u)); /* 323px */
+  height: calc(465 * var(--u)); /* 465px */
   margin: 0;
 }
 .ateliers-hero__figure img {
@@ -43,13 +43,13 @@
 .ateliers-hero__title {
   position: absolute;
   z-index: 2;
-  left: 9.375cqw; /* 135px */
-  top: 9.4444cqw; /* 136px */
-  width: 81.25cqw; /* 1170px */
+  left: calc(135 * var(--u)); /* 135px */
+  top: calc(136 * var(--u)); /* 136px */
+  width: calc(1170 * var(--u)); /* 1170px */
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 6.6667cqw; /* 96px */
+  font-size: calc(96 * var(--u)); /* 96px */
   line-height: 1.92; /* 184.32px */
   letter-spacing: 0;
   text-transform: uppercase;
@@ -74,13 +74,13 @@
 .ateliers-hero__text {
   position: absolute;
   z-index: 2;
-  left: 24.5833cqw; /* 354px */
-  top: 36.5278cqw; /* 526px */
-  width: 50.7639cqw; /* 731px */
+  left: calc(354 * var(--u)); /* 354px */
+  top: calc(526 * var(--u)); /* 526px */
+  width: calc(731 * var(--u)); /* 731px */
   text-align: center;
-  font-size: 1.3889cqw; /* 20px */
+  font-size: calc(20 * var(--u)); /* 20px */
   line-height: 1.5; /* 30px */
-  letter-spacing: 0.1389cqw; /* 2px */
+  letter-spacing: calc(2 * var(--u)); /* 2px */
   color: #000;
 }
 .ateliers-hero__text p {
@@ -91,10 +91,10 @@
 .ateliers-hero__arrow {
   position: absolute;
   z-index: 2;
-  left: 50cqw;
-  top: 51.7361cqw; /* 745px */
-  width: 1.0417cqw; /* 15px */
-  height: 2.9167cqw; /* 42px */
+  left: calc(720 * var(--u));
+  top: calc(745 * var(--u)); /* 745px */
+  width: calc(15 * var(--u)); /* 15px */
+  height: calc(42 * var(--u)); /* 42px */
   transform: translateX(-50%);
 }
 

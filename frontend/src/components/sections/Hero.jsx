@@ -135,6 +135,11 @@ export default function Hero({
         // 3. L'indication « Scrolle » disparaît dès les premiers pixels
         tl.to(hintRef.current, { opacity: 0, ease: 'none', duration: 0.08 }, 0)
 
+        // 4. Sur la fin de l'épinglage, la scène entière s'efface : la hero se
+        //    détache ensuite en fondu (fond crème sur fond crème) au lieu de
+        //    remonter avec un titre tronqué par son bord inférieur.
+        tl.to(root.current, { autoAlpha: 0, ease: 'none', duration: 0.3 }, 1.6)
+
         return () => {
           root.current?.classList.remove('is-animated')
           tl.kill()

@@ -8,12 +8,12 @@
 
 .livre-dor-intro {
   display: grid;
-  grid-template-columns: 31.7361cqw 23.1944cqw 36.9444cqw; /* 457px | 334px | 532px */
+  grid-template-columns: calc(457 * var(--u)) calc(334 * var(--u)) calc(532 * var(--u)); /* 457px | 334px | 532px */
   align-items: start; /* chaque colonne garde sa hauteur : l'auteur vedette
                           reste à y719 (bas de sa colonne), non étiré par le
                           formulaire plus haut */
-  padding: 7.2917cqw 4.4444cqw 0 3.6806cqw; /* 105px haut (titre à y185), 64px droite, 53px gauche */
-  min-height: 62.0833cqw; /* 894px de contenu : la flèche des témoignages tombe à y1079 */
+  padding: calc(105 * var(--u)) calc(64 * var(--u)) 0 calc(53 * var(--u)); /* 105px haut (titre à y185), 64px droite, 53px gauche */
+  min-height: calc(894 * var(--u)); /* 894px de contenu : la flèche des témoignages tombe à y1079 */
   box-sizing: content-box;
 }
 
@@ -21,23 +21,23 @@
 .livre-dor-intro__left {
   display: flex;
   flex-direction: column;
-  min-height: 42.2222cqw; /* 608px : du haut du titre (y185) au bas de l'auteur (y793) */
-  max-width: 31.7361cqw; /* 457px */
+  min-height: calc(608 * var(--u)); /* 608px : du haut du titre (y185) au bas de l'auteur (y793) */
+  max-width: calc(457 * var(--u)); /* 457px */
 }
 
 .livre-dor-intro__title {
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 4.4444cqw; /* 64px */
+  font-size: calc(64 * var(--u)); /* 64px */
   line-height: 1.92; /* boîte ~123px comme dans la maquette */
   letter-spacing: 0;
   color: #095228;
 }
 
 .livre-dor-intro__rule {
-  margin-top: 4.3403cqw; /* 62.5px sous le titre (filet à y370) */
-  height: 0.2083cqw; /* 3px */
+  margin-top: calc(62.5 * var(--u)); /* 62.5px sous le titre (filet à y370) */
+  height: calc(3 * var(--u)); /* 3px */
   /* Vert moyen de la charte (#35985f, comme le lien « voir tous les
      commentaires ») : le #095228 de la maquette est trop foncé à cette
      épaisseur pour se lire comme du vert. */
@@ -48,15 +48,15 @@
    avis d'une galerie (défilement automatique, suspendu au survol). */
 .livre-dor-intro__nav {
   display: flex;
-  gap: 0.6944cqw; /* 10px */
-  margin-top: 1.7361cqw; /* 25px sous le filet */
+  gap: calc(10 * var(--u)); /* 10px */
+  margin-top: calc(25 * var(--u)); /* 25px sous le filet */
 }
 
 .livre-dor-intro__nav-btn {
   display: grid;
   place-items: center;
-  width: 2.6389cqw; /* 38px */
-  height: 2.6389cqw;
+  width: calc(38 * var(--u)); /* 38px */
+  height: calc(38 * var(--u));
   padding: 0;
   border: 1px solid rgba(9, 82, 40, 0.4);
   border-radius: 50%;
@@ -66,8 +66,8 @@
   transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 .livre-dor-intro__nav-btn svg {
-  width: 1.25cqw; /* 18px */
-  height: 1.25cqw;
+  width: calc(18 * var(--u)); /* 18px */
+  height: calc(18 * var(--u));
 }
 .livre-dor-intro__nav-btn--prev svg {
   transform: scaleX(-1); /* même glyphe, pointé vers la gauche */
@@ -91,19 +91,19 @@
 }
 
 .livre-dor-intro__quote {
-  margin: 1.4236cqw 0 0; /* 20.5px sous le filet (texte à y394) */
+  margin: calc(20.5 * var(--u)) 0 0; /* 20.5px sous le filet (texte à y394) */
 }
 .livre-dor-intro__quote p {
   margin: 0;
-  font-size: 1.25cqw; /* 18px */
-  line-height: 2.0833cqw; /* 30px */
+  font-size: calc(18 * var(--u)); /* 18px */
+  line-height: calc(30 * var(--u)); /* 30px */
   color: #095228;
 }
 
 .livre-dor-intro__author {
   display: flex;
   align-items: center;
-  gap: 1.1111cqw; /* 16px */
+  gap: calc(16 * var(--u)); /* 16px */
   /* Collé en bas de la colonne : le bas du bloc tombe à y793 dans la frame
      (auteur à y719), comme dans la maquette, quelle que soit la longueur du
      témoignage. */
@@ -111,8 +111,8 @@
 }
 .livre-dor-intro__avatar {
   box-sizing: border-box;
-  width: 5.1389cqw; /* 74px */
-  height: 5.1389cqw;
+  width: calc(74 * var(--u)); /* 74px */
+  height: calc(74 * var(--u));
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -123,7 +123,7 @@
 }
 .livre-dor-intro__name {
   margin: 0;
-  font-size: 1.6667cqw; /* 24px */
+  font-size: calc(24 * var(--u)); /* 24px */
   line-height: 1.2;
   color: #095228;
 }
@@ -133,29 +133,29 @@
   grid-column: 3;
   display: flex;
   flex-direction: column;
-  padding-left: 1.875cqw; /* 27px */
+  padding-left: calc(27 * var(--u)); /* 27px */
 }
 
 .livre-dor-intro__form-title {
-  margin: 2.0833cqw 0 0; /* 30px : titre à y215 */
+  margin: calc(30 * var(--u)) 0 0; /* 30px : titre à y215 */
   font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 2.2222cqw; /* 32px */
+  font-size: calc(32 * var(--u)); /* 32px */
   line-height: 1.25; /* boîte 40px */
   color: #095228;
 }
 
 .livre-dor-intro__field {
-  margin-top: 4.3056cqw; /* 62px : libellé « nom » à y317 */
+  margin-top: calc(62 * var(--u)); /* 62px : libellé « nom » à y317 */
   display: flex;
   flex-direction: column;
 }
 .livre-dor-intro__field--second {
-  margin-top: 4.0972cqw; /* 59px : libellé « Prénom » à y409 */
+  margin-top: calc(59 * var(--u)); /* 59px : libellé « Prénom » à y409 */
 }
 
 .livre-dor-intro__label {
-  font-size: 1.1111cqw; /* 16px */
+  font-size: calc(16 * var(--u)); /* 16px */
   line-height: 1.25; /* boîte 20px */
   color: #000;
 }
@@ -169,13 +169,13 @@
 }
 
 .livre-dor-intro__input {
-  height: 0.9028cqw; /* 13px : la maquette ne dessine que le soulignement */
+  height: calc(13 * var(--u)); /* 13px : la maquette ne dessine que le soulignement */
   padding: 0;
   border: 0;
   border-bottom: 1px solid #095228;
   background: transparent;
   font-family: var(--font-sans);
-  font-size: 1.1111cqw; /* 16px */
+  font-size: calc(16 * var(--u)); /* 16px */
   color: #095228;
 }
 .livre-dor-intro__input:focus-visible {
@@ -185,22 +185,22 @@
 
 .livre-dor-intro__message-wrap {
   position: relative;
-  margin-top: 4.3056cqw; /* 62px : zone de message à y504 */
+  margin-top: calc(62 * var(--u)); /* 62px : zone de message à y504 */
   /* la zone remonte à x844, 27px à gauche des libellés */
-  margin-left: -1.875cqw;
+  margin-left: calc(-27 * var(--u));
 }
 
 .livre-dor-intro__message {
   box-sizing: border-box;
   display: block; /* évite l'espace de ligne sous la zone (le bouton reste à y900) */
-  width: 36.9444cqw; /* 532px */
-  height: 25.5556cqw; /* 368px */
-  padding: 1.6667cqw 1.9444cqw; /* 24px | 28px */
+  width: calc(532 * var(--u)); /* 532px */
+  height: calc(368 * var(--u)); /* 368px */
+  padding: calc(24 * var(--u)) calc(28 * var(--u)); /* 24px | 28px */
   border: 0;
   background: rgba(228, 220, 206, 0.71); /* sable à 71 % */
   resize: none;
   font-family: var(--font-sans);
-  font-size: 1.1111cqw; /* 16px */
+  font-size: calc(16 * var(--u)); /* 16px */
   line-height: 1.5;
   color: #095228;
 }
@@ -213,45 +213,45 @@
 }
 
 .livre-dor-intro__error {
-  margin: 0.6944cqw 0 0; /* 10px */
-  font-size: 1.0417cqw; /* 15px */
+  margin: calc(10 * var(--u)) 0 0; /* 10px */
+  font-size: calc(15 * var(--u)); /* 15px */
   color: #b3261e;
 }
 
 .livre-dor-intro__notice {
-  margin: 1.3889cqw 0 0; /* 20px */
-  max-width: 36.9444cqw;
-  padding: 0.9722cqw 1.1111cqw; /* 14px | 16px */
+  margin: calc(20 * var(--u)) 0 0; /* 20px */
+  max-width: calc(532 * var(--u));
+  padding: calc(14 * var(--u)) calc(16 * var(--u)); /* 14px | 16px */
   border: 1px solid #e4dcce;
   background: rgba(228, 220, 206, 0.4);
-  font-size: 1.0417cqw; /* 15px */
+  font-size: calc(15 * var(--u)); /* 15px */
   color: #095228;
 }
 .livre-dor-intro__notice code {
-  padding: 0 0.2083cqw;
+  padding: 0 calc(3 * var(--u));
   border-radius: 2px;
   background: #f4efe6;
 }
 
 .livre-dor-intro__status {
-  margin: 1.3889cqw 0 0; /* 20px */
-  padding: 0.9722cqw 1.1111cqw; /* 14px | 16px */
+  margin: calc(20 * var(--u)) 0 0; /* 20px */
+  padding: calc(14 * var(--u)) calc(16 * var(--u)); /* 14px | 16px */
   border: 1px solid #35985f;
-  font-size: 1.0417cqw; /* 15px */
+  font-size: calc(15 * var(--u)); /* 15px */
   color: #095228;
 }
 
 .livre-dor-intro__submit {
   /* centré sur la zone de message (x844-1376) : centre à x1110,5 dans la
      maquette, soit 115px du bord gauche des libellés (x871) */
-  margin: 1.9444cqw 0 0 7.9861cqw; /* 28px haut (y900) */
-  width: 17.2917cqw; /* 249px */
-  height: 3.6806cqw; /* 53px */
+  margin: calc(28 * var(--u)) 0 0 calc(115 * var(--u)); /* 28px haut (y900) */
+  width: calc(249 * var(--u)); /* 249px */
+  height: calc(53 * var(--u)); /* 53px */
   border: 0;
   background: #095228;
   color: #fff;
   font-family: var(--font-sans);
-  font-size: 1.25cqw; /* 18px */
+  font-size: calc(18 * var(--u)); /* 18px */
   cursor: pointer;
   transition: background 0.25s ease;
 }

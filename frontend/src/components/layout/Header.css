@@ -11,7 +11,7 @@
   top: 0;
   z-index: 50;
   box-sizing: border-box;
-  height: 5.5556cqw; /* 80px, bord compris */
+  height: calc(80 * var(--u)); /* 80px, bord compris */
   border-bottom: 1px solid #dee5ed;
   background: #f4efe6;
 }
@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   height: 100%;
-  padding: 0 2.0833cqw; /* 30px */
+  padding: 0 calc(30 * var(--u)); /* 30px */
 }
 
 .site-header__logo {
@@ -28,22 +28,22 @@
   flex-shrink: 0;
 }
 .site-header__logo img {
-  width: 5.1389cqw; /* 74px */
-  height: 5.0694cqw; /* 73px */
+  width: calc(74 * var(--u)); /* 74px */
+  height: calc(73 * var(--u)); /* 73px */
   object-fit: contain;
 }
 
 .site-header__nav {
   min-width: 0;
-  max-width: calc(100% - 16.25cqw); /* logo + marges (30+74+160 = 264px) */
-  margin-left: 11.1111cqw; /* 160px */
+  max-width: calc(100% - calc(234 * var(--u))); /* logo + marges (30+74+160 = 264px) */
+  margin-left: calc(160 * var(--u)); /* 160px */
 }
 
 .site-header__nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 65.2778cqw; /* 941px */
+  width: calc(940 * var(--u)); /* 941px */
   max-width: 100%;
   margin: 0;
   padding: 0;
@@ -53,9 +53,9 @@
 .site-header__nav a {
   color: #095228;
   font-family: var(--font-dm);
-  font-size: 1.4583cqw; /* 21px */
+  font-size: calc(21 * var(--u)); /* 21px */
   line-height: 1.15; /* 24px */
-  letter-spacing: 0.0347cqw; /* 0.5px */
+  letter-spacing: calc(0.5 * var(--u)); /* 0.5px */
   white-space: nowrap;
   text-decoration: none;
   transition: color 0.25s ease;

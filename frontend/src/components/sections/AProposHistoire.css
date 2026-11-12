@@ -6,16 +6,16 @@
 
 .a-propos-histoire {
   position: relative;
-  margin-top: 6.3889cqw; /* 92px sous la bannière */
+  margin-top: calc(92 * var(--u)); /* 92px sous la bannière */
 }
 
 /* Grande image : (62,982,1317×517) dans la maquette. */
 .a-propos-histoire__banner {
   position: relative;
   z-index: 1;
-  width: 91.4583cqw; /* 1317px */
-  height: 35.9028cqw; /* 517px */
-  margin: 0 4.2361cqw 0 4.3056cqw; /* droite 61px, gauche 62px */
+  width: calc(1317 * var(--u)); /* 1317px */
+  height: calc(517 * var(--u)); /* 517px */
+  margin: 0 calc(61 * var(--u)) 0 calc(62 * var(--u)); /* droite 61px, gauche 62px */
 }
 .a-propos-histoire__banner img {
   display: block;
@@ -43,11 +43,11 @@
    Boldonse 96px, blanc à 74 %. */
 .a-propos-histoire__banner-title {
   position: absolute;
-  left: 3.0417cqw; /* 43.8px */
-  top: 2.5556cqw; /* 36.8px */
+  left: calc(43.8 * var(--u)); /* 43.8px */
+  top: calc(36.8 * var(--u)); /* 36.8px */
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 6.6667cqw; /* 96px */
+  font-size: calc(96 * var(--u)); /* 96px */
   line-height: 1.2; /* 115.2px, hauteur d'encre de la maquette */
   letter-spacing: 0;
   color: rgba(255, 255, 255, 0.74);
@@ -57,18 +57,18 @@
    droite (428×338, alignée sur le bord droit de la grande image). */
 .a-propos-histoire__row {
   display: grid;
-  grid-template-columns: 49.1667cqw 29.7222cqw; /* 708px | 428px */
+  grid-template-columns: calc(708 * var(--u)) calc(428 * var(--u)); /* 708px | 428px */
   justify-content: space-between;
-  margin-top: 6.5278cqw; /* 94px sous la grande image */
-  padding-left: 4.3056cqw; /* 62px */
-  padding-right: 4.2361cqw; /* 61px */
+  margin-top: calc(94 * var(--u)); /* 94px sous la grande image */
+  padding-left: calc(62 * var(--u)); /* 62px */
+  padding-right: calc(61 * var(--u)); /* 61px */
 }
 
 .a-propos-histoire__title {
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 2.7778cqw; /* 40px */
+  font-size: calc(40 * var(--u)); /* 40px */
   line-height: 1.92; /* 76.8px */
   letter-spacing: 0;
   text-transform: uppercase;
@@ -79,14 +79,14 @@
    ligne du titre fait 76.8px, l'écart vaut 21.2px. */
 .a-propos-histoire__text {
   display: flow-root;
-  margin-top: 1.4722cqw; /* 21.2px */
-  font-size: 1.3889cqw; /* 20px */
+  margin-top: calc(21.2 * var(--u)); /* 21.2px */
+  font-size: calc(20 * var(--u)); /* 20px */
   line-height: 1.5; /* 30px */
   color: #000;
 }
 
 .a-propos-histoire__figure {
-  height: 23.4722cqw; /* 338px */
+  height: calc(338 * var(--u)); /* 338px */
   margin: 0;
 }
 .a-propos-histoire__figure img {

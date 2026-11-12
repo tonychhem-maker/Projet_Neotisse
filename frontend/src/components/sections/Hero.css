@@ -1,7 +1,6 @@
 .hero {
   position: relative;
-  height: calc(100vh - 80px);
-  height: calc(100svh - 80px);
+  height: calc(100svh - 80 * var(--u));
   overflow: hidden;
   background: #f4efe6;
 }
@@ -35,10 +34,10 @@
   width: 100%;
   height: auto;
 }
-.hero .c1 { left: 4vw;  top: 4vh;  width: 15vw; }
-.hero .c2 { right: 26vw; top: 2vh;  width: 13vw; }
-.hero .c3 { left: 3vw;   top: 46vh; width: 17vw; }
-.hero .c4 { right: 2vw;  top: 30vh; width: 18vw; z-index: 4; }
+.hero .c1 { left: 4vw;  top: 4vh;  width: calc(216 * var(--u)); }
+.hero .c2 { right: 26vw; top: 2vh;  width: calc(187 * var(--u)); }
+.hero .c3 { left: 3vw;   top: 46vh; width: calc(245 * var(--u)); }
+.hero .c4 { right: 2vw;  top: 30vh; width: calc(259 * var(--u)); z-index: 4; }
 
 /* Titre */
 .hero .title {
@@ -55,7 +54,7 @@
   font-family: Anton, Impact, 'Arial Narrow', sans-serif;
   font-weight: 400;
   text-transform: uppercase;
-  font-size: min(9vw, 16vh);
+  font-size: min(calc(130 * var(--u)), 16vh);
   line-height: 0.98;
   color: #0a0a0a;
   pointer-events: none;

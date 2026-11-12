@@ -16,17 +16,17 @@
 
 .footer__inner {
   display: grid;
-  grid-template-columns: 21.25cqw 13.4722cqw 21.25cqw 1fr; /* 306 | 194 | 306 | … */
-  column-gap: 2.0833cqw; /* 30px */
+  grid-template-columns: calc(306 * var(--u)) calc(194 * var(--u)) calc(306 * var(--u)) 1fr; /* 306 | 194 | 306 | … */
+  column-gap: calc(30 * var(--u)); /* 30px */
   box-sizing: border-box;
-  min-height: 23.9583cqw; /* 345px */
-  padding: 5.4861cqw 9.8611cqw 5.4861cqw 9.8611cqw; /* 79px 142px */
-  font-size: 1.1111cqw; /* 16px */
+  min-height: calc(345 * var(--u)); /* 345px */
+  padding: calc(79 * var(--u)) calc(142 * var(--u)) calc(79 * var(--u)) calc(142 * var(--u)); /* 79px 142px */
+  font-size: calc(16 * var(--u)); /* 16px */
 }
 
 /* Colonne 1 : baseline + réseaux sociaux. */
 .footer__baseline {
-  max-width: 21.25cqw; /* 306px */
+  max-width: calc(306 * var(--u)); /* 306px */
   margin: 0;
   font-weight: 300;
   line-height: 1.875; /* 30px */
@@ -34,8 +34,8 @@
 
 .footer__socials {
   display: flex;
-  gap: 1.3889cqw; /* 20px */
-  margin: 1.3889cqw 0 0; /* 20px */
+  gap: calc(20 * var(--u)); /* 20px */
+  margin: calc(20 * var(--u)) 0 0; /* 20px */
   padding: 0;
   list-style: none;
 }
@@ -44,12 +44,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.4306cqw; /* 35px */
-  height: 2.4306cqw;
+  width: calc(35 * var(--u)); /* 35px */
+  height: calc(35 * var(--u));
   border-radius: 50%;
   background: #fff;
   color: #35985f;
-  font-size: 1.1111cqw;
+  font-size: calc(16 * var(--u));
   font-weight: 600;
   transition: background-color 0.25s ease;
 }
@@ -57,8 +57,8 @@
   background: #e4dcce;
 }
 .footer__social svg {
-  width: 1.0417cqw; /* 15px */
-  height: 1.0417cqw;
+  width: calc(15 * var(--u)); /* 15px */
+  height: calc(15 * var(--u));
 }
 
 /* Titres de colonnes (« Lien Rapide », « Blog », « Contact »). */
@@ -71,7 +71,7 @@
 .footer__col > .footer__links,
 .footer__col > .footer__post,
 .footer__col > .footer__contact {
-  margin-top: 2.1528cqw; /* 31px : titre y3638 → contenu y3669 */
+  margin-top: calc(31 * var(--u)); /* 31px : titre y3638 → contenu y3669 */
 }
 
 /* Lien rapide : chevron vert + libellé, 20px d'écart. */
@@ -80,7 +80,7 @@
   flex-direction: column;
   /* Pas de 33px entre chaque lien dans la maquette (y3669 → y3702) ; la
      ligne fait 18.4px (16px × 1.15), l'écart complète à 14.6px. */
-  gap: 1.0139cqw;
+  gap: calc(14.6 * var(--u));
   margin: 0;
   padding: 0;
   list-style: none;
@@ -89,15 +89,15 @@
 .footer__links li {
   display: flex;
   align-items: center;
-  gap: 0.4167cqw; /* 6px */
+  gap: calc(6 * var(--u)); /* 6px */
   line-height: 1.15;
 }
 
 .footer__chevron {
   display: inline-flex;
   flex-shrink: 0;
-  width: 0.9028cqw; /* 13px */
-  height: 0.9028cqw;
+  width: calc(13 * var(--u)); /* 13px */
+  height: calc(13 * var(--u));
 }
 .footer__chevron svg {
   width: 100%;
@@ -116,13 +116,13 @@
 .footer__post {
   display: flex;
   align-items: flex-start;
-  gap: 0.4167cqw; /* 6px */
+  gap: calc(6 * var(--u)); /* 6px */
 }
 
 .footer__chevron--post {
-  width: 1.0417cqw; /* 15px */
-  height: 1.0417cqw;
-  margin-top: 0.3472cqw; /* 5px */
+  width: calc(15 * var(--u)); /* 15px */
+  height: calc(15 * var(--u));
+  margin-top: calc(5 * var(--u)); /* 5px */
 }
 
 .footer__post-title {
@@ -136,8 +136,8 @@
 }
 
 .footer__post-date {
-  margin: 0.4167cqw 0 0; /* 6px */
-  font-size: 0.9028cqw; /* 13px */
+  margin: calc(6 * var(--u)) 0 0; /* 6px */
+  font-size: calc(13 * var(--u)); /* 13px */
   line-height: 1;
 }
 
@@ -145,7 +145,7 @@
 .footer__contact {
   display: flex;
   flex-direction: column;
-  gap: 1.3889cqw; /* 20px */
+  gap: calc(20 * var(--u)); /* 20px */
   margin: 0;
   padding: 0;
   list-style: none;
@@ -154,14 +154,14 @@
 .footer__contact li {
   display: flex;
   align-items: center;
-  gap: 0.9722cqw; /* 14px */
+  gap: calc(14 * var(--u)); /* 14px */
 }
 
 .footer__icon {
   display: inline-flex;
   flex-shrink: 0;
-  width: 1.7361cqw; /* 25px */
-  height: 1.7361cqw;
+  width: calc(25 * var(--u)); /* 25px */
+  height: calc(25 * var(--u));
 }
 .footer__icon svg {
   width: 100%;
@@ -171,10 +171,10 @@
 /* Logo blanc détouré : (1316,3801,163×163), rogné par les deux bords. */
 .footer__logo {
   position: absolute;
-  right: -2.7083cqw; /* -39px */
-  bottom: -4.1667cqw; /* -60px */
-  width: 11.3194cqw; /* 163px */
-  height: 11.3194cqw;
+  right: calc(-39 * var(--u)); /* -39px */
+  bottom: calc(-60 * var(--u)); /* -60px */
+  width: calc(163 * var(--u)); /* 163px */
+  height: calc(163 * var(--u));
   object-fit: contain;
   filter: brightness(0) invert(1);
   opacity: 0.92;

@@ -7,8 +7,8 @@
 
 .a-propos-equipe {
   position: relative;
-  margin-top: 8.3333cqw; /* 120px sous la section histoire */
-  padding-bottom: 5.625cqw; /* 81px avant le pied de page */
+  margin-top: calc(120 * var(--u)); /* 120px sous la section histoire */
+  padding-bottom: calc(81 * var(--u)); /* 81px avant le pied de page */
 }
 
 /* Fils du milieu : gabarits de rendu Figma (270,6|2396 et 264,5|3133 dans la
@@ -18,16 +18,16 @@
   z-index: 0;
 }
 .a-propos-equipe__fil--un {
-  left: 18.7917cqw; /* 270.6px */
-  top: 23.9583cqw; /* 345px sous le début de section */
-  width: 39.2361cqw; /* 565px */
-  height: 21.8056cqw; /* 314px */
+  left: calc(270.6 * var(--u)); /* 270.6px */
+  top: calc(345 * var(--u)); /* 345px sous le début de section */
+  width: calc(565 * var(--u)); /* 565px */
+  height: calc(314 * var(--u)); /* 314px */
 }
 .a-propos-equipe__fil--deux {
-  left: 18.3681cqw; /* 264.5px */
-  top: 75.1667cqw; /* 1082.4px sous le début de section */
-  width: 42.7083cqw; /* 615px */
-  height: 20.625cqw; /* 297px */
+  left: calc(264.5 * var(--u)); /* 264.5px */
+  top: calc(1082.4 * var(--u)); /* 1082.4px sous le début de section */
+  width: calc(615 * var(--u)); /* 615px */
+  height: calc(297 * var(--u)); /* 297px */
 }
 
 /* Fiche membre : photo | nom + fonction | biographie. La maquette pose le
@@ -37,18 +37,18 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 29.3056cqw 24.375cqw 30.0694cqw; /* 422 | 351 | 433px */
+  grid-template-columns: calc(422 * var(--u)) calc(351 * var(--u)) calc(433 * var(--u)); /* 422 | 351 | 433px */
   align-items: start;
-  padding-left: 4.3056cqw; /* 62px */
+  padding-left: calc(62 * var(--u)); /* 62px */
 }
 
 .a-propos-member + .a-propos-member {
-  margin-top: 9.3056cqw; /* 134px entre les fiches */
+  margin-top: calc(134 * var(--u)); /* 134px entre les fiches */
 }
 
 .a-propos-member__figure {
-  width: 28.5417cqw; /* 411px */
-  height: 41.1111cqw; /* 592px */
+  width: calc(411 * var(--u)); /* 411px */
+  height: calc(592 * var(--u)); /* 592px */
   margin: 0;
 }
 .a-propos-member__figure img {
@@ -62,7 +62,7 @@
   margin: 0;
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 2.7778cqw; /* 40px */
+  font-size: calc(40 * var(--u)); /* 40px */
   line-height: 1.92; /* 76.8px */
   letter-spacing: 0;
   text-transform: uppercase;
@@ -73,7 +73,7 @@
    deux lignes du nom fait 153.6px, l'écart est nul). */
 .a-propos-member__role {
   margin: 0;
-  font-size: 1.1111cqw; /* 16px */
+  font-size: calc(16 * var(--u)); /* 16px */
   line-height: 1.2625; /* 20.2px */
   text-transform: uppercase;
   color: #35985f;
@@ -82,8 +82,8 @@
 /* Biographie posée à 86px sous le haut de la fiche (y2137). */
 .a-propos-member__bio {
   display: flow-root;
-  margin: 5.9722cqw 0 0; /* 86px */
-  font-size: 1.3889cqw; /* 20px */
+  margin: calc(86 * var(--u)) 0 0; /* 86px */
+  font-size: calc(20 * var(--u)); /* 20px */
   line-height: 1.5; /* 30px */
   color: #000;
 }
@@ -96,19 +96,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.1806cqw; /* 17px */
-  margin-top: 10.4167cqw; /* 150px */
+  gap: calc(17 * var(--u)); /* 17px */
+  margin-top: calc(150 * var(--u)); /* 150px */
 }
 
 .a-propos-equipe__arrow {
-  width: 1.0417cqw; /* 15px */
-  height: 2.9167cqw; /* 42px */
+  width: calc(15 * var(--u)); /* 15px */
+  height: calc(42 * var(--u)); /* 42px */
 }
 
 .a-propos-equipe__link {
-  font-size: 1.4583cqw; /* 21px */
+  font-size: calc(21 * var(--u)); /* 21px */
   line-height: 1.15; /* 24px */
-  letter-spacing: 0.0347cqw; /* 0.5px */
+  letter-spacing: calc(0.5 * var(--u)); /* 0.5px */
   color: #35985f;
   text-decoration: underline;
   text-underline-offset: 4px;

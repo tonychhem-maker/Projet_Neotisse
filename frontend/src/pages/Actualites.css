@@ -31,19 +31,19 @@
 /* Fil gauche : encombrement (−112,164) 641×471, sous le titre et l'intro
    (les textes de la maquette passent dessous). */
 .actualites-page__fil--gauche {
-  left: -6.7361cqw; /* centre x 208,5px */
-  top: 5.7639cqw; /* centre y 319,5px sous le haut de page */
-  width: 42.4306cqw; /* 611px */
-  height: 32.8472cqw; /* 473px */
+  left: calc(-97 * var(--u)); /* centre x 208,5px */
+  top: calc(83 * var(--u)); /* centre y 319,5px sous le haut de page */
+  width: calc(611 * var(--u)); /* 611px */
+  height: calc(473 * var(--u)); /* 473px */
   transform: rotate(-1.52deg);
 }
 
 /* Fil droit : encombrement (1058,1126) 600×410, sous les cartes. */
 .actualites-page__fil--droite {
-  left: 74.5486cqw; /* centre x 1358px */
-  top: 72.5694cqw; /* centre y 1251px */
-  width: 39.5139cqw; /* 569px */
-  height: 28.6111cqw; /* 412px */
+  left: calc(1073.5 * var(--u)); /* centre x 1358px */
+  top: calc(1045 * var(--u)); /* centre y 1251px */
+  width: calc(569 * var(--u)); /* 569px */
+  height: calc(412 * var(--u)); /* 412px */
   transform: rotate(-1.59deg);
 }
 
@@ -53,12 +53,12 @@
 --------------------------------------------------------------------------- */
 
 .actualites-hero__titre {
-  margin: 6.9444cqw auto 0; /* 100px sous le header (titre à y180) */
-  max-width: 40cqw; /* 576px */
+  margin: calc(100 * var(--u)) auto 0; /* 100px sous le header (titre à y180) */
+  max-width: calc(576 * var(--u)); /* 576px */
   font-family: 'Boldonse', var(--font-serif);
   font-weight: 400;
-  font-size: 4.4444cqw; /* 64px */
-  line-height: 8.5417cqw; /* 123px */
+  font-size: calc(64 * var(--u)); /* 64px */
+  line-height: calc(123 * var(--u)); /* 123px */
   letter-spacing: 0;
   text-align: center;
   text-transform: uppercase;
@@ -72,10 +72,10 @@
 }
 
 .actualites-hero__intro {
-  margin: 6.9444cqw auto 0; /* 100px (texte à y526) */
-  max-width: 49.1667cqw; /* 708px */
-  font-size: 1.3889cqw; /* 20px */
-  line-height: 2.0833cqw; /* 30px */
+  margin: calc(100 * var(--u)) auto 0; /* 100px (texte à y526) */
+  max-width: calc(708 * var(--u)); /* 708px */
+  font-size: calc(20 * var(--u)); /* 20px */
+  line-height: calc(30 * var(--u)); /* 30px */
   text-align: center;
   color: #000;
 }
