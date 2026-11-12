@@ -52,6 +52,12 @@
   color: #095228;
 }
 
+/* Chaque ligne explicite du titre (retour à la ligne dans le champ Sanity)
+   est un bloc animé indépendamment à l'arrivée sur la page. */
+.actualite-detail__ligne {
+  display: block;
+}
+
 /* Date : collée au titre (431 = 185 + 246), Outfit Light 24px/30px. */
 .actualite-detail__date {
   margin: 0;

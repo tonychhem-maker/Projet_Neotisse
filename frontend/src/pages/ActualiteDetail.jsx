@@ -1,6 +1,8 @@
 import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
 import { Link, useParams } from 'react-router-dom'
-import { useReveal, useTextReveal } from '../lib/reveal'
+import { useReveal } from '../lib/reveal'
+import { gsap } from '../lib/smoothScroll'
 import { formatMoisAnnee } from '../lib/dates'
 import RichText from '../components/ui/RichText'
 import BarreLecture from '../components/ui/BarreLecture'
@@ -8,6 +10,8 @@ import flecheRetourUrl from '../assets/actualites/fleche-lien.svg?url'
 import { ACTUALITES_FALLBACK } from '../data/actualites'
 import { ACTUALITE_DETAIL_QUERY, useSanityContent } from '../lib/queries'
 import './ActualiteDetail.css'
+
+gsap.registerPlugin(useGSAP)
 
 /**
  * Page détail d'une actualité, calée sur la maquette (frame « actu »
@@ -20,7 +24,9 @@ import './ActualiteDetail.css'
  * (route /actualites/:slug). Le contenu vient du document Sanity
  * « Actualité » correspondant au slug : titre, date, image de couverture
  * et corps en Portable Text ; à défaut, le repli de démonstration est
- * affiché.
+ * affiché. Le titre arrive comme sur le reste du site : ses lignes
+ * (« \n » dans le champ Sanity) surgissent de part et d'autre et se
+ * rejoignent au centre (timeline GSAP au montage, expo.out).
  *
  * La barre verte collée au bord droit (Line 24 de la maquette) se remplit
  * de vert sapin à mesure que la page défile ; elle n'existe que si le
@@ -51,8 +57,45 @@ export default function ActualiteDetail() {
     .join(' ')
 
   const scope = useRef(null)
-  useTextReveal(scope)
   useReveal(scope)
+
+  // Titre découpé en lignes (convention du site : « \n » dans le champ
+  // Sanity sépare les lignes, animées indépendamment à l'arrivée).
+  const lignesTitre = (post.title || '').replace(/\r/g, '').split('\n').filter(Boolean)
+
+  // Même arrivée de titre que les autres pages (bannière Actualités…) :
+  // les lignes partent des bords alternés et se rejoignent au centre.
+  useGSAP(
+    () => {
+      const root = scope.current
+      if (!root) return undefined
+
+      const mm = gsap.matchMedia()
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const spans = root.querySelectorAll('.actualite-detail__ligne')
+
+        const assemble = gsap
+          .timeline({ delay: 0.15 })
+          .from(
+            spans,
+            {
+              x: (index) => (index % 2 === 0 ? -1 : 1) * window.innerWidth * 0.75,
+              opacity: 0,
+              duration: 1.25,
+              ease: 'expo.out',
+              stagger: 0.06,
+            },
+            0,
+          )
+
+        return () => assemble.kill()
+      })
+
+      return () => mm.revert()
+    },
+    { scope },
+  )
 
   return (
     <div className="actualite-detail" ref={scope}>
@@ -63,8 +106,12 @@ export default function ActualiteDetail() {
       </Link>
 
       <article>
-        <h1 className="actualite-detail__titre" data-reveal>
-          {post.title}
+        <h1 className="actualite-detail__titre">
+          {lignesTitre.map((ligne, index) => (
+            <span className="actualite-detail__ligne" key={`${index}-${ligne}`}>
+              {ligne}
+            </span>
+          ))}
         </h1>
         {dateLigne && (
           <p className="actualite-detail__date" data-reveal>

@@ -15,6 +15,8 @@ export const post = defineType({
       title: 'Titre',
       type: 'string',
       group: 'content',
+      description:
+        'Sur la page détail, un passage à la ligne découpe le titre en lignes animées séparément (comme la bannière Actualités).',
       validation: (rule) => rule.required(),
     }),
     defineField({
