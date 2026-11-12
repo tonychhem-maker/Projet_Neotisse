@@ -149,6 +149,7 @@ export const ACTUALITES_QUERY = `{
   "posts": *[_type == "post"] | order(publishedAt desc) [0...1] {
     "id": _id,
     "title": title,
+    "slug": slug.current,
     "kicker": kicker,
     "category": category,
     "eventDate": eventDate,
@@ -159,6 +160,23 @@ export const ACTUALITES_QUERY = `{
       "to": coalesce(internalPath, externalUrl)
     },
     "image": coverImage ${IMAGE_PROJECTION}
+  }
+}`
+
+/**
+ * Requête de la page détail d'une actualité (frame « actu » de la maquette) :
+ * le document « Actualité » correspondant au slug du lien, avec son corps
+ * (Portable Text) en plus des champs de la carte.
+ */
+export const ACTUALITE_DETAIL_QUERY = (slug) => `{
+  "post": *[_type == "post" && slug.current == "${slug.replace(/"/g, '')}"][0]{
+    "title": title,
+    "kicker": kicker,
+    "eventDate": eventDate,
+    "dateLabel": dateLabel,
+    "publishedAt": publishedAt,
+    "image": coverImage ${IMAGE_PROJECTION},
+    "body": body
   }
 }`
 

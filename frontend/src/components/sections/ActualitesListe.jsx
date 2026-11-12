@@ -1,5 +1,7 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { useReveal, useTextReveal } from '../../lib/reveal'
+import { formatMoisAnnee } from '../../lib/dates'
 import flecheLienUrl from '../../assets/actualites/fleche-lien.svg?url'
 import flechePastilleUrl from '../../assets/actualites/fleche-pastille.svg?url'
 import './ActualitesListe.css'
@@ -12,15 +14,17 @@ const CATEGORIES = {
 }
 
 /**
- * Formate une date ISO en « octobre 2027 » (mois + année de la carte).
- * On garde la partie calendrier UTC de la date, placée à midi local pour
- * que les fuseaux négatifs ne la fassent pas reculer d'un jour.
+ * Lien générique : `<Link>` de React Router pour une page du site (le
+ * « voir plus » ouvre la page détail), `<a>` pour une adresse externe.
+ * Les autres props (className, data-reveal…) passent à l'élément rendu.
  */
-function formatMoisAnnee(iso) {
-  if (!iso) return null
-  const date = new Date(`${String(iso).slice(0, 10)}T12:00:00`)
-  if (Number.isNaN(date.getTime())) return null
-  return new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(date)
+function Lien({ to, ...rest }) {
+  if (!to) return null
+  return to.startsWith('/') ? (
+    <Link to={to} {...rest} />
+  ) : (
+    <a href={to} {...rest} />
+  )
 }
 
 /**
@@ -40,6 +44,9 @@ function ActualitesCarte({ post }) {
   const kicker = post.kicker || (post.category ? `${CATEGORIES[post.category]} -` : null)
   // Mois affiché : date de l'événement, sinon date de publication.
   const mois = post.monthYear || formatMoisAnnee(post.eventDate || post.publishedAt)
+  // Destination du « voir plus » : le lien manuel gagne (billetterie...),
+  // sinon la page détail de l'actualité quand elle a un slug.
+  const lieu = post.link?.to || (post.slug ? `/actualites/${post.slug}` : null)
 
   return (
     <li className="actualites-carte-item" data-reveal>
@@ -71,11 +78,11 @@ function ActualitesCarte({ post }) {
           </h2>
         </div>
 
-        {post.link?.to && (
-          <a className="actualites-carte__lien" href={post.link.to}>
-            {post.link.label || 'voir plus'}
+        {lieu && (
+          <Lien to={lieu} className="actualites-carte__lien">
+            {post.link?.label || 'voir plus'}
             <img className="actualites-carte__pastille" src={flechePastilleUrl} alt="" aria-hidden="true" />
-          </a>
+          </Lien>
         )}
       </article>
     </li>
@@ -118,10 +125,10 @@ export default function ActualitesListe({ posts = [], moreLink = {} }) {
       )}
 
       {moreLink.label && (
-        <a className="actualites-liste__plus" href={moreLink.to || '#actualites'} data-reveal>
+        <Lien to={moreLink.to || '#actualites'} className="actualites-liste__plus" data-reveal>
           <img className="actualites-liste__plus-fleche" src={flecheLienUrl} alt="" aria-hidden="true" />
           {moreLink.label}
-        </a>
+        </Lien>
       )}
 
       <div className="actualites-liste__bande" aria-hidden="true" />

@@ -1,0 +1,26 @@
+.barre-lecture {
+  position: fixed;
+  top: 23vh; /* posée comme dans la maquette (y314 d'une page 1387) */
+  bottom: auto;
+  height: 49vh; /* 678px de haut dans la maquette 1387 */
+  right: 2.9861cqw; /* 43px du bord droit */
+  width: max(2px, 0.2083cqw); /* 3px */
+  background: rgba(53, 152, 95, 0.45); /* le rail, portion non remplie */
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Sinon se remplit de vert sapin (GSAP scrub, origine en haut). */
+.barre-lecture__rempli {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #095228;
+}
+
+/* Décor desktop : pas de barre de lecture sous les écrans étroits. */
+@media (max-width: 860px) {
+  .barre-lecture {
+    display: none;
+  }
+}

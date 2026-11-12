@@ -16,6 +16,7 @@
 - [x] Créer les éléments communs : navigation, pied de page et boutons d'action.
 - [x] Réaliser la page d'accueil : présentation de l'association, aperçu des ateliers et disponibilités.
 - [x] Réaliser les pages définies dans le plan du site : ateliers de médiation textile, à propos (équipe incluse), actualités, déplacements, contact et livre d'or.
+- [x] Réaliser la page détail d'une actualité (cible des « voir plus » des cartes, maquette « actu ») : flèche de retour, corps en texte riche Sanity, barre verte de progression de lecture qui se remplit au scroll (uniquement si la page défile).
 - [x] Créer les pages légales : mentions légales, politique de confidentialité et politique de cookies.
 - [ ] Ajouter et intégrer les assets validés.
 - [x] Mettre en place les animations au scroll (Lenis + GSAP ScrollTrigger) en respectant `prefers-reduced-motion`.
@@ -27,6 +28,6 @@
 - [ ] Vérifier les liens, la navigation, les formulaires et l'affichage du contenu provenant de Sanity.
 - [ ] Tester les pages sur mobile et desktop et corriger les problèmes relevés.
 - [ ] Remplacer les contenus fictifs du livre d'or par les vrais témoignages (saisie de la page + modération des avis dans Sanity).
-- [ ] Remplacer les contenus fictifs des actualités par les vraies publications (documents « Page Actualités » et « Actualité » dans Sanity : titre, résumé, date, image de couverture, lien).
+- [ ] Remplacer les contenus fictifs des actualités par les vraies publications (documents « Page Actualités » et « Actualité » dans Sanity : titre, slug, résumé, sur-titre, date, image de couverture, corps en texte riche, lien).
 - [ ] Renseigner les variables d'environnement de production (endpoint Formspree du livre d'or, projet Sanity).
 - [ ] Faire la mise en ligne.

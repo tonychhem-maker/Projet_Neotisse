@@ -4,6 +4,7 @@ import Header from './components/layout/Header'
 import { ScrollToTop } from './components/layout/ScrollToTop'
 import APropos from './pages/APropos'
 import Actualites from './pages/Actualites'
+import ActualiteDetail from './pages/ActualiteDetail'
 import Ateliers from './pages/Ateliers'
 import Contact from './pages/Contact'
 import Deplacements from './pages/Deplacements'
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/ateliers-de-mediation-textile" element={<Ateliers />} />
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/actualites" element={<Actualites />} />
+          <Route path="/actualites/:slug" element={<ActualiteDetail />} />
           <Route path="/deplacements" element={<Deplacements />} />
           <Route path="/partenaires" element={<Partenaires />} />
           <Route path="/contact" element={<Contact />} />

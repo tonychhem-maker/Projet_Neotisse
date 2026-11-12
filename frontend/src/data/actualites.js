@@ -27,21 +27,33 @@ export const ACTUALITES_FALLBACK = {
   posts: [
     {
       id: 'demo-1',
+      slug: 'festival-archeologie-experimentale-occitanie',
       kicker: 'Musée -',
       title: 'Festival d’Archéologie Expérimentale d’Occitanie',
       monthYear: 'octobre 2027',
       dateLabel: 'du 9 au 10',
-      link: { label: 'voir plus', to: '/actualites' },
+      link: null,
       image: { src: carteFestival, alt: '' },
     },
     {
       id: 'demo-2',
+      slug: 'festival-archeologie-experimentale-occitanie',
       kicker: 'Musée -',
       title: 'Festival d’Archéologie Expérimentale d’Occitanie',
       monthYear: 'octobre 2027',
       dateLabel: 'du 9 au 10',
-      link: { label: 'voir plus', to: '/actualites' },
+      link: null,
       image: { src: carteFestival, alt: '' },
     },
   ],
+  // Page détail de démonstration (frame « actu »), affichée pour le slug
+  // des actualités de repli tant que le back-office n'est pas rempli.
+  detail: {
+    title: 'Festival d’Archéologie Expérimentale d’Occitanie',
+    dateLabel: 'du 9 au 10',
+    eventDate: null,
+    publishedAt: '2027-10-09',
+    image: { src: carteFestival, alt: '' },
+    body: 'Initiez-vous au tissage aux tablettes et réalisez votre propre galon ! Cette technique ancienne permet de produire des bandes textiles étroites à l’aide de petites tablettes percées, qui servent à organiser et à manipuler les fils. Au fil de l’atelier, les participants découvrent le fonctionnement de cet outil, comprennent le principe de l’entrecroisement des fils et expérimentent les gestes nécessaires à la réalisation d’un galon.',
+  },
 }
