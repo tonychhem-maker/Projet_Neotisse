@@ -24,11 +24,11 @@
 }
 .deplacements-liste__defilement::-webkit-scrollbar-track {
   background: #e4dcce;
-  border-radius: calc(3 * var(--u));
+  border-radius: 0; /* harmonisation : coins droits, comme le filet de la maquette */
 }
 .deplacements-liste__defilement::-webkit-scrollbar-thumb {
   background: #095228;
-  border-radius: calc(3 * var(--u));
+  border-radius: 0;
 }
 
 .deplacements__liste {

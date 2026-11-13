@@ -41,7 +41,7 @@
   width: calc(351 * var(--u)); /* 351px */
   height: calc(53 * var(--u)); /* 53px */
   margin-top: calc(46 * var(--u)); /* 46px */
-  border-radius: calc(30 * var(--u)); /* 30px */
+  border-radius: 0; /* harmonisation : aucun rayon sur les boutons */
   background: #095228;
   color: #f4efe6;
   font-size: calc(24 * var(--u)); /* 24px */
@@ -73,7 +73,7 @@
     width: min(280px, 80vw);
     height: 46px;
     margin-top: 24px;
-    border-radius: 24px;
+    border-radius: 0;
     font-size: 16px;
   }
 }

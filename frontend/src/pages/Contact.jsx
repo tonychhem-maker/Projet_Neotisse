@@ -198,12 +198,13 @@ export default function Contact() {
                 <input
                   id="contact-lastname"
                   name="lastName"
-                  placeholder="nom"
                   autoComplete="family-name"
-                  aria-label="Nom"
                   aria-invalid={Boolean(errors.lastName)}
                   {...fieldProps('lastName')}
                 />
+                <label className="contact-field__etiquette" htmlFor="contact-lastname">
+                  nom
+                </label>
                 {errors.lastName && <p className="contact-error">{errors.lastName}</p>}
               </div>
 
@@ -211,12 +212,13 @@ export default function Contact() {
                 <input
                   id="contact-firstname"
                   name="firstName"
-                  placeholder="prénom"
                   autoComplete="given-name"
-                  aria-label="Prénom"
                   aria-invalid={Boolean(errors.firstName)}
                   {...fieldProps('firstName')}
                 />
+                <label className="contact-field__etiquette" htmlFor="contact-firstname">
+                  prénom
+                </label>
                 {errors.firstName && <p className="contact-error">{errors.firstName}</p>}
               </div>
 
@@ -225,12 +227,13 @@ export default function Contact() {
                   id="contact-email"
                   name="email"
                   type="email"
-                  placeholder="email"
                   autoComplete="email"
-                  aria-label="Email"
                   aria-invalid={Boolean(errors.email)}
                   {...fieldProps('email')}
                 />
+                <label className="contact-field__etiquette" htmlFor="contact-email">
+                  email
+                </label>
                 {errors.email && <p className="contact-error">{errors.email}</p>}
               </div>
 
@@ -238,18 +241,21 @@ export default function Contact() {
                 <input
                   id="contact-organisation"
                   name="organisation"
-                  placeholder="structure / organisation"
                   autoComplete="organization"
-                  aria-label="Structure ou organisation"
                   {...fieldProps('organisation')}
                 />
+                <label className="contact-field__etiquette" htmlFor="contact-organisation">
+                  structure / organisation
+                </label>
               </div>
 
-              <div className="contact-field contact-field--full">
+              <div className="contact-field contact-field--message">
+                <label className="contact-field__etiquette" htmlFor="contact-message">
+                  votre projet (optionnel)
+                </label>
                 <textarea
                   id="contact-message"
                   name="message"
-                  placeholder="votre projet (optionnel)"
                   aria-label="Votre projet"
                   {...fieldProps('message')}
                 />

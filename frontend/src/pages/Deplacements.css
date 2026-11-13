@@ -7,7 +7,7 @@
      verte à droite des blocs) ;
    - carte de France interactive (Leaflet) 750px collée au bord droit
      (x690→1440, y264) : un point vert par événement, bulle au survol ;
-   - carte sable 1360×387 (x41 y1017, coins 8) réunissant l'introduction
+   - carte sable 1360×387 (x41 y1017) réunissant l'introduction
      (« retrouvez nos déplacements », texte, bouton « Contactez nous ») et
      la vignette photo de la dernière actualité (467×284) marquée
      « Neotisse », qui renvoie vers la page Actualités.
@@ -121,7 +121,7 @@
   z-index: 1;
 }
 
-/* Carte sable bas de page : 1360×387 (x41, coins 8), posée sous la carte de
+/* Carte sable bas de page : 1360×387 (x41), posée sous la carte de
    France (dont le bas de tracé s'arrête à y938). Elle réunit l'introduction
    (gauche) et la vignette événement (droite). */
 .depl-events {
@@ -138,7 +138,7 @@
   margin-left: calc(1 * var(--u)); /* x41 contre un padding de page à 40 */
   padding: calc(40 * var(--u)) calc(47 * var(--u)) calc(40 * var(--u)) calc(40 * var(--u));
   background: #e4dcce;
-  border-radius: calc(8 * var(--u)); /* 8px */
+  border-radius: 0; /* harmonisation : aucun rayon sur les blocs */
 }
 
 .depl-events__texte {

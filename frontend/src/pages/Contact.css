@@ -102,7 +102,12 @@
   color: #2f8a55;
 }
 
-/* --- Formulaire --------------------------------------------------------- */
+/* --- Formulaire ---------------------------------------------------------
+   Chaque champ suit la frame Contact : une zone d'écriture propre
+   (transparente, texte noir) et, en dessous, le rectangle sable avec le
+   nom du champ — toujours visible pendant la saisie. Le message s'écrit
+   directement dans un grand rectangle sable. */
+
 .contact-form {
   max-width: 1080px;
   margin: 5.5rem auto 0;
@@ -110,14 +115,14 @@
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.75rem 4.5rem;
+  grid-template-columns: 1fr; /* champs pleine largeur, comme la maquette */
+  gap: calc(40 * var(--u));
 }
 
 .contact-field {
-  position: relative;
   display: flex;
   flex-direction: column;
+  gap: calc(52 * var(--u)); /* air entre l'écriture et son rectangle, comme la maquette */
 }
 
 .contact-field--full {
@@ -127,42 +132,53 @@
 .contact-field input,
 .contact-field textarea {
   width: 100%;
-  padding: 0.35rem 0 0.7rem;
+  min-height: calc(51 * var(--u)); /* zone d'écriture : 51px maquette */
+  padding: 0;
   border: 0;
-  border-bottom: 1.5px solid #2c2c2c;
   border-radius: 0;
   background: transparent;
   font: inherit;
-  font-size: 1rem; /* ≥ 16px : évite le zoom iOS au focus */
-  color: #0a0a0a;
+  font-size: max(1rem, calc(18 * var(--u))); /* ≥ 16px : évite le zoom iOS au focus */
+  color: #000; /* écritures en noir 100 % */
   outline: none;
-  transition: border-color 0.25s ease;
 }
 
-.contact-field textarea {
-  min-height: 7rem;
+/* Rectangle sable : le nom du champ, toujours visible sous l'écriture. */
+.contact-field__etiquette {
+  display: flex;
+  align-items: center;
+  width: calc(564 * var(--u)); /* 564px maquette */
+  max-width: 100%;
+  min-height: calc(51 * var(--u));
+  padding: 0 calc(12 * var(--u));
+  background: #e9e1d5;
+  color: #000;
+  font-size: max(1rem, calc(18 * var(--u)));
+  cursor: pointer;
+}
+
+/* Champ message : on écrit directement dans le grand rectangle sable. */
+.contact-field--message {
+  gap: calc(12 * var(--u));
+  min-height: calc(230 * var(--u)); /* 230px maquette */
+  padding: calc(16 * var(--u)) calc(20 * var(--u));
+  background: #e9e1d5;
+}
+.contact-field--message .contact-field__etiquette {
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  cursor: default;
+}
+.contact-field--message textarea {
+  min-height: calc(140 * var(--u));
   resize: vertical;
 }
 
-.contact-field input::placeholder,
-.contact-field textarea::placeholder {
-  color: #0a0a0a;
-  opacity: 1;
-}
-
-.contact-field input:hover,
-.contact-field textarea:hover {
-  border-bottom-color: #0b4f2a;
-}
-
-.contact-field input:focus,
-.contact-field textarea:focus {
-  border-bottom-color: #2f8a55;
-}
-
-.contact-field[data-invalid='true'] input,
-.contact-field[data-invalid='true'] textarea {
-  border-bottom-color: #b42318;
+/* Champ invalide : le nom du champ passe en rouge dans son rectangle. */
+.contact-field[data-invalid='true'] .contact-field__etiquette {
+  color: #b42318;
 }
 
 .contact-error {
@@ -212,7 +228,7 @@
   justify-content: center;
   padding: 1rem 2.75rem;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0; /* harmonisation : aucun rayon sur les boutons */
   background: #0b4f2a;
   color: #f4efe6;
   font: inherit;
@@ -263,6 +279,15 @@
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  .contact-field {
+    gap: 1.5rem;
+  }
+
+  .contact-field__etiquette {
+    width: 100%;
+    min-height: 2.75rem;
   }
 
   .contact-consent {

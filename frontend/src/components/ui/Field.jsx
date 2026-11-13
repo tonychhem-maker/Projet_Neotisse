@@ -1,7 +1,7 @@
 import { useId } from 'react'
 
 const fieldBase =
-  'mt-2 w-full rounded-lg border border-sand bg-white/70 px-4 py-3 text-base text-pine placeholder:text-pine/40 focus:border-leaf focus:outline-2 focus:outline-offset-1 focus:outline-leaf/40'
+  'mt-2 w-full border border-sand bg-white/70 px-4 py-3 text-base text-pine placeholder:text-pine/40 focus:border-leaf focus:outline-2 focus:outline-offset-1 focus:outline-leaf/40'
 
 export default function Field({
   label,

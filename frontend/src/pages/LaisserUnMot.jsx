@@ -58,7 +58,7 @@ export default function LaisserUnMot() {
 
       <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
         {status === 'success' ? (
-          <div role="status" className="rounded-2xl border border-leaf bg-leaf/10 p-8 text-center">
+          <div role="status" className="border border-leaf bg-leaf/10 p-8 text-center">
             <h2 className="text-[20px] md:text-[calc(24*var(--u))] text-pine">Merci pour votre message !</h2>
             <p className="mt-3 text-[15px] md:text-[calc(20*var(--u))]">
               Votre message sera relu par l’équipe avant d’être publié dans le livre d’or.
@@ -133,7 +133,7 @@ export default function LaisserUnMot() {
             )}
 
             {status === 'error' && (
-              <p role="alert" className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+              <p role="alert" className="border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
                 L’envoi a échoué. Merci de réessayer plus tard.
               </p>
             )}

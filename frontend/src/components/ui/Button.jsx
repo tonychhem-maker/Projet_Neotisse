@@ -13,7 +13,7 @@ const variants = {
 
 export default function Button({ to, href, variant = 'primary', className = '', children, ...props }) {
   const classes = [
-    'inline-flex items-center justify-center rounded-full px-6 py-3 text-[14px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:text-[calc(16*var(--u))]',
+    'inline-flex items-center justify-center px-6 py-3 text-[14px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:text-[calc(16*var(--u))]',
     variants[variant],
     className,
   ].join(' ')

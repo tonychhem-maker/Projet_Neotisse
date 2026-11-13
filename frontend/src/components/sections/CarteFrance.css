@@ -13,12 +13,12 @@
 
 /* La carte elle-même (conteneur Leaflet) : fond crème, contours des
    départements en GeoJSON (voir CarteFrance.jsx) — aucun fond de carte
-   tuilé. Coins arrondis discrets. */
+   tuilé. Harmonisation : coins droits, comme tous les blocs. */
 .carte-leaflet {
   position: absolute;
   inset: 0;
   background: #f4efe6;
-  border-radius: calc(8 * var(--u));
+  border-radius: 0;
   overflow: hidden;
   z-index: 0;
 }
@@ -70,7 +70,7 @@
   padding: 0;
   background: #f4efe6;
   border: calc(1.5 * var(--u)) solid #095228;
-  border-radius: calc(8 * var(--u));
+  border-radius: 0; /* harmonisation : aucun rayon sur les blocs */
   box-shadow: 0 calc(10 * var(--u)) calc(24 * var(--u)) rgba(9, 82, 40, 0.18);
   color: #000;
   font-family: 'Outfit', var(--font-sans);
@@ -120,7 +120,7 @@
 /* Écrans étroits : tailles fixes (l'unité --u devient trop petite). */
 @media (max-width: 860px) {
   .carte-leaflet {
-    border-radius: 8px;
+    border-radius: 0;
   }
   .carte-leaflet__point {
     width: 14px;

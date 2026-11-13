@@ -67,9 +67,10 @@
   object-fit: cover;
 }
 
-/* La deuxième image de la pile est arrondie (rayon 8px dans la maquette). */
+/* La deuxième image de la pile était arrondie dans la maquette
+   (rayon 8px) : harmonisation, plus aucun rayon sur les blocs. */
 .ateliers-format__figure--rounded img {
-  border-radius: calc(8 * var(--u)); /* 8px */
+  border-radius: 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -218,7 +219,7 @@
   }
 
   .ateliers-format__figure--rounded img {
-    border-radius: 6px;
+    border-radius: 0;
   }
 
   .ateliers-formats__fil {
