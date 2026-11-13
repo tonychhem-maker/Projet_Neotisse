@@ -20,6 +20,25 @@ Copier `.env.example` en `.env` et renseigner les identifiants Sanity :
 
 Sans ces variables, le site affiche le contenu de prévisualisation défini dans chaque page.
 
+## CORS Sanity (indispensable)
+
+Le site interroge l'API Sanity **depuis le navigateur** : le projet Sanity doit
+donc autoriser l'origine du site, sinon chaque requête échoue (blocage CORS) et
+la page affiche silencieusement son contenu de repli — comme si le back-office
+était vide. En cas de doute, ouvrir la console du navigateur : un avertissement
+`[sanity] Requête en échec` confirme le diagnostic.
+
+À configurer sur [manage.sanity.io](https://www.sanity.io/manage) → projet →
+**API → CORS origins**, Ajouter :
+
+| Origine | Usage |
+|---|---|
+| `http://localhost:5173` | Serveur de développement Vite |
+| `http://localhost:4173` | `npm run preview` |
+| `https://<domaine-de-production>` | Site déployé |
+
+(ou en ligne de commande : `npx sanity cors add http://localhost:5173`)
+
 ## Structure
 
 Le dépôt contient deux applications :
@@ -71,12 +90,35 @@ Le site n'a pas de backend : les formulaires passent par un endpoint **Formspree
 |---|---|
 | `VITE_CONTACT_FORM_ENDPOINT` | Formulaire de contact |
 | `VITE_TESTIMONIAL_FORM_ENDPOINT` | Livre d'or (facultatif, retombe sur l'endpoint contact) |
+| `VITE_TESTIMONIAL_API_ENDPOINT` | Livre d'or : URL de la fonction serverless (voir ci-dessous) |
 
 Tant que l'endpoint n'est pas renseigné, un avertissement s'affiche sous le formulaire.
 
-**Livre d'or — modération** : les messages n'y sont pas publiés automatiquement.
-Après validation dans le studio, passer le document `testimonial` de
-`status: pending` à `status: published` et renseigner `publishedAt`.
+### Livre d'or — modération
+
+**Canal principal** : si `VITE_TESTIMONIAL_API_ENDPOINT` vise la fonction
+serverless `api/submit-testimonial.js` (ex : `https://neotisse.fr/api/submit-testimonial`),
+chaque message souvenu depuis le site crée un document `testimonial` avec
+`status: pending` dans Sanity — il apparaît directement dans la file
+« à modérer » du studio. Pour le publier : passer `status: pending` à
+`status: published` et renseigner `publishedAt` (la page Livre d'or n'affiche
+que les témoignages `published`).
+
+Déploiement de la fonction (hébergeur type Vercel / Netlify) :
+
+1. Déployer `frontend/` en incluant le dossier `api/` ;
+2. Créer un token d'écriture sur manage.sanity.io → API → Tokens ;
+3. Définir côté hébergeur les variables serveur (sans préfixe `VITE_`) :
+   `SANITY_WRITE_TOKEN` (obligatoire), `SANITY_PROJECT_ID`, `SANITY_DATASET` ;
+4. Pointer `VITE_TESTIMONIAL_API_ENDPOINT` vers l'URL de la fonction et
+   reconstruire le site.
+
+Le token d'écriture ne doit **jamais** apparaître dans une variable `VITE_*`
+(incluse dans le bundle navigateur).
+
+**Canal de secours** : sans fonction serverless, le formulaire retombe sur
+Formspree — la modération se fait alors depuis la boîte mail (recopie du
+message validé dans le studio).
 
 ## Charte graphique (Tailwind)
 

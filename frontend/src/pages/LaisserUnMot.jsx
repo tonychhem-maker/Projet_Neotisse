@@ -123,10 +123,12 @@ export default function LaisserUnMot() {
               hint="Deux ou trois phrases suffisent."
             />
 
-            {!isContactFormConfigured && (
-              <p className="rounded-lg border border-sand bg-sand/40 px-4 py-3 text-sm">
+            {!isContactFormConfigured && !import.meta.env.VITE_TESTIMONIAL_API_ENDPOINT && (
+              <p className="border border-sand bg-sand/40 px-4 py-3 text-sm">
                 Le formulaire n’est pas encore relié à un service d’envoi. Renseignez
-                <code className="mx-1 rounded bg-white px-1">VITE_CONTACT_FORM_ENDPOINT</code>.
+                <code className="mx-1 bg-white px-1">VITE_TESTIMONIAL_API_ENDPOINT</code>
+                (création dans Sanity) ou
+                <code className="mx-1 bg-white px-1">VITE_CONTACT_FORM_ENDPOINT</code>.
               </p>
             )}
 
