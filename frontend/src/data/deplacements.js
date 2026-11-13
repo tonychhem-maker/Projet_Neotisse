@@ -20,7 +20,7 @@ import carteEvenement from '../assets/deplacements/carte-evenement.jpg'
 export const DEPLACEMENTS_FALLBACK = {
   page: {
     heroTitle: 'Nos prochaines mobilités',
-    introTitle: 'retrouvez nos déplacements',
+    introTitle: 'Retrouvez nos déplacements',
     introText:
       'Découvrez où Neotisse se déplace et quand, pour vous aider à planifier votre propre rendez-vous avec nous.',
     ctaLink: {

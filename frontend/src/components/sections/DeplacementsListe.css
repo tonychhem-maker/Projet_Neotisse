@@ -10,25 +10,18 @@
    la maquette 1440, voir index.css). */
 
 /* Conteneur défilant : bas aligné sur celui de la carte (516px de haut,
-   la liste commence à y464 et la carte finit à y980), barre de défilement
-   fine et verte. */
+   la liste commence à y464 et la carte finit à y980). Aucun padding latéral :
+   les entrées ont la même largeur que la barre de recherche (498px) et ne
+   rétrécissent jamais quand la barre de défilement verticale apparaît
+   (masquée : le défilement reste possible à la molette/tactile, sans
+   décalage du bord droit). Le rognage horizontal interdit tout scroll
+   horizontal, même si un texte long se présentait. */
 .deplacements-liste__defilement {
   max-height: calc(516 * var(--u)); /* 516px */
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #095228 #e4dcce;
-  padding-right: calc(14 * var(--u)); /* réserve pour la barre, hors des blocs */
-}
-.deplacements-liste__defilement::-webkit-scrollbar {
-  width: calc(6 * var(--u)); /* 6px */
-}
-.deplacements-liste__defilement::-webkit-scrollbar-track {
-  background: #e4dcce;
-  border-radius: 0; /* harmonisation : coins droits, comme le filet de la maquette */
-}
-.deplacements-liste__defilement::-webkit-scrollbar-thumb {
-  background: #095228;
-  border-radius: 0;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
 }
 
 .deplacements__liste {
@@ -100,37 +93,49 @@
   pointer-events: none;
 }
 
-/* Date « Le 2 novembre 2027 » : à x107, centrée. */
+/* Date « Le 2 novembre 2027 » : à x107, centrée. Sous-titre discret
+   (13px, graisse ordinaire) sous la ville — hiérarchie : la ville domine.
+   Bornée avant la ville (x280) : une date longue est tronquée par ellipse
+   au lieu de chevaucher quoi que ce soit. */
 .deplacements-item__date {
   position: absolute;
   left: calc(107 * var(--u)); /* 107px */
+  right: calc(218 * var(--u)); /* jusqu'à x280, juste avant la ville */
   top: 0;
   bottom: 0;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: 'Outfit', var(--font-sans);
-  font-weight: 500;
-  font-size: calc(16 * var(--u)); /* 16px */
+  font-weight: 400;
+  font-size: calc(15 * var(--u)); /* 15px */
   line-height: 1.37;
   color: #000;
-  white-space: nowrap;
   pointer-events: none;
 }
 
-/* « - Ville » : centrée verticalement, à x380. */
+/* « Ville » : élément principal de la ligne, centrée verticalement,
+   juste après l'onde textile (x288). Bornée jusqu'à 14px du bord droit :
+   un nom de ville long est tronqué par ellipse au lieu de sortir du bloc
+   (et de provoquer un défilement horizontal de la liste). */
 .deplacements-item__city {
   position: absolute;
-  left: calc(380 * var(--u)); /* 380px */
+  left: calc(288 * var(--u)); /* 288px */
+  right: calc(14 * var(--u));
   top: 0;
   bottom: 0;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: 'Outfit', var(--font-sans);
   font-weight: 500;
-  font-size: calc(27 * var(--u)); /* 27px */
+  font-size: calc(21 * var(--u)); /* 21px */
   line-height: 1.37;
   color: #000;
-  white-space: nowrap;
   pointer-events: none;
 }
 

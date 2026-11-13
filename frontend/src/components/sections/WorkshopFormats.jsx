@@ -96,16 +96,16 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                   className="group flex w-full items-center justify-between border-t border-[#0b4f2a]/70 pt-4 pb-3 text-left"
                 >
                   <span className="flex items-baseline gap-9">
-                    <span className="font-sans text-[16px] text-[#2f8a55] md:text-[calc(20*var(--u))]">
+                    <span className="font-sans text-[14px] text-[#2f8a55] md:text-[calc(16*var(--u))]">
                       {format.id}
                     </span>
-                    <span className="reveal-line font-serif text-[24px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] md:text-[calc(30*var(--u))] lg:text-[calc(34*var(--u))]">
+                    <span className="reveal-line font-serif text-[20px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] md:text-[calc(24*var(--u))] lg:text-[calc(26*var(--u))]">
                       <span className="block">{format.title}</span>
                     </span>
                   </span>
                   <span
                     aria-hidden="true"
-                    className="text-[18px] text-[#2f8a55] transition-transform duration-500 md:text-[calc(22*var(--u))]"
+                    className="text-[16px] text-[#2f8a55] transition-transform duration-500 md:text-[calc(20*var(--u))]"
                     style={{ transform: open ? 'rotate(180deg)' : 'none' }}
                   >
                     ↑
@@ -119,16 +119,9 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                   }}
                   className="overflow-hidden"
                 >
-                  <div className="grid items-start gap-10 pb-10 pl-0 md:grid-cols-[300px_1fr] md:pl-12">
-                    {format.image && (
-                      <img
-                        src={format.image}
-                        alt=""
-                        className="h-[200px] w-[240px] max-w-full object-cover md:h-[calc(250*var(--u))] md:w-[calc(300*var(--u))]"
-                      />
-                    )}
-                    <div className="pt-4">
-                      <p className="reveal-line max-w-[300px] text-[14px] leading-[1.9] text-[#0a0a0a] md:text-[calc(18*var(--u))]">
+                  <div className="grid items-start gap-10 pb-10 pl-0 md:grid-cols-[1fr_calc(300*var(--u))] md:pl-12">
+                    <div className="order-2 pt-4 md:order-1">
+                      <p className="reveal-line max-w-[600px] text-[14px] leading-[1.9] text-[#0a0a0a] md:text-[calc(17*var(--u))]">
                         <span className="block">{format.text}</span>
                       </p>
                       <Link
@@ -139,6 +132,13 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                         <span aria-hidden="true">→</span>
                       </Link>
                     </div>
+                    {format.image && (
+                      <img
+                        src={format.image}
+                        alt=""
+                        className="order-1 h-[200px] w-[240px] max-w-full object-cover md:order-2 md:h-[calc(250*var(--u))] md:w-[calc(300*var(--u))] md:justify-self-end"
+                      />
+                    )}
                   </div>
                 </div>
               </li>

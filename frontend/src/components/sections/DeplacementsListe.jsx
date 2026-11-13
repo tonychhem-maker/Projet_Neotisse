@@ -36,7 +36,7 @@ function DeplacementsItem({ item, onHighlight, onEventClick }) {
       <span className="deplacements-item__vague" aria-hidden="true" dangerouslySetInnerHTML={{ __html: filVague }} />
       <img className="deplacements-item__logo" src={logo} alt={alt} loading="lazy" />
       {date && <span className="deplacements-item__date">{date}</span>}
-      {item.city && <span className="deplacements-item__city">- {item.city}</span>}
+      {item.city && <span className="deplacements-item__city">{item.city}</span>}
     </li>
   )
 }
