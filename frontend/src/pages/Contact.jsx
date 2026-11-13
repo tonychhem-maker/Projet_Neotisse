@@ -25,11 +25,21 @@ const emptyForm = {
   firstName: '',
   lastName: '',
   email: '',
-  organisation: '',
+  subject: '',
   message: '',
   consent: false,
   honeypot: '',
 }
+
+// Objets proposés dans le menu déroulant « objet de contact ».
+const OBJETS = [
+  'Organiser un atelier',
+  'Demander des informations',
+  'Proposition de partenariat',
+  'Invitation à un événement',
+  'Presse & médias',
+  'Autre demande',
+]
 
 // Tracé du fil : deux boucles verticales qui longent la page de part et d'autre
 // du contenu, comme sur la maquette.
@@ -93,6 +103,8 @@ export default function Contact() {
     if (!form.firstName.trim()) next.firstName = 'Merci d’indiquer votre prénom.'
     if (!form.lastName.trim()) next.lastName = 'Merci d’indiquer votre nom.'
     if (!validateEmail(form.email.trim())) next.email = 'Adresse e-mail invalide.'
+    if (!form.subject) next.subject = 'Merci de choisir un objet.'
+    if (!form.message.trim()) next.message = 'Merci d’écrire votre message.'
     if (!form.consent) {
       next.consent = 'Merci de confirmer votre souhait d’échanger par mail.'
     }
@@ -194,7 +206,7 @@ export default function Contact() {
             </div>
 
             <div className="contact-grid">
-              <div className="contact-field" data-invalid={Boolean(errors.lastName)}>
+              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.lastName)}>
                 <input
                   id="contact-lastname"
                   name="lastName"
@@ -208,7 +220,7 @@ export default function Contact() {
                 {errors.lastName && <p className="contact-error">{errors.lastName}</p>}
               </div>
 
-              <div className="contact-field" data-invalid={Boolean(errors.firstName)}>
+              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.firstName)}>
                 <input
                   id="contact-firstname"
                   name="firstName"
@@ -222,7 +234,7 @@ export default function Contact() {
                 {errors.firstName && <p className="contact-error">{errors.firstName}</p>}
               </div>
 
-              <div className="contact-field" data-invalid={Boolean(errors.email)}>
+              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.email)}>
                 <input
                   id="contact-email"
                   name="email"
@@ -237,28 +249,45 @@ export default function Contact() {
                 {errors.email && <p className="contact-error">{errors.email}</p>}
               </div>
 
-              <div className="contact-field">
-                <input
-                  id="contact-organisation"
-                  name="organisation"
-                  autoComplete="organization"
-                  {...fieldProps('organisation')}
-                />
-                <label className="contact-field__etiquette" htmlFor="contact-organisation">
-                  structure / organisation
+              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.subject)}>
+                {/* `required` alimente :invalid (état « à choisir ») ; la
+                    validation reste manuelle, le formulaire est en noValidate. */}
+                <select
+                  id="contact-objet"
+                  name="subject"
+                  required
+                  aria-invalid={Boolean(errors.subject)}
+                  {...fieldProps('subject')}
+                >
+                  <option value="" disabled>
+                    Sélectionnez l’objet de votre message
+                  </option>
+                  {OBJETS.map((objet) => (
+                    <option key={objet} value={objet}>
+                      {objet}
+                    </option>
+                  ))}
+                </select>
+                <label className="contact-field__etiquette" htmlFor="contact-objet">
+                  objet de contact
                 </label>
+                {errors.subject && <p className="contact-error">{errors.subject}</p>}
               </div>
 
-              <div className="contact-field contact-field--message">
+              <div
+                className="contact-field contact-field--message contact-field--full"
+                data-invalid={Boolean(errors.message)}
+              >
                 <label className="contact-field__etiquette" htmlFor="contact-message">
-                  votre projet (optionnel)
+                  message
                 </label>
                 <textarea
                   id="contact-message"
                   name="message"
-                  aria-label="Votre projet"
+                  aria-label="Votre message"
                   {...fieldProps('message')}
                 />
+                {errors.message && <p className="contact-error">{errors.message}</p>}
               </div>
             </div>
 
@@ -288,7 +317,7 @@ export default function Contact() {
                 disabled={status === 'sending'}
                 aria-busy={status === 'sending'}
               >
-                {status === 'sending' ? 'Envoi en cours…' : 'Organiser un atelier'}
+                {status === 'sending' ? 'Envoi en cours…' : 'Envoyer'}
               </button>
 
               {status === 'error' && (

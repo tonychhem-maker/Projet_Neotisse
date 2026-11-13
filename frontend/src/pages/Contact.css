@@ -115,8 +115,8 @@
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr; /* champs pleine largeur, comme la maquette */
-  gap: calc(40 * var(--u));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* nom/prénom, email/objet côte à côte */
+  gap: calc(40 * var(--u)) calc(96 * var(--u));
 }
 
 .contact-field {
@@ -130,6 +130,7 @@
 }
 
 .contact-field input,
+.contact-field select,
 .contact-field textarea {
   width: 100%;
   min-height: calc(51 * var(--u)); /* zone d'écriture : 51px maquette */
@@ -143,11 +144,46 @@
   outline: none;
 }
 
+/* Champs courts (nom, prénom, email, objet) : l'écriture est soulignée,
+   le trait s'affirme au focus. */
+.contact-field--ligne input,
+.contact-field--ligne select {
+  border-bottom: 1.5px solid rgba(11, 79, 42, 0.4);
+  transition: border-color 0.3s ease;
+}
+
+.contact-field--ligne input:focus,
+.contact-field--ligne select:focus {
+  border-bottom-color: #2f8a55;
+}
+
+/* Menu déroulant « objet de contact » : même style que les champs, flèche
+   maison (l'apparence native est retirée), état « à choisir » en gris. */
+.contact-field--ligne select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: calc(30 * var(--u));
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%230b4f2a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 13px auto;
+}
+
+.contact-field--ligne select:invalid {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.contact-field--ligne select option {
+  color: #000;
+  background: #f4efe6;
+}
+
 /* Rectangle sable : le nom du champ, toujours visible sous l'écriture. */
 .contact-field__etiquette {
   display: flex;
   align-items: center;
-  width: calc(564 * var(--u)); /* 564px maquette */
+  width: 100%; /* le rectangle couvre sa colonne de la grille */
   max-width: 100%;
   min-height: calc(51 * var(--u));
   padding: 0 calc(12 * var(--u));
