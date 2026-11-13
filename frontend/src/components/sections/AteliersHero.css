@@ -79,9 +79,11 @@
   top: calc(566 * var(--u)); /* 526px + 40px d'air sous la photo */
   width: calc(731 * var(--u)); /* 731px */
   text-align: center;
-  font-size: calc(20 * var(--u)); /* 20px */
-  line-height: 1.5; /* 30px */
-  letter-spacing: calc(2 * var(--u)); /* 2px */
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: calc(18 * var(--u)); /* 18px, échelle de texte du site */
+  line-height: 1.6;
+  letter-spacing: normal;
   color: #000;
 }
 .ateliers-hero__text p {
@@ -137,9 +139,9 @@
     width: 100%;
     max-width: 480px;
     margin-top: 36px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.6;
-    letter-spacing: 1px;
+    letter-spacing: normal;
   }
 
   .ateliers-hero__arrow {
