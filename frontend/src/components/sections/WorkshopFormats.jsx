@@ -81,7 +81,7 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
   )
 
   return (
-    <section className="relative" ref={scope}>
+    <section className="sticky top-0" ref={scope}>
       <div className="mx-auto w-full max-w-[1230px] px-10 pb-16">
         <ul>
           {formats.map((format) => {

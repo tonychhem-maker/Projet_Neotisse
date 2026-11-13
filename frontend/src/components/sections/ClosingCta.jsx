@@ -14,7 +14,7 @@ export default function ClosingCta({
   useReveal(scope)
 
   return (
-    <section className="relative" ref={scope}>
+    <section className="relative bg-cream" ref={scope}>
       <div className="mx-auto w-full max-w-[1230px] px-10 pb-24 pt-10 text-center">
         <h2 className="mx-auto max-w-[800px] font-serif text-[28px] uppercase leading-[1.35] text-[#0b4f2a] md:text-[calc(32*var(--u))] lg:text-[calc(54*var(--u))]">
           <span className="reveal-line">
