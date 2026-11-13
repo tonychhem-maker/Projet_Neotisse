@@ -3,6 +3,14 @@ import { useGSAP } from '@gsap/react'
 import { ScrollTrigger, gsap } from '../lib/smoothScroll'
 import { isContactFormConfigured, sendContactMessage, validateEmail } from '../lib/forms'
 import { CONTACT_QUERY, useSanityContent } from '../lib/queries'
+import {
+  BoutonEnvoyer,
+  CaseCocher,
+  ChampLong,
+  ChampSelect,
+  ChampTexte,
+  Formulaire,
+} from '../components/ui/Formulaire'
 import './Contact.css'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -133,12 +141,6 @@ export default function Contact() {
     }
   }
 
-  const fieldProps = (key) => ({
-    value: form[key],
-    onChange: update(key),
-    'data-invalid': Boolean(errors[key]),
-  })
-
   return (
     <section className="contact cq" ref={scope}>
       <svg
@@ -179,20 +181,17 @@ export default function Contact() {
         </dl>
 
         {status === 'success' ? (
-          <div className="contact-form contact-status" role="status">
-            <p>{info.formSuccessMessage}</p>
-            <div className="contact-actions">
-              <button
-                type="button"
-                className="contact-submit"
-                onClick={() => setStatus('idle')}
-              >
-                Envoyer un autre message
-              </button>
-            </div>
+          <div
+            className="mx-auto mt-14 flex w-full max-w-[615px] flex-col items-center gap-6"
+            role="status"
+          >
+            <p className="text-center text-[16px] text-[#0a0a0a]">{info.formSuccessMessage}</p>
+            <BoutonEnvoyer type="button" onClick={() => setStatus('idle')}>
+              Envoyer un autre message
+            </BoutonEnvoyer>
           </div>
         ) : (
-          <form className="contact-form" onSubmit={handleSubmit} noValidate>
+          <Formulaire onSubmit={handleSubmit} className="mx-auto mt-14 w-full max-w-[615px]">
             {/* Piège à robots, invisible pour les humains */}
             <div aria-hidden="true" className="sr-only">
               <input
@@ -205,135 +204,93 @@ export default function Contact() {
               />
             </div>
 
-            <div className="contact-grid">
-              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.lastName)}>
-                <input
-                  id="contact-lastname"
+            <div className="flex flex-col gap-5">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <ChampTexte
+                  label="Nom"
+                  id="contact-nom"
                   name="lastName"
                   autoComplete="family-name"
-                  aria-invalid={Boolean(errors.lastName)}
-                  {...fieldProps('lastName')}
+                  placeholder="Votre nom"
+                  value={form.lastName}
+                  onChange={update('lastName')}
+                  erreur={errors.lastName}
                 />
-                <label className="contact-field__etiquette" htmlFor="contact-lastname">
-                  nom
-                </label>
-                {errors.lastName && <p className="contact-error">{errors.lastName}</p>}
-              </div>
-
-              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.firstName)}>
-                <input
-                  id="contact-firstname"
+                <ChampTexte
+                  label="Prénom"
+                  id="contact-prenom"
                   name="firstName"
                   autoComplete="given-name"
-                  aria-invalid={Boolean(errors.firstName)}
-                  {...fieldProps('firstName')}
+                  placeholder="Votre prénom"
+                  value={form.firstName}
+                  onChange={update('firstName')}
+                  erreur={errors.firstName}
                 />
-                <label className="contact-field__etiquette" htmlFor="contact-firstname">
-                  prénom
-                </label>
-                {errors.firstName && <p className="contact-error">{errors.firstName}</p>}
               </div>
 
-              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.email)}>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  aria-invalid={Boolean(errors.email)}
-                  {...fieldProps('email')}
-                />
-                <label className="contact-field__etiquette" htmlFor="contact-email">
-                  email
-                </label>
-                {errors.email && <p className="contact-error">{errors.email}</p>}
-              </div>
+              <ChampTexte
+                label="Email"
+                id="contact-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                placeholder="vous@exemple.fr"
+                value={form.email}
+                onChange={update('email')}
+                erreur={errors.email}
+              />
 
-              <div className="contact-field contact-field--ligne" data-invalid={Boolean(errors.subject)}>
-                {/* `required` alimente :invalid (état « à choisir ») ; la
-                    validation reste manuelle, le formulaire est en noValidate. */}
-                <select
-                  id="contact-objet"
-                  name="subject"
-                  required
-                  aria-invalid={Boolean(errors.subject)}
-                  {...fieldProps('subject')}
-                >
-                  <option value="" disabled>
-                    Sélectionnez l’objet de votre message
-                  </option>
-                  {OBJETS.map((objet) => (
-                    <option key={objet} value={objet}>
-                      {objet}
-                    </option>
-                  ))}
-                </select>
-                <label className="contact-field__etiquette" htmlFor="contact-objet">
-                  objet de contact
-                </label>
-                {errors.subject && <p className="contact-error">{errors.subject}</p>}
-              </div>
+              <ChampSelect
+                label="Objet de contact"
+                id="contact-objet"
+                name="subject"
+                options={OBJETS}
+                placeholder="Sélectionnez l’objet de votre message"
+                valeur={form.subject}
+                onChange={update('subject')}
+                erreur={errors.subject}
+              />
 
-              <div
-                className="contact-field contact-field--message contact-field--full"
-                data-invalid={Boolean(errors.message)}
-              >
-                <label className="contact-field__etiquette" htmlFor="contact-message">
-                  message
-                </label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  aria-label="Votre message"
-                  {...fieldProps('message')}
-                />
-                {errors.message && <p className="contact-error">{errors.message}</p>}
-              </div>
-            </div>
+              <ChampLong
+                label="Message"
+                id="contact-message"
+                name="message"
+                rows={6}
+                placeholder="Écrivez votre message…"
+                value={form.message}
+                onChange={update('message')}
+                erreur={errors.message}
+              />
 
-            <label className="contact-consent">
-              <input
-                type="checkbox"
+              <CaseCocher
+                label="Je confirme vouloir échanger par mail pour organiser mon activité de médiation"
+                id="contact-consent"
                 name="consent"
                 checked={form.consent}
                 onChange={update('consent')}
-                aria-invalid={Boolean(errors.consent)}
+                erreur={errors.consent}
               />
-              <span className="contact-consent-text">
-                Je confirme vouloir échanger par mail pour organiser mon activité de
-                médiation
-              </span>
-            </label>
-            {errors.consent && (
-              <p className="contact-error" style={{ textAlign: 'center' }}>
-                {errors.consent}
-              </p>
-            )}
 
-            <div className="contact-actions">
-              <button
-                type="submit"
-                className="contact-submit"
-                disabled={status === 'sending'}
-                aria-busy={status === 'sending'}
-              >
-                {status === 'sending' ? 'Envoi en cours…' : 'Envoyer'}
-              </button>
+              <div className="flex flex-col items-center gap-4 pt-2">
+                <BoutonEnvoyer disabled={status === 'sending'} aria-busy={status === 'sending'}>
+                  {status === 'sending' ? 'Envoi en cours…' : 'Envoyer'}
+                </BoutonEnvoyer>
 
-              {status === 'error' && (
-                <p className="contact-status contact-status--error" role="alert">
-                  L’envoi a échoué. Merci de réessayer ou de nous écrire par e-mail.
-                </p>
-              )}
+                {status === 'error' && (
+                  <p role="alert" className="text-center text-[14px] text-[#b42318]">
+                    L’envoi a échoué. Merci de réessayer ou de nous écrire par e-mail.
+                  </p>
+                )}
 
-              {!isContactFormConfigured && (
-                <p className="contact-status contact-status--warning">
-                  Le formulaire n’est pas encore relié à un service d’envoi :
-                  renseignez VITE_CONTACT_FORM_ENDPOINT.
-                </p>
-              )}
+                {!isContactFormConfigured && (
+                  <p className="text-center text-[14px] text-black/60">
+                    Le formulaire n’est pas encore relié à un service d’envoi :
+                    renseignez VITE_CONTACT_FORM_ENDPOINT.
+                  </p>
+                )}
+              </div>
             </div>
-          </form>
+          </Formulaire>
         )}
       </div>
     </section>

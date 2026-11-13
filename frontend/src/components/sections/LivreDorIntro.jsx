@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Honeypot from '../ui/Honeypot'
+import { BoutonEnvoyer, ChampLong, ChampTexte } from '../ui/Formulaire'
 import { gsap } from '../../lib/smoothScroll'
 import { isContactFormConfigured, sendTestimonial } from '../../lib/forms'
 import './LivreDorIntro.css'
@@ -258,82 +259,69 @@ export default function LivreDorIntro({
       <form className="livre-dor-intro__form" onSubmit={handleSubmit} noValidate>
         <h2 className="livre-dor-intro__form-title">{sectionTitle}</h2>
 
-        <div className="livre-dor-intro__field">
-          <label className="livre-dor-intro__label" htmlFor="livre-dor-nom">
-            nom
-          </label>
-          <input
-            className="livre-dor-intro__input"
-            id="livre-dor-nom"
-            name="nom"
-            type="text"
-            autoComplete="family-name"
-            value={form.nom}
-            onChange={update('nom')}
-            aria-invalid={errors.nom ? true : undefined}
-          />
-          {errors.nom && <p className="livre-dor-intro__error">{errors.nom}</p>}
-        </div>
+        <div className="mt-6 flex flex-col gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <ChampTexte
+              label="Nom"
+              id="livre-dor-nom"
+              name="nom"
+              autoComplete="family-name"
+              placeholder="Votre nom"
+              value={form.nom}
+              onChange={update('nom')}
+              erreur={errors.nom}
+            />
+            <ChampTexte
+              label="Prénom"
+              id="livre-dor-prenom"
+              name="prenom"
+              autoComplete="given-name"
+              placeholder="Votre prénom"
+              value={form.prenom}
+              onChange={update('prenom')}
+              erreur={errors.prenom}
+            />
+          </div>
 
-        <div className="livre-dor-intro__field livre-dor-intro__field--second">
-          <label className="livre-dor-intro__label" htmlFor="livre-dor-prenom">
-            Prénom
-          </label>
-          <input
-            className="livre-dor-intro__input"
-            id="livre-dor-prenom"
-            name="prenom"
-            type="text"
-            autoComplete="given-name"
-            value={form.prenom}
-            onChange={update('prenom')}
-          />
-        </div>
-
-        <div className="livre-dor-intro__message-wrap">
-          <label className="livre-dor-intro__label livre-dor-intro__label--sr" htmlFor="livre-dor-message">
-            Votre message
-          </label>
-          <textarea
-            className="livre-dor-intro__message"
+          <ChampLong
+            label="Votre message"
             id="livre-dor-message"
             name="message"
-            rows={8}
-            placeholder="Votre message"
+            rows={7}
+            placeholder="Partagez votre expérience avec Neotisse…"
             value={form.message}
             onChange={update('message')}
-            aria-invalid={errors.message ? true : undefined}
+            erreur={errors.message}
           />
-          {errors.message && <p className="livre-dor-intro__error">{errors.message}</p>}
+
+          {!isContactFormConfigured && (
+            <p className="border border-[#e4dcce] bg-[#e4dcce]/40 px-4 py-3 text-[14px] text-[#095228]">
+              Le formulaire n’est pas encore relié à un service d’envoi. Renseignez
+              <code className="bg-[#f4efe6] px-1">VITE_TESTIMONIAL_FORM_ENDPOINT</code>.
+            </p>
+          )}
+
+          {status === 'success' && (
+            <p role="status" className="border border-[#35985f] px-4 py-3 text-[14px] text-[#095228]">
+              Merci pour votre message ! Il sera relu par l’équipe avant d’être publié
+              dans le livre d’or.
+            </p>
+          )}
+          {status === 'error' && (
+            <p role="alert" className="text-[14px] text-[#b42318]">
+              L’envoi a échoué. Merci de réessayer plus tard.
+            </p>
+          )}
+
+          <BoutonEnvoyer disabled={status === 'sending'} aria-busy={status === 'sending'}>
+            {status === 'sending' ? 'Envoi en cours…' : 'Poster mon avis'}
+          </BoutonEnvoyer>
+
+          <Honeypot
+            value={form.honeypot}
+            onChange={(value) => setForm((current) => ({ ...current, honeypot: value }))}
+          />
         </div>
-
-        {!isContactFormConfigured && (
-          <p className="livre-dor-intro__notice">
-            Le formulaire n’est pas encore relié à un service d’envoi. Renseignez
-            <code>VITE_TESTIMONIAL_FORM_ENDPOINT</code>.
-          </p>
-        )}
-
-        {status === 'success' && (
-          <p role="status" className="livre-dor-intro__status">
-            Merci pour votre message ! Il sera relu par l’équipe avant d’être publié
-            dans le livre d’or.
-          </p>
-        )}
-        {status === 'error' && (
-          <p role="alert" className="livre-dor-intro__error">
-            L’envoi a échoué. Merci de réessayer plus tard.
-          </p>
-        )}
-
-        <button className="livre-dor-intro__submit" type="submit" disabled={status === 'sending'} aria-busy={status === 'sending'}>
-          {status === 'sending' ? 'Envoi en cours…' : 'Poster mon avis'}
-        </button>
-
-        <Honeypot
-          value={form.honeypot}
-          onChange={(value) => setForm((current) => ({ ...current, honeypot: value }))}
-        />
       </form>
     </section>
   )

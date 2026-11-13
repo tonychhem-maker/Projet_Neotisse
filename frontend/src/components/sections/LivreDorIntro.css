@@ -128,7 +128,11 @@
   color: #095228;
 }
 
-/* Colonne formulaire. Libellés à x871 (27px de plus que la zone de message). */
+/* Colonne formulaire. Libellés à x871 (27px de plus que la zone de message).
+   Les champs eux-mêmes sont portés par le composant global
+   (`components/ui/Formulaire.jsx`, styles Tailwind) : compact, placeholders
+   fins et gris. */
+
 .livre-dor-intro__form {
   grid-column: 3;
   display: flex;
@@ -143,128 +147,6 @@
   font-size: calc(32 * var(--u)); /* 32px */
   line-height: 1.25; /* boîte 40px */
   color: #095228;
-}
-
-.livre-dor-intro__field {
-  margin-top: calc(62 * var(--u)); /* 62px : libellé « nom » à y317 */
-  display: flex;
-  flex-direction: column;
-}
-.livre-dor-intro__field--second {
-  margin-top: calc(59 * var(--u)); /* 59px : libellé « Prénom » à y409 */
-}
-
-.livre-dor-intro__label {
-  font-size: calc(16 * var(--u)); /* 16px */
-  line-height: 1.25; /* boîte 20px */
-  color: #000;
-}
-.livre-dor-intro__label--sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
-.livre-dor-intro__input {
-  height: calc(13 * var(--u)); /* 13px : la maquette ne dessine que le soulignement */
-  padding: 0;
-  border: 0;
-  border-bottom: 1px solid #095228;
-  background: transparent;
-  font-family: var(--font-sans);
-  font-size: calc(16 * var(--u)); /* 16px */
-  color: #095228;
-}
-.livre-dor-intro__input:focus-visible {
-  outline: 2px solid #095228;
-  outline-offset: 2px;
-}
-
-.livre-dor-intro__message-wrap {
-  position: relative;
-  margin-top: calc(62 * var(--u)); /* 62px : zone de message à y504 */
-  /* la zone remonte à x844, 27px à gauche des libellés */
-  margin-left: calc(-27 * var(--u));
-}
-
-.livre-dor-intro__message {
-  box-sizing: border-box;
-  display: block; /* évite l'espace de ligne sous la zone (le bouton reste à y900) */
-  width: calc(532 * var(--u)); /* 532px */
-  height: calc(368 * var(--u)); /* 368px */
-  padding: calc(24 * var(--u)) calc(28 * var(--u)); /* 24px | 28px */
-  border: 0;
-  background: rgba(228, 220, 206, 0.71); /* sable à 71 % */
-  resize: none;
-  font-family: var(--font-sans);
-  font-size: calc(16 * var(--u)); /* 16px */
-  line-height: 1.5;
-  color: #095228;
-}
-.livre-dor-intro__message::placeholder {
-  color: rgba(0, 0, 0, 0.45);
-}
-.livre-dor-intro__message:focus-visible {
-  outline: 2px solid #095228;
-  outline-offset: 2px;
-}
-
-.livre-dor-intro__error {
-  margin: calc(10 * var(--u)) 0 0; /* 10px */
-  font-size: calc(15 * var(--u)); /* 15px */
-  color: #b3261e;
-}
-
-.livre-dor-intro__notice {
-  margin: calc(20 * var(--u)) 0 0; /* 20px */
-  max-width: calc(532 * var(--u));
-  padding: calc(14 * var(--u)) calc(16 * var(--u)); /* 14px | 16px */
-  border: 1px solid #e4dcce;
-  background: rgba(228, 220, 206, 0.4);
-  font-size: calc(15 * var(--u)); /* 15px */
-  color: #095228;
-}
-.livre-dor-intro__notice code {
-  padding: 0 calc(3 * var(--u));
-  border-radius: 2px;
-  background: #f4efe6;
-}
-
-.livre-dor-intro__status {
-  margin: calc(20 * var(--u)) 0 0; /* 20px */
-  padding: calc(14 * var(--u)) calc(16 * var(--u)); /* 14px | 16px */
-  border: 1px solid #35985f;
-  font-size: calc(15 * var(--u)); /* 15px */
-  color: #095228;
-}
-
-.livre-dor-intro__submit {
-  /* centré sur la zone de message (x844-1376) : centre à x1110,5 dans la
-     maquette, soit 115px du bord gauche des libellés (x871) */
-  margin: calc(28 * var(--u)) 0 0 calc(115 * var(--u)); /* 28px haut (y900) */
-  width: calc(249 * var(--u)); /* 249px */
-  height: calc(53 * var(--u)); /* 53px */
-  border: 0;
-  background: #095228;
-  color: #fff;
-  font-family: var(--font-sans);
-  font-size: calc(18 * var(--u)); /* 18px */
-  cursor: pointer;
-  transition: background 0.25s ease;
-}
-.livre-dor-intro__submit:hover:enabled {
-  background: #35985f;
-}
-.livre-dor-intro__submit:disabled {
-  opacity: 0.7;
-  cursor: default;
-}
-.livre-dor-intro__submit:focus-visible {
-  outline: 2px solid #095228;
-  outline-offset: 3px;
 }
 
 /* Écrans étroits : une seule colonne, formulaire sous la vedette. */
@@ -326,44 +208,5 @@
   .livre-dor-intro__form-title {
     margin-top: 0;
     font-size: 24px;
-  }
-
-  .livre-dor-intro__field,
-  .livre-dor-intro__field--second,
-  .livre-dor-intro__message-wrap {
-    margin-top: 24px;
-  }
-
-  .livre-dor-intro__label {
-    font-size: 14px;
-  }
-
-  .livre-dor-intro__input {
-    height: 28px;
-    font-size: 16px;
-  }
-
-  .livre-dor-intro__message-wrap {
-    margin-left: 0;
-  }
-  .livre-dor-intro__message {
-    width: 100%;
-    height: 180px;
-    padding: 14px 16px;
-    font-size: 16px;
-  }
-
-  .livre-dor-intro__notice,
-  .livre-dor-intro__status,
-  .livre-dor-intro__error {
-    font-size: 14px;
-  }
-
-  .livre-dor-intro__submit {
-    margin: 24px auto 0;
-    width: 100%;
-    max-width: 280px;
-    height: 48px;
-    font-size: 16px;
   }
 }
