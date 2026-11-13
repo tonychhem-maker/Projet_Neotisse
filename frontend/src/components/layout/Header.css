@@ -1,10 +1,7 @@
-/* En-tête — calé sur la maquette (frame « Ateliers », y0 à y80) : fond crème,
-   bord #DEE5ED, logo 74×73 à 30px du bord, nav répartie sur 941px (DM Sans
-   21px, #095228) à 160px du logo. La nav n'est pas centrée : la maquette
-   laisse un vide à droite.
-
-   L'en-tête est son propre conteneur de requêtes (classe `cq`) : ses
-   dimensions en `cqw` suivent l'échelle du contenu des pages. */
+/* En-tête : fond crème, bord #DEE5ED, logo 74×73 à 30px du bord. La nav
+   (DM Sans) est centrée dans l'écran : le logo est sorti du flux (absolute,
+   même position visuelle) et la nav se centre par marges auto. Le burger,
+   seul en flux sur mobile, reste collé à droite (margin-left: auto). */
 
 .site-header {
   position: sticky;
@@ -17,6 +14,7 @@
 }
 
 .site-header__inner {
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
@@ -24,6 +22,10 @@
 }
 
 .site-header__logo {
+  position: absolute;
+  left: calc(30 * var(--u));
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-shrink: 0;
 }
@@ -35,8 +37,8 @@
 
 .site-header__nav {
   min-width: 0;
-  max-width: calc(100% - calc(234 * var(--u))); /* logo + marges (30+74+160 = 264px) */
-  margin-left: calc(160 * var(--u)); /* 160px */
+  max-width: 100%;
+  margin: 0 auto; /* nav centrée dans l'en-tête */
 }
 
 .site-header__nav ul {
@@ -45,7 +47,7 @@
   justify-content: space-between;
   width: calc(940 * var(--u)); /* 941px */
   max-width: 100%;
-  margin: 0;
+  margin: 0 auto; /* centré dans l'en-tête */
   padding: 0;
   list-style: none;
 }
