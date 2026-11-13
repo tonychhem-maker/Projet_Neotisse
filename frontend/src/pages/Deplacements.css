@@ -1,5 +1,18 @@
-/* Page Déplacements.
+/* Page Déplacements — calée sur la maquette (frame « Déplacements »
+   424:711, 1440×1792) :
 
+   - titre « Nos prochaines mobilités » (Boldonse 64px, x35 y187) ;
+   - colonne gauche (x40) : champ de recherche 498×56 (y382) + liste
+     défilante des événements (blocs sable 498×72, barre de défilement
+     verte à droite des blocs) ;
+   - carte de France interactive (Leaflet) 750px collée au bord droit
+     (x690→1440, y264) : un point vert par événement, bulle au survol ;
+   - carte sable 1360×387 (x41 y1017, coins 8) réunissant l'introduction
+     (« retrouvez nos déplacements », texte, bouton « Contactez nous ») et
+     la vignette photo de la dernière actualité (467×284) marquée
+     « Neotisse », qui renvoie vers la page Actualités.
+
+   Dimensions desktop en --u (px de la maquette 1440, voir index.css).
    La maquette n'ajoute pas de décor débordant de la fenêtre : le rognage
    horizontal est conservé par prudence (comme sur les autres pages). */
 
@@ -7,4 +20,266 @@
   position: relative;
   overflow-x: clip;
   background: #f4efe6;
+}
+
+.deplacements {
+  position: relative;
+  box-sizing: border-box;
+  padding: calc(107 * var(--u)) calc(40 * var(--u)) calc(45 * var(--u)); /* titre à y187 (80 d'en-tête + 107) */
+}
+
+/* Titre : boîte 1008×83 (y187→270) dans la maquette, x35. */
+.deplacements__title {
+  margin: 0 0 0 calc(-5 * var(--u)); /* x35 contre un padding de page à 40 */
+  max-width: calc(1008 * var(--u)); /* 1008px */
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: calc(64 * var(--u)); /* 64px */
+  line-height: 1.2969; /* boîte 83px */
+  letter-spacing: -0.02em; /* −1,28px */
+  color: #095228;
+}
+
+/* Grille : colonne des événements (498, x40) + carte de France (640)
+   décalée vers l'intérieur (bord droit à x1400, dans le padding de page).
+   La grille descend à y310 pour laisser de l'air sous le titre (bas y270). */
+.deplacements__grille {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: calc(40 * var(--u)); /* bas du titre (y270) → y310 */
+}
+
+.deplacements__fil {
+  position: absolute;
+  right: calc(-140 * var(--u)); /* déborde à droite, rogné par la page */
+  top: calc(-30 * var(--u)); /* boucles visibles sous la carte */
+  width: calc(620 * var(--u)); /* 519px de tracé dans Figma */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Colonne gauche : recherche + liste défilante, 498px de large (x40). */
+.deplacements__colonne {
+  position: relative;
+  z-index: 1;
+  width: calc(498 * var(--u)); /* 498px */
+  padding-top: calc(72 * var(--u)); /* champ à y382 contre un haut de grille à y310 */
+}
+
+/* Champ de recherche : 498×56 (réduit au profit de la carte), fond sable,
+   loupe à droite. */
+.deplacements__recherche {
+  position: relative;
+  height: calc(56 * var(--u)); /* 56px */
+  background: #e4dcce;
+}
+
+.deplacements__recherche-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0 calc(60 * var(--u)) 0 calc(28 * var(--u)); /* texte à x28 */
+  font-family: 'Outfit', var(--font-sans);
+  font-size: calc(18 * var(--u)); /* 18px (≥16px : pas de zoom iOS) */
+  line-height: 1.6667; /* boîte 30px */
+  color: #000;
+}
+.deplacements__recherche-input::placeholder {
+  color: #000;
+  opacity: 1;
+}
+.deplacements__recherche-input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 calc(2 * var(--u)) #095228;
+}
+.deplacements__recherche-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.deplacements__recherche-loupe {
+  position: absolute;
+  right: calc(18 * var(--u)); /* 18px du bord droit */
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(30 * var(--u));
+  height: calc(30 * var(--u));
+  color: #095228;
+  pointer-events: none;
+}
+
+/* Carte de France : 640px, décalée vers l'intérieur (bord droit à x1400,
+   40px de marge, sans débordement). Le composant CarteFrance gère Leaflet,
+   les points et la bulle (voir CarteFrance.css). */
+.deplacements__carte {
+  flex: 0 0 auto;
+  width: calc(640 * var(--u)); /* 640px */
+  position: relative;
+  z-index: 1;
+}
+
+/* Carte sable bas de page : 1360×387 (x41, coins 8), posée sous la carte de
+   France (dont le bas de tracé s'arrête à y938). Elle réunit l'introduction
+   (gauche) et la vignette événement (droite). */
+.depl-events {
+  margin-top: calc(35 * var(--u)); /* bas de la grille (y982) → y1017 */
+}
+
+.depl-events__carte {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: calc(262 * var(--u)); /* 262px entre le bloc texte et la vignette */
+  width: calc(1360 * var(--u)); /* 1360px */
+  min-height: calc(387 * var(--u)); /* 387px */
+  margin-left: calc(1 * var(--u)); /* x41 contre un padding de page à 40 */
+  padding: calc(40 * var(--u)) calc(47 * var(--u)) calc(40 * var(--u)) calc(40 * var(--u));
+  background: #e4dcce;
+  border-radius: calc(8 * var(--u)); /* 8px */
+}
+
+.depl-events__texte {
+  flex: 0 1 calc(544 * var(--u)); /* bloc 544px */
+  min-width: 0;
+}
+
+/* Titre « retrouvez nos déplacements » : Boldonse 48px, vert sapin. */
+.depl-events__titre {
+  margin: 0;
+  max-width: calc(513 * var(--u)); /* 513px */
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: calc(48 * var(--u)); /* 48px */
+  line-height: 1.2917; /* boîte 62px */
+  letter-spacing: -0.02em; /* −0,96px */
+  color: #095228;
+}
+
+.depl-events__intro-texte {
+  margin: calc(28 * var(--u)) 0 0; /* sous la boîte du titre (y3137→3165) */
+  max-width: calc(544 * var(--u)); /* 544px */
+  font-family: 'Outfit', var(--font-sans);
+  font-weight: 400;
+  font-size: calc(18 * var(--u)); /* 18px */
+  line-height: 1.6667; /* boîte 30px */
+  color: #000;
+}
+
+.depl-events__cta {
+  margin-top: calc(60 * var(--u)); /* sous le texte (y3052→2992 dans Figma) */
+}
+
+/* Vignette événement : 467×284, photo pleine, marque « Neotisse » en
+   surimpression (Boldonse 36px blanc 74%, x20 y27). Toute la vignette est
+   un lien vers l'actualité. */
+.depl-events__visuel {
+  position: relative;
+  display: block;
+  flex: 0 0 calc(467 * var(--u)); /* 467px */
+  height: calc(284 * var(--u)); /* 284px */
+}
+
+.depl-events__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.depl-events__visuel:focus-visible {
+  outline: calc(2 * var(--u)) solid #095228;
+  outline-offset: calc(3 * var(--u));
+}
+
+.depl-events__marque {
+  position: absolute;
+  left: calc(20 * var(--u)); /* 20px */
+  top: calc(27 * var(--u)); /* 27px */
+  font-family: 'Boldonse', var(--font-serif);
+  font-weight: 400;
+  font-size: calc(36 * var(--u)); /* 36px */
+  line-height: 30px;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+/* Écrans étroits : la maquette n'a pas de version mobile ; on empile la
+   carte de France, la recherche, la liste puis la carte sable en pleine
+   largeur, on masque le filet vertical et le fil (décors desktop). */
+@media (max-width: 860px) {
+  .deplacements {
+    padding: 3.5rem 1.5rem 3rem;
+  }
+  .deplacements__title {
+    margin-left: 0;
+    font-size: 2.25rem;
+    line-height: 1.3;
+  }
+  .deplacements__grille {
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .deplacements__fil {
+    display: none;
+  }
+  .deplacements__carte {
+    width: 100%;
+    margin-right: 0;
+  }
+  .depl-events__titre {
+    font-size: 1.75rem;
+  }
+  .deplacements__colonne {
+    width: 100%;
+    margin-left: 0;
+    padding-top: 0;
+  }
+  .deplacements__recherche {
+    height: 3.5rem;
+  }
+  .deplacements__recherche-input {
+    font-size: 16px; /* ≥16px : pas de zoom iOS */
+    padding: 0 3.5rem 0 1.25rem;
+  }
+  .deplacements__recherche-loupe {
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .depl-events {
+    margin-top: 3.5rem;
+  }
+  .depl-events__carte {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+    width: 100%;
+    min-height: 0;
+    margin-left: 0;
+    padding: 2rem 1.5rem;
+  }
+  .depl-events__intro-texte {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+  }
+  .depl-events__cta {
+    margin-top: 1.5rem;
+  }
+  .depl-events__visuel {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 14rem;
+  }
+  .depl-events__marque {
+    left: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
 }

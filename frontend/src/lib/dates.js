@@ -9,3 +9,19 @@ export function formatMoisAnnee(iso) {
   if (Number.isNaN(date.getTime())) return null
   return new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(date)
 }
+
+/**
+ * Formate une date ISO (YYYY-MM-DD) en « Le 2 novembre 2027 » (ligne des
+ * déplacements). Le midi évite que les fuseaux négatifs ne reculent la date
+ * d'un jour.
+ */
+export function formatDateComplete(iso) {
+  if (!iso) return null
+  const date = new Date(`${iso}T12:00:00`)
+  if (Number.isNaN(date.getTime())) return null
+  return `Le ${new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date)}`
+}

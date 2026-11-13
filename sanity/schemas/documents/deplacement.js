@@ -1,7 +1,11 @@
 import { defineField, defineType } from 'sanity'
 
-// Un déplacement = une ligne de la page : une date, une ville et
-// éventuellement le partenaire dont le logo accompagne la ligne.
+// Un déplacement = un événement de la page : une date, une ville, le logo
+// du partenaire accueilli, et un code postal qui positionne le point vert
+// sur la carte de France interactive (géocodé via geo.api.gouv.fr). Le
+// champ « note » alimente la bulle d'information du point. Les événements
+// s'ajoutent et se suppriment librement ; ils sont triés par date (ou par
+// ordre manuel).
 export const deplacement = defineType({
   name: 'deplacement',
   title: 'Déplacement',
@@ -20,14 +24,37 @@ export const deplacement = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'partner',
-      title: 'Partenaire accueilli',
-      type: 'reference',
-      to: [{ type: 'partner' }],
+      name: 'logo',
+      title: 'Logo (partenaire accueilli)',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Texte alternatif',
+          type: 'string',
+          description: 'Ex : « Logo Lozère tourisme ». Laisse vide pour masquer l’image aux lecteurs d’écran.',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'codePostal',
+      title: 'Code postal (carte de France)',
+      type: 'string',
+      description:
+        'Positionne le point vert sur la carte de la page Déplacements (géocodé via geo.api.gouv.fr). Sans code postal, le déplacement apparaît dans la liste mais pas sur la carte.',
+    }),
+    defineField({
+      name: 'note',
+      title: 'Petit texte (bulle de la carte)',
+      type: 'text',
+      rows: 3,
+      description:
+        'Court texte affiché dans la bulle qui s’ouvre au passage sur le point vert de la carte.',
     }),
     defineField({
       name: 'order',
-      title: 'Ordre d’affichage',
+      title: 'Ordre d’affichage (si dates égales)',
       type: 'number',
       initialValue: 0,
     }),
@@ -37,12 +64,13 @@ export const deplacement = defineType({
     { title: 'Ordre manuel', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] },
   ],
   preview: {
-    select: { city: 'city', date: 'date', partner: 'partner.name' },
-    prepare: ({ city, date, partner }) => ({
+    select: { city: 'city', date: 'date', codePostal: 'codePostal', media: 'logo' },
+    prepare: ({ city, date, codePostal, media }) => ({
       title: city || 'Déplacement',
+      media,
       subtitle: [
         date ? new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR') : null,
-        partner,
+        codePostal,
       ]
         .filter(Boolean)
         .join(' — '),

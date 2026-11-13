@@ -1,55 +1,83 @@
-/* Liste des déplacements — calée sur la maquette (frame « Déplacements »
-   446:1739, 1440×1480) : titre + 4 lignes 498×83 (écart 24) + filet vertical.
+/* Liste des déplacements — base de design de la maquette (frame
+   « Déplacements » 424:711 : blocs sable 498 de large, logo, date, onde
+   textile, « - Ville »), rendue défilante : les événements défilent dans
+   un conteneur à hauteur fixe, avec la barre de défilement verticale verte
+   posée à leur droite (illustrée dans la maquette par le filet vertical).
 
-   Dimensions desktop en `cqw` (px/14.4 sur la maquette 1440) : homothétie
-   exacte à toute largeur ≥861px. Tous les textes restent visibles sans
-   JavaScript (rendu statique) et aucun contenu n'est masqué. */
+   Interactions : une ligne survolée / focalisée s'encadre de vert (état de
+   la maquette) et allume son point sur la carte ; un clic recentre la
+   carte sur ce point (voir CarteFrance). Dimensions desktop en --u (px de
+   la maquette 1440, voir index.css). */
 
-.deplacements {
-  position: relative;
-  box-sizing: border-box;
-  padding: calc(105 * var(--u)) calc(64 * var(--u)) calc(382 * var(--u)) calc(30 * var(--u)); /* haut 105 (titre à y185), droite 64, bas 382 (pied de page à y1135), gauche 30 */
+/* Conteneur défilant : bas aligné sur celui de la carte (442px de haut,
+   la liste commence à y464 et la carte finit à y906), barre de défilement
+   fine et verte. */
+.deplacements-liste__defilement {
+  max-height: calc(442 * var(--u)); /* 442px */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #095228 #e4dcce;
+  padding-right: calc(14 * var(--u)); /* réserve pour la barre, hors des blocs */
+}
+.deplacements-liste__defilement::-webkit-scrollbar {
+  width: calc(6 * var(--u)); /* 6px */
+}
+.deplacements-liste__defilement::-webkit-scrollbar-track {
+  background: #e4dcce;
+  border-radius: calc(3 * var(--u));
+}
+.deplacements-liste__defilement::-webkit-scrollbar-thumb {
+  background: #095228;
+  border-radius: calc(3 * var(--u));
 }
 
-/* Titre : boîte 908×83 (y185→268) dans la maquette. */
-.deplacements__title {
-  margin: 0;
-  max-width: calc(908 * var(--u)); /* 908px */
-  font-family: 'Boldonse', var(--font-serif);
-  font-weight: 400;
-  font-size: calc(64 * var(--u)); /* 64px */
-  line-height: 1.2969; /* boîte 83px */
-  letter-spacing: -0.02em; /* −2 % */
-  color: #095228;
-}
-
-/* Liste : 498px de large, 4 items de 83px, écart 24 (y349→753). */
 .deplacements__liste {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: calc(24 * var(--u)); /* 24px */
-  margin: calc(81 * var(--u)) 0 0; /* 81px sous la boîte du titre (y268→349) */
+  gap: calc(18 * var(--u)); /* 18px */
+  margin: calc(26 * var(--u)) 0 0;
   padding: 0;
-  width: calc(498 * var(--u)); /* 498px */
+  width: 100%;
 }
 
-/* Ligne : fond sable, 83px de haut. */
+/* Aucun résultat de recherche : message discret sous le champ. */
+.deplacements-liste__vide {
+  margin: calc(24 * var(--u)) 0 0;
+  font-family: 'Outfit', var(--font-sans);
+  font-size: calc(18 * var(--u)); /* 18px */
+  line-height: 1.6667;
+  color: #095228;
+}
+
+/* Ligne : fond sable, 72px de haut (réduite au profit de la carte).
+   Tout le texte de la carte est en Outfit (comme le reste du site).
+   Survol/focus (état de la première ligne de la maquette) : fond crème et
+   encadré vert. La ligne est interactive (clic = centrer la carte). */
 .deplacements-item {
   position: relative;
   display: block;
-  height: calc(83 * var(--u)); /* 83px */
+  height: calc(72 * var(--u)); /* 72px */
   background: #e4dcce;
+  cursor: pointer;
+  font-family: 'Outfit', var(--font-sans);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.deplacements-item:hover,
+.deplacements-item:focus-visible {
+  background: #f4efe6;
+  box-shadow: inset 0 0 0 calc(1.5 * var(--u)) #095228;
+  outline: none;
 }
 
-/* Onde textile bicolore derrière le texte (171,5×84,1 à x156, débordant
-   d'un demi-pixel du haut de la ligne comme dans Figma). */
+/* Onde textile bicolore derrière le texte (réduite au même rapport que la
+   ligne, débordant d'un demi-pixel du haut comme dans Figma). */
 .deplacements-item__vague {
   position: absolute;
-  left: calc(156 * var(--u)); /* 156px */
-  top: calc(-0.55 * var(--u)); /* −0,55px */
-  width: calc(171.5 * var(--u)); /* 171,5px */
-  height: calc(84.12 * var(--u)); /* 84,11px */
+  left: calc(136 * var(--u)); /* 136px */
+  top: calc(-0.5 * var(--u)); /* −0,5px */
+  width: calc(149 * var(--u)); /* 149px */
+  height: calc(73 * var(--u)); /* 73px */
   pointer-events: none;
 }
 .deplacements-item__vague svg {
@@ -58,20 +86,21 @@
   height: 100%;
 }
 
-/* Logo du partenaire : encart 83×55 posé au bord gauche, centré
-   verticalement (y14→69 dans l'item). L'asset de repli ne contient que
-   l'encre du logo (47×41 dans la maquette) : il est calé à cette taille. */
+/* Logo du partenaire : encart 72×48 posé au bord gauche, décalé de 8px,
+   centré verticalement. L'asset de repli ne contient que l'encre du logo :
+   il est calé à cette taille. */
 .deplacements-item__logo {
   position: absolute;
-  left: 0;
-  top: calc(14 * var(--u)); /* 14px */
-  width: calc(83 * var(--u)); /* 83px */
-  height: calc(55 * var(--u)); /* 55px */
+  left: calc(8 * var(--u)); /* décalé de 8px du bord gauche */
+  top: calc(12 * var(--u)); /* 12px */
+  width: calc(72 * var(--u)); /* 72px */
+  height: calc(48 * var(--u)); /* 48px */
   object-fit: contain;
   object-position: left center;
+  pointer-events: none;
 }
 
-/* Date « Le 2 novembre 2027 » : boîte 160px de large à x107, centrée. */
+/* Date « Le 2 novembre 2027 » : à x107, centrée. */
 .deplacements-item__date {
   position: absolute;
   left: calc(107 * var(--u)); /* 107px */
@@ -81,13 +110,14 @@
   align-items: center;
   font-family: 'Outfit', var(--font-sans);
   font-weight: 500;
-  font-size: calc(18 * var(--u)); /* 18px */
-  line-height: 1.37; /* boîte ~24,7px */
+  font-size: calc(16 * var(--u)); /* 16px */
+  line-height: 1.37;
   color: #000;
   white-space: nowrap;
+  pointer-events: none;
 }
 
-/* « - Ville » : boîte 89×42 à x380, centrée verticalement. */
+/* « - Ville » : centrée verticalement, à x380. */
 .deplacements-item__city {
   position: absolute;
   left: calc(380 * var(--u)); /* 380px */
@@ -97,44 +127,32 @@
   align-items: center;
   font-family: 'Outfit', var(--font-sans);
   font-weight: 500;
-  font-size: calc(30.7 * var(--u)); /* 30,7px */
-  line-height: 1.37; /* boîte ~42px */
+  font-size: calc(27 * var(--u)); /* 27px */
+  line-height: 1.37;
   color: #000;
   white-space: nowrap;
-}
-
-/* Filet vertical vert : x568, 457px de haut, de y346 à y803 (18px au-dessus
-   de la liste). */
-.deplacements__ligne {
-  position: absolute;
-  left: calc(568 * var(--u)); /* 568px */
-  top: calc(266 * var(--u)); /* 266px sous le haut de la section (y346) */
-  width: calc(2 * var(--u)); /* 2px */
-  height: calc(457 * var(--u)); /* 457px */
-  background: #095228;
+  pointer-events: none;
 }
 
 /* Écrans étroits : la maquette n'a pas de version mobile ; on empile les
-   lignes en pleine largeur, on masque le filet vertical (décor desktop) et
-   les ondes respirationnent avec la ligne. */
+   lignes en pleine largeur et la zone défilante garde une hauteur fixe. */
 @media (max-width: 860px) {
-  .deplacements {
-    padding: 3.5rem 1.5rem 3rem;
-  }
-  .deplacements__title {
-    font-size: 2.25rem;
-    line-height: 1.3;
+  .deplacements-liste__defilement {
+    max-height: 22rem;
+    padding-right: 0.5rem;
   }
   .deplacements__liste {
-    width: 100%;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     gap: 1rem;
+  }
+  .deplacements-liste__vide {
+    margin-top: 1rem;
+    font-size: 1rem;
   }
   .deplacements-item {
     height: 4rem;
   }
-  .deplacements-item__vague,
-  .deplacements__ligne {
+  .deplacements-item__vague {
     display: none;
   }
   .deplacements-item__logo {

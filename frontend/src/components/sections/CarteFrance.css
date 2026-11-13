@@ -1,0 +1,156 @@
+/* Carte de France interactive (composant CarteFrance.jsx) — Leaflet +
+   tuiles OpenStreetMap/CARTO (gratuites, sans clé). Le conteneur garde les
+   proportions du cadre 814×779 de la maquette ; les points verts reprennent
+   la charte (vert clair, halo quand le point est actif). */
+
+.carte-france {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 814 / 779;
+  margin: 0;
+}
+
+/* La carte elle-même (conteneur Leaflet). Coins arrondis discrets et teinte
+   légère pour raccorder les tuiles à la charte crème / vert sapin. */
+.carte-leaflet {
+  position: absolute;
+  inset: 0;
+  background: #e4dcce;
+  border-radius: calc(8 * var(--u));
+  overflow: hidden;
+  z-index: 0;
+}
+.carte-leaflet .leaflet-tile-pane {
+  filter: grayscale(0.35) sepia(0.18) saturate(0.9);
+}
+.carte-leaflet .leaflet-container {
+  font-family: 'Outfit', var(--font-sans);
+}
+
+/* Points des événements : pastille vert clair à liseré crème, halo quand le
+   point est actif (survolé sur la carte, ou ligne correspondante survolée
+   dans la liste). */
+.carte-leaflet__icone {
+  background: none;
+  border: none;
+}
+.carte-leaflet__point {
+  display: block;
+  box-sizing: border-box;
+  width: calc(18 * var(--u));
+  height: calc(18 * var(--u));
+  border: calc(1.5 * var(--u)) solid #f4efe6;
+  border-radius: 50%;
+  background: #35985f;
+  box-shadow: 0 0 0 calc(1 * var(--u)) rgba(9, 82, 40, 0.35);
+  opacity: 0.85;
+  transform: scale(0.78);
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.carte-leaflet__icone.est-lit .carte-leaflet__point {
+  transform: scale(1.15);
+  opacity: 1;
+  box-shadow:
+    0 0 0 calc(3 * var(--u)) rgba(53, 152, 95, 0.3),
+    0 0 calc(18 * var(--u)) rgba(53, 152, 95, 0.65);
+}
+.carte-leaflet__icone:focus-visible .carte-leaflet__point {
+  outline: calc(2 * var(--u)) solid #095228;
+  outline-offset: calc(2 * var(--u));
+}
+
+/* Bulle d'information (tooltip Leaflet) : fond crème, liseré vert sapin,
+   texte entièrement en Outfit (date / lieu / petit texte saisi dans
+   Sanity). */
+.carte-leaflet__bulle {
+  box-sizing: border-box;
+  padding: 0;
+  background: #f4efe6;
+  border: calc(1.5 * var(--u)) solid #095228;
+  border-radius: calc(8 * var(--u));
+  box-shadow: 0 calc(10 * var(--u)) calc(24 * var(--u)) rgba(9, 82, 40, 0.18);
+  color: #000;
+  font-family: 'Outfit', var(--font-sans);
+}
+.carte-leaflet__bulle::before {
+  display: none; /* la flèche par défaut de Leaflet est retirée */
+}
+.carte-leaflet__bulle-interieur {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10 * var(--u));
+  padding: calc(16 * var(--u)) calc(18 * var(--u));
+  text-align: left;
+}
+.carte-leaflet__evenement {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2 * var(--u));
+}
+.carte-leaflet__evenement + .carte-leaflet__evenement {
+  padding-top: calc(8 * var(--u));
+  border-top: 1px solid rgba(9, 82, 40, 0.2);
+}
+.carte-leaflet__date {
+  font-family: 'Outfit', var(--font-sans);
+  font-weight: 500;
+  font-size: calc(15 * var(--u));
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: #35985f;
+}
+.carte-leaflet__lieu {
+  font-family: 'Outfit', var(--font-sans);
+  font-weight: 600;
+  font-size: calc(19 * var(--u));
+  line-height: 1.35;
+  color: #000;
+}
+.carte-leaflet__texte {
+  font-family: 'Outfit', var(--font-sans);
+  font-weight: 400;
+  font-size: calc(15 * var(--u));
+  line-height: 1.5;
+  color: #1c202c;
+}
+
+/* Écrans étroits : tailles fixes (l'unité --u devient trop petite). */
+@media (max-width: 860px) {
+  .carte-leaflet {
+    border-radius: 8px;
+  }
+  .carte-leaflet__point {
+    width: 14px;
+    height: 14px;
+    border-width: 1.5px;
+  }
+  .carte-leaflet__bulle-interieur {
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .carte-leaflet__evenement {
+    gap: 2px;
+  }
+  .carte-leaflet__evenement + .carte-leaflet__evenement {
+    padding-top: 8px;
+  }
+  .carte-leaflet__date {
+    font-size: 13px;
+  }
+  .carte-leaflet__lieu {
+    font-size: 16px;
+  }
+  .carte-leaflet__texte {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carte-leaflet__point {
+    transition: none;
+  }
+}

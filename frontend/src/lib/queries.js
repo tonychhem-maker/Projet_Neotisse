@@ -126,14 +126,36 @@ export const LIVRE_DOR_QUERY = `{
 
 export const DEPLACEMENTS_QUERY = `{
   "page": *[_id == "deplacementsPage"][0]{
-    "heroTitle": heroTitle
+    "heroTitle": heroTitle,
+    "introTitle": introTitle,
+    "introText": introText,
+    "ctaLink": ctaLink{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    },
+    "eventsTitle": eventsTitle
   },
   "items": *[_type == "deplacement"] | order(date asc, order asc) {
     "_id": _id,
     "date": date,
     "city": city,
-    "partnerName": partner->name,
-    "partnerLogo": partner->logo ${IMAGE_PROJECTION}
+    "codePostal": codePostal,
+    "note": note,
+    "logo": logo ${IMAGE_PROJECTION}
+  },
+  "event": *[_type == "post"] | order(publishedAt desc)[0] {
+    "id": _id,
+    "title": title,
+    "slug": slug.current,
+    "kicker": kicker,
+    "eventDate": eventDate,
+    "dateLabel": dateLabel,
+    "publishedAt": publishedAt,
+    "link": link{
+      "label": label,
+      "to": coalesce(internalPath, externalUrl)
+    },
+    "image": coverImage ${IMAGE_PROJECTION}
   }
 }`
 

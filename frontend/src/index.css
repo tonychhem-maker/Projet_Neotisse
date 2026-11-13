@@ -67,17 +67,19 @@
 
    `--u` vaut 1px de la maquette, ramené à la largeur réelle du viewport
    (1px maquette = 1/14.4 svw) et multiplié par le facteur global demandé
-   (0.875 ≈ -12.5% : tout le site est légèrement plus compact que la
-   maquette d'origine). Chaque valeur s'écrit `calc(N * var(--u))` où N est
-   la taille en pixels dans la maquette : ajuster le facteur ci-dessous
+   (--cq-scale). Chaque valeur s'écrit `calc(N * var(--u))` où N est la
+   taille en pixels dans la maquette : ajuster le facteur ci-dessous
    redimensionne l'ensemble du site d'un seul geste.
 
-   L'unité choisie est `svw` plutôt que `cqw` : la largeur d'un `cqw`
-   dépend de la présence de la barre de défilement (elle diffère donc
-   d'une page à l'autre), alors que `svw` donne la même base partout.
+   Le facteur vaut 1 : la maquette occupe toute la largeur de la fenêtre,
+   sans marge résiduelle à droite (un facteur < 1 compactait le site et
+   laissait un vide à droite de tous les éléments). L'unité choisie est
+   `svw` plutôt que `cqw` : la largeur d'un `cqw` dépend de la présence de
+   la barre de défilement (elle diffère donc d'une page à l'autre), alors
+   que `svw` donne la même base partout.
 --------------------------------------------------------------------------- */
 :root {
-  --cq-scale: 0.875;
+  --cq-scale: 1;
   --u: calc(0.0694444svw * var(--cq-scale));
 }
 
