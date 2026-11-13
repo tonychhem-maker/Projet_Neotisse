@@ -53,9 +53,9 @@
 .site-header__nav a {
   color: #095228;
   font-family: var(--font-dm);
-  font-size: calc(21 * var(--u)); /* 21px */
+  font-size: calc(18 * var(--u)); /* 18px — aligné sur l'échelle de texte du site */
   line-height: 1.15; /* 24px */
-  letter-spacing: calc(0.5 * var(--u)); /* 0.5px */
+  letter-spacing: calc(0.4 * var(--u)); /* 0.4px */
   white-space: nowrap;
   text-decoration: none;
   transition: color 0.25s ease;
