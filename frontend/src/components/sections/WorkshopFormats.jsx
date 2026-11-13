@@ -126,10 +126,9 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                       </p>
                       <Link
                         to={format.link ?? '/contact'}
-                        className="mt-6 inline-flex items-center gap-2 text-[12px] font-medium text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
+                        className="mt-6 inline text-[12px] font-medium text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
                       >
-                        CONTACTEZ-NOUS
-                        <span aria-hidden="true">→</span>
+                        CONTACTEZ-NOUS <span aria-hidden="true">→</span>
                       </Link>
                     </div>
                     {format.image && (
