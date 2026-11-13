@@ -232,8 +232,13 @@ export function useSanityContent(query, fallback) {
         if (cancelled || !result) return
         setData((current) => mergeContent(current, result))
       })
-      .catch(() => {
-        // En cas d'erreur réseau, le repli reste affiché.
+      .catch((error) => {
+        // En cas d'erreur réseau, le repli reste affiché — mais on le signale
+        // en console : un échec silencieux (ex : CORS non configuré côté
+        // Sanity, voir manage.sanity.io → API → CORS origins) ressemble
+        // exactement à un back-office vide, ce qui rend le problème
+        // indétectable.
+        console.warn('[sanity] Requête en échec, repli affiché :', error)
       })
 
     return () => {

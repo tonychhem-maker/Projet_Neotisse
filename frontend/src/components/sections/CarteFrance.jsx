@@ -177,15 +177,19 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
 
     map.fitBounds(coucheDepartements.getBounds(), { padding: [6, 6] })
     // La mise en page peut bouger juste après le montage (polices chargées,
-    // flex qui se stabilise) : on re-mesure et on recadre une fois la taille
+    // flex qui se stabilise) : on re-mesure et on re-cadre une fois la taille
     // finale connue, sinon la France reste petite au milieu du cadre.
-    setTimeout(() => {
+    // Le délai est annulé au démontage : en StrictMode (montage → démontage →
+    // remontage du dev), ce rappel visait sinon une carte déjà supprimée
+    // (`_leaflet_pos` undefined dans Leaflet).
+    const remesure = setTimeout(() => {
+      if (carte.current !== map) return
       map.invalidateSize()
       map.fitBounds(coucheDepartements.getBounds(), { padding: [6, 6] })
     }, 80)
     carte.current = map
     couche.current = coucheDepartements
-    return undefined
+    return () => clearTimeout(remesure)
   }, [])
 
   // Un clic dans le vide (hors département) désépingle.
