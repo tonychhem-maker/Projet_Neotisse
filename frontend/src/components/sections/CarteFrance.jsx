@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useImperativeHandle, useRef, useState } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import departements from '../../assets/deplacements/departements.json'
 import { formatDateComplete } from '../../lib/dates'
 import './CarteFrance.css'
 
@@ -30,6 +31,13 @@ async function geocoder(key, codePostal, ville) {
   }
   cacheGeocodage.set(key, coords)
   return coords
+}
+
+/** Code de département depuis un code postal (« 20 » couvre 2A et 2B). */
+function departementsDuCodePostal(codePostal) {
+  const deux = (codePostal || '').slice(0, 2)
+  if (deux === '20') return ['2A', '2B']
+  return deux ? [deux] : []
 }
 
 /**
@@ -64,15 +72,19 @@ function bulleHtml(groupe) {
 }
 
 /**
- * Carte de France interactive de la page Déplacements (Leaflet + tuiles
- * OpenStreetMap/CARTO, gratuites et sans clé API).
+ * Carte de France interactive de la page Déplacements : Leaflet sans fond
+ * de carte — le seul dessin est le contour des départements (GeoJSON
+ * france-geojson, dérivé d'OpenStreetMap) sur fond crème, dans la charte du
+ * site. Pas de tuiles ni de détails superflus.
  *
  * Chaque déplacement renseigné dans Sanity porte un code postal : son
- * emplacement est géocodé via geo.api.gouv.fr et un point vert est posé sur
- * la commune. Le passage sur le point (ou son focus, ou un clic — utile sur
- * tactile) ouvre une petite bulle avec la date, le lieu et le petit texte
- * saisi dans Sanity. Survoler la ligne correspondante dans la liste allume
- * aussi le point (`itemActifId`).
+ * emplacement est géocodé via geo.api.gouv.fr et un point vert y est posé.
+ *
+ * Interaction :
+ * - survoler ou cliquer un département (ou la ligne correspondante de la
+ *   liste) fait s'illuminer le point de l'événement qui s'y trouve ;
+ * - survoler / focaliser / cliquer le point ouvre une petite bulle avec la
+ *   date, le lieu et le petit texte saisi dans Sanity.
  *
  * Plusieurs déplacements au même code postal partagent le même point et la
  * même bulle (entrées identiques dédupliquées).
@@ -80,8 +92,11 @@ function bulleHtml(groupe) {
 export default function CarteFrance({ items = [], itemActifId = null, className = '', ref }) {
   const conteneur = useRef(null)
   const carte = useRef(null)
+  const couche = useRef(null) // couche GeoJSON des départements
   const marqueurs = useRef(new Map()) // clé code postal → marqueur Leaflet
   const [positions, setPositions] = useState({}) // clé → [lat, lon]
+  const [deptSurvole, setDeptSurvole] = useState(null) // département sous le curseur
+  const [deptEpingle, setDeptEpingle] = useState(null) // département cliqué (tactile)
 
   // API impérative : la liste peut demander à centrer la carte sur un
   // événement (clé = code postal, ou ville si pas de code).
@@ -113,36 +128,71 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
       cle,
       codePostal: groupe[0].codePostal,
       city: groupe[0].city,
+      departements: departementsDuCodePostal(groupe[0].codePostal),
       items: groupe,
     }))
   }, [items])
 
-  // Initialisation de la carte (une seule fois).
+  // Département actif : survolé ou épinglé sur la carte, ou ligne survolée
+  // dans la liste (`itemActifId`).
+  const deptLigne = useMemo(() => {
+    if (!itemActifId) return null
+    const groupe = groupes.find((g) => g.items.some((item) => item._id === itemActifId))
+    return groupe?.departements[0] || null
+  }, [groupes, itemActifId])
+  const deptActif = deptSurvole || deptEpingle || deptLigne
+
+  // Initialisation de la carte (une seule fois) : fond crème + contour des
+  // départements, cadré sur la France métropolitaine.
   useEffect(() => {
     if (!conteneur.current || carte.current) return undefined
     const map = L.map(conteneur.current, {
       scrollWheelZoom: false, // ne capte pas la molette au détriment du scroll de page
       zoomControl: false,
       attributionControl: true,
+      // Zoom fractionnaire : sans tuiles, les tracés vectoriels restent nets
+      // et fitBounds peut remplir le cadre au plus juste.
+      zoomSnap: 0.1,
     })
     map.attributionControl.setPrefix(false)
-    // Tuiles officielles OpenStreetMap : gratuites, sans clé API (les tuiles
-    // CARTO affichent désormais un filigrane « API KEY REQUIRED », et
-    // tile.openstreetmap.fr bloque les chargements tiers).
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    map.attributionControl.addAttribution('Contours &copy; <a href="https://github.com/gregoiredavid/france-geojson">france-geojson</a> (OpenStreetMap)')
+
+    const coucheDepartements = L.geoJSON(departements, {
+      style: () => ({
+        color: '#095228',
+        weight: 1,
+        opacity: 0.45,
+        fillColor: '#e4dcce',
+        fillOpacity: 0.4,
+        interactive: true,
+      }),
+      onEachFeature: (feature, couche) => {
+        couche.on('mouseover', () => setDeptSurvole(feature.properties.code))
+        couche.on('mouseout', () => setDeptSurvole(null))
+        couche.on('click', () => {
+          setDeptEpingle((courant) => (courant === feature.properties.code ? null : feature.properties.code))
+        })
+      },
     }).addTo(map)
-    // France métropolitaine entière, Corse comprise.
-    map.fitBounds(
-      [
-        [41.3, -5.3],
-        [51.2, 9.7],
-      ],
-      { padding: [8, 8] },
-    )
-    setTimeout(() => map.invalidateSize(), 60)
+
+    map.fitBounds(coucheDepartements.getBounds(), { padding: [6, 6] })
+    // La mise en page peut bouger juste après le montage (polices chargées,
+    // flex qui se stabilise) : on re-mesure et on recadre une fois la taille
+    // finale connue, sinon la France reste petite au milieu du cadre.
+    setTimeout(() => {
+      map.invalidateSize()
+      map.fitBounds(coucheDepartements.getBounds(), { padding: [6, 6] })
+    }, 80)
     carte.current = map
+    couche.current = coucheDepartements
+    return undefined
+  }, [])
+
+  // Un clic dans le vide (hors département) désépingle.
+  useEffect(() => {
+    const map = carte.current
+    if (!map) return undefined
+    map.on('click', () => setDeptEpingle(null))
     return undefined
   }, [])
 
@@ -173,24 +223,23 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
     }
   }, [groupes])
 
-  // Pose / met à jour les points quand les positions sont connues.
+  // Pose les points quand les positions sont connues.
   useEffect(() => {
     const map = carte.current
     if (!map) return
     groupes.forEach((groupe) => {
       const coords = positions[groupe.cle]
-      const existant = marqueurs.current.get(groupe.cle)
-      if (!coords) {
-        return
-      }
-      const icone = L.divIcon({
-        className: 'carte-leaflet__icone',
-        html: '<span class="carte-leaflet__point"></span>',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
+      if (!coords || marqueurs.current.has(groupe.cle)) return
+      const marqueur = L.marker(coords, {
+        icon: L.divIcon({
+          className: 'carte-leaflet__icone',
+          html: '<span class="carte-leaflet__point"></span>',
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
+        }),
+        keyboard: true,
+        riseOnHover: true,
       })
-      if (existant) return // déjà posé (les coordonnées géocodées ne bougent pas)
-      const marqueur = L.marker(coords, { icon: icone, keyboard: true, riseOnHover: true })
       marqueur.bindTooltip(bulleHtml(groupe.items), {
         direction: 'top',
         offset: [0, -12],
@@ -210,20 +259,46 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
     })
   }, [positions, groupes])
 
-  // Ligne survolée dans la liste (`itemActifId`) : allume le point et ouvre
-  // sa bulle ; à la sortie, tout retombe.
+  // États visuels : département actif teinté en vert clair, points allumés
+  // quand leur département est actif.
   useEffect(() => {
-    const allume = itemActifId
-      ? groupes.find((groupe) => groupe.items.some((item) => item._id === itemActifId))
-      : null
+    if (!couche.current) return
+    couche.current.eachLayer((coucheDept) => {
+      const actif = coucheDept.feature.properties.code === deptActif
+      coucheDept.setStyle({
+        fillColor: actif ? '#35985f' : '#e4dcce',
+        fillOpacity: actif ? 0.55 : 0.4,
+      })
+    })
+  }, [deptActif, positions])
+
+  useEffect(() => {
     marqueurs.current.forEach((marqueur, cle) => {
       const element = marqueur.getElement()
       if (!element) return
-      const actif = allume?.cle === cle
-      element.classList.toggle('est-lit', actif)
-      if (actif && !marqueur.isTooltipOpen()) marqueur.openTooltip()
-      if (!actif && marqueur.isTooltipOpen()) marqueur.closeTooltip()
+      const groupe = groupes.find((g) => g.cle === cle)
+      const allume = groupe?.departements.includes(deptActif)
+      element.classList.toggle('est-lit', Boolean(allume))
     })
+  }, [deptActif, groupes, positions])
+
+  // Bulle ouverte pour la ligne survolée de la liste (`itemActifId`) ;
+  // à la sortie de la liste, elle se referme.
+  const bulleListe = useRef(null)
+  useEffect(() => {
+    if (!itemActifId) {
+      if (bulleListe.current && bulleListe.current.isTooltipOpen()) {
+        bulleListe.current.closeTooltip()
+      }
+      bulleListe.current = null
+      return
+    }
+    const groupe = groupes.find((g) => g.items.some((item) => item._id === itemActifId))
+    const marqueur = groupe && marqueurs.current.get(groupe.cle)
+    if (marqueur) {
+      marqueur.openTooltip()
+      bulleListe.current = marqueur
+    }
   }, [itemActifId, groupes, positions])
 
   // Nettoyage (démontage).
@@ -232,6 +307,7 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
       if (carte.current) {
         carte.current.remove()
         carte.current = null
+        couche.current = null
         marqueurs.current = new Map()
       }
     },

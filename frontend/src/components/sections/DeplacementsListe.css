@@ -9,11 +9,11 @@
    carte sur ce point (voir CarteFrance). Dimensions desktop en --u (px de
    la maquette 1440, voir index.css). */
 
-/* Conteneur défilant : bas aligné sur celui de la carte (442px de haut,
-   la liste commence à y464 et la carte finit à y906), barre de défilement
+/* Conteneur défilant : bas aligné sur celui de la carte (516px de haut,
+   la liste commence à y464 et la carte finit à y980), barre de défilement
    fine et verte. */
 .deplacements-liste__defilement {
-  max-height: calc(442 * var(--u)); /* 442px */
+  max-height: calc(516 * var(--u)); /* 516px */
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #095228 #e4dcce;

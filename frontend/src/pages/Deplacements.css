@@ -111,12 +111,12 @@
   pointer-events: none;
 }
 
-/* Carte de France : 640px, décalée vers l'intérieur (bord droit à x1400,
-   40px de marge, sans débordement). Le composant CarteFrance gère Leaflet,
-   les points et la bulle (voir CarteFrance.css). */
+/* Carte de France : 700px, décalée vers l'intérieur (bord droit à x1400,
+   40px de marge) et rapprochée de la colonne des événements. Le composant
+   CarteFrance gère Leaflet, les points et la bulle (voir CarteFrance.css). */
 .deplacements__carte {
   flex: 0 0 auto;
-  width: calc(640 * var(--u)); /* 640px */
+  width: calc(700 * var(--u)); /* 700px */
   position: relative;
   z-index: 1;
 }
