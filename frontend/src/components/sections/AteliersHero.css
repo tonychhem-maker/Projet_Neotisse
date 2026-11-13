@@ -70,12 +70,13 @@
   height: 0;
 }
 
-/* Paragraphe d'accroche : (354,606,731×185), Outfit 20px, interlignage 30px. */
+/* Paragraphe d'accroche : (354,606,731×185), Outfit 20px, interlignage 30px.
+   Descoulé de 40px sous la maquette pour aérer sous la photo. */
 .ateliers-hero__text {
   position: absolute;
   z-index: 2;
   left: calc(354 * var(--u)); /* 354px */
-  top: calc(526 * var(--u)); /* 526px */
+  top: calc(566 * var(--u)); /* 526px + 40px d'air sous la photo */
   width: calc(731 * var(--u)); /* 731px */
   text-align: center;
   font-size: calc(20 * var(--u)); /* 20px */
@@ -87,12 +88,13 @@
   margin: 0;
 }
 
-/* Flèche vers le bas (fichier maquette 15×42), centrée à x720. */
+/* Flèche vers le bas (fichier maquette 15×42), centrée à x720.
+   Descoulée avec le texte pour conserver son air. */
 .ateliers-hero__arrow {
   position: absolute;
   z-index: 2;
   left: calc(720 * var(--u));
-  top: calc(745 * var(--u)); /* 745px */
+  top: calc(785 * var(--u)); /* 745px + 40px */
   width: calc(15 * var(--u)); /* 15px */
   height: calc(42 * var(--u)); /* 42px */
   transform: translateX(-50%);
@@ -134,7 +136,7 @@
     order: 3;
     width: 100%;
     max-width: 480px;
-    margin-top: 20px;
+    margin-top: 36px;
     font-size: 14px;
     line-height: 1.6;
     letter-spacing: 1px;

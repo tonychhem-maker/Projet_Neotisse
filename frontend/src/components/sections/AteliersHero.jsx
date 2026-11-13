@@ -39,19 +39,34 @@ export default function AteliersHero({ title = '', words = [], text = [], imageS
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const first = root.querySelector('.ateliers-hero__word--left')
         const rest = root.querySelector('.ateliers-hero__word--right')
+        const figure = root.querySelector('.ateliers-hero__figure')
 
         // Les deux mots arrivent de part et d'autre et se rejoignent au centre.
-        const assemble = gsap
-          .timeline({ delay: 0.15 })
+        const assemble = gsap.timeline({ delay: 0.15 })
+
+        // La photo apparaît du bas vers le haut : grand trajet, ease out très
+        // poussé (expo) — départ vif, atterrissage long et soyeux. L'état de
+        // départ est posé avant la timeline (rendu avant peinture) : aucun
+        // flash de la photo à sa place finale.
+        if (figure) {
+          gsap.set(figure, { y: () => figure.offsetHeight * 0.45, autoAlpha: 0 })
+          assemble.to(
+            figure,
+            { y: 0, autoAlpha: 1, duration: 1.6, ease: 'expo.out' },
+            0,
+          )
+        }
+
+        assemble
           .from(
             first,
             { x: () => -window.innerWidth * 0.75, opacity: 0, duration: 1.25, ease: 'expo.out' },
-            0,
+            0.1,
           )
           .from(
             rest,
             { x: () => window.innerWidth * 0.75, opacity: 0, duration: 1.25, ease: 'expo.out' },
-            0.05,
+            0.15,
           )
 
         return () => assemble.kill()
