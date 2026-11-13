@@ -44,17 +44,24 @@ export default function AteliersHero({ title = '', words = [], text = [], imageS
         // Les deux mots arrivent de part et d'autre et se rejoignent au centre.
         const assemble = gsap.timeline({ delay: 0.15 })
 
-        // La photo apparaît du bas vers le haut : grand trajet, ease out très
-        // poussé (expo) — départ vif, atterrissage long et soyeux. L'état de
-        // départ est posé avant la timeline (rendu avant peinture) : aucun
-        // flash de la photo à sa place finale.
+        // La photo apparaît par révélation verticale : un masque s'ouvre du
+        // bas vers le haut (clip-path), l'image reste à sa place finale —
+        // pas de translation du bloc, pas de fondu. Léger parallax : dans le
+        // masque, l'image part décalée de 15 % vers le bas et rattrape sa
+        // position avec la même courbe très dégressive (expo) que le masque.
+        // Les états de départ sont posés avant la timeline (rendu avant
+        // peinture) : aucun flash.
         if (figure) {
-          gsap.set(figure, { y: () => figure.offsetHeight * 0.45, autoAlpha: 0 })
-          assemble.to(
-            figure,
-            { y: 0, autoAlpha: 1, duration: 1.6, ease: 'expo.out' },
-            0,
-          )
+          const image = figure.querySelector('img')
+          gsap.set(figure, { clipPath: 'inset(100% 0% 0% 0%)' })
+          if (image) gsap.set(image, { yPercent: 15 })
+          assemble
+            .to(
+              figure,
+              { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.6, ease: 'expo.out' },
+              0,
+            )
+            .to(image, { yPercent: 0, duration: 1.6, ease: 'expo.out' }, 0)
         }
 
         assemble

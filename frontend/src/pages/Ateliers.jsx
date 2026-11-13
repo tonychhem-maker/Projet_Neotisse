@@ -81,7 +81,7 @@ export default function Ateliers() {
         title={page.heroTitle}
         words={words}
         text={paragraphs}
-        imageSrc={page.heroImage?.src}
+        imageSrc={page.heroImage?.src ?? ATELIERS_FALLBACK.heroImage.src}
       />
 
       <AteliersFormats formats={formats} />
