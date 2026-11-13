@@ -72,6 +72,27 @@ function bulleHtml(groupe) {
 }
 
 /**
+ * Ouvre la bulle puis re-mesure sa position au rendu suivant. Leaflet centre
+ * la bulle au-dessus de son point grâce à la largeur mesurée au moment de
+ * l'ouverture (`offsetWidth`) : si la mise en page n'est pas stabilisée à cet
+ * instant, la mesure tombe à 0 — la bulle restait alors ancrée par son bord
+ * gauche sur le point (au lieu d'être centrée) et dépassait de la carte,
+ * sans jamais être recalculée. La re-mesure au frame suivant la replace.
+ */
+function ouvrirBulle(marqueur) {
+  marqueur.openTooltip()
+  remesurerBulle(marqueur)
+}
+
+/** Re-mesure et repositionne la bulle ouverte au frame suivant (voir
+    `ouvrirBulle`) — sans recréation de contenu ni clignotement. */
+function remesurerBulle(marqueur) {
+  requestAnimationFrame(() => {
+    if (marqueur.isTooltipOpen()) marqueur.getTooltip().update()
+  })
+}
+
+/**
  * Carte de France interactive de la page Déplacements : Leaflet sans fond
  * de carte — le seul dessin est le contour des départements (GeoJSON
  * france-geojson, dérivé d'OpenStreetMap) sur fond crème, dans la charte du
@@ -105,12 +126,17 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
       const marqueur = marqueurs.current.get(cle)
       if (!marqueur || !carte.current) return
       const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      // La bulle doit être repositionnée pour la VUE D'ARRIVÉE : ouverte
+      // pendant l'animation, elle garderait la position de l'ancienne vue et
+      // sortirait de la carte. On la referme et on la rouvre au terme du
+      // mouvement (`moveend`), une fois le point à sa place définitive.
+      marqueur.closeTooltip()
+      carte.current.once('moveend', () => ouvrirBulle(marqueur))
       if (reduit) {
         carte.current.setView(marqueur.getLatLng(), 9)
       } else {
         carte.current.flyTo(marqueur.getLatLng(), 9, { duration: 0.8 })
       }
-      marqueur.openTooltip()
     },
   }))
 
@@ -176,20 +202,33 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
     }).addTo(map)
 
     map.fitBounds(coucheDepartements.getBounds(), { padding: [6, 6] })
-    // La mise en page peut bouger juste après le montage (polices chargées,
-    // flex qui se stabilise) : on re-mesure et on re-cadre une fois la taille
-    // finale connue, sinon la France reste petite au milieu du cadre.
-    // Le délai est annulé au démontage : en StrictMode (montage → démontage →
-    // remontage du dev), ce rappel visait sinon une carte déjà supprimée
-    // (`_leaflet_pos` undefined dans Leaflet).
-    const remesure = setTimeout(() => {
-      if (carte.current !== map) return
+    // La mise en page peut bouger après le montage (polices chargées, flex
+    // qui se stabilise, fenêtre redimensionnée…) : on re-mesure et on
+    // re-cadre à CHAQUE changement de taille du conteneur. Avec un simple
+    // rappel unique, la France restait mal cadrée — voire les points se
+    // retrouvaient posés hors de la carte, le cadrage initial ne
+    // correspondant plus à la géométrie affichée.
+    let derniereLargeur = 0
+    let derniereHauteur = 0
+    const observateur = new ResizeObserver((entrees) => {
+      if (carte.current !== map) return // carte démontée entre-temps
+      const taille = entrees[0].contentRect
+      if (Math.abs(taille.width - derniereLargeur) < 1 && Math.abs(taille.height - derniereHauteur) < 1) return
+      derniereLargeur = taille.width
+      derniereHauteur = taille.height
+      // La bulle ouverte est positionnée pour l'ancienne vue : refermée avant
+      // le recadrage et rouverte après, elle reste collée à son point au lieu
+      // de rester en retrait et de sortir de la carte.
+      const ouverte = [...marqueurs.current.values()].find((m) => m.isTooltipOpen())
+      if (ouverte) ouverte.closeTooltip()
       map.invalidateSize()
       map.fitBounds(coucheDepartements.getBounds(), { padding: [6, 6] })
-    }, 80)
+      if (ouverte) ouvrirBulle(ouverte)
+    })
+    observateur.observe(conteneur.current)
     carte.current = map
     couche.current = coucheDepartements
-    return () => clearTimeout(remesure)
+    return () => observateur.disconnect()
   }, [])
 
   // Un clic dans le vide (hors département) désépingle.
@@ -227,10 +266,20 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
     }
   }, [groupes])
 
-  // Pose les points quand les positions sont connues.
+  // Pose les points quand les positions sont connues, et retire ceux dont
+  // l'événement a disparu : le repli local montre d'abord la ligne
+  // d'exemple de la maquette (Paris), remplacée par les vrais événements
+  // quand Sanity répond — sans nettoyage, le point d'exemple restait posé
+  // à côté des points dynamiques.
   useEffect(() => {
     const map = carte.current
     if (!map) return
+    const cles = new Set(groupes.map((g) => g.cle))
+    marqueurs.current.forEach((marqueur, cle) => {
+      if (cles.has(cle)) return
+      marqueur.remove()
+      marqueurs.current.delete(cle)
+    })
     groupes.forEach((groupe) => {
       const coords = positions[groupe.cle]
       if (!coords || marqueurs.current.has(groupe.cle)) return
@@ -255,12 +304,24 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
         if (marqueur.isTooltipOpen()) {
           marqueur.closeTooltip()
         } else {
-          marqueur.openTooltip()
+          ouvrirBulle(marqueur)
         }
       })
+      // Le simple survol (ou le focus clavier) ouvre la bulle en interne par
+      // Leaflet : on re-mesure sa position au frame suivant pour garantir le
+      // centrage au-dessus du point, même si l'ouverture a eu lieu pendant
+      // que la mise en page se stabilisait.
+      marqueur.on('mouseover focus', () => remesurerBulle(marqueur))
       marqueur.addTo(map)
       marqueurs.current.set(groupe.cle, marqueur)
     })
+    // Un point peut avoir été posé pendant que la carte changeait de taille
+    // ou de cadrage (géocodage asynchrone) : un recadrage final garantit que
+    // tous les points sont repositionnés sur la vue affichée.
+    if (couche.current && map.getSize().x > 0) {
+      map.invalidateSize()
+      map.fitBounds(couche.current.getBounds(), { padding: [6, 6] })
+    }
   }, [positions, groupes])
 
   // États visuels : département actif teinté en vert clair, points allumés
@@ -300,7 +361,7 @@ export default function CarteFrance({ items = [], itemActifId = null, className 
     const groupe = groupes.find((g) => g.items.some((item) => item._id === itemActifId))
     const marqueur = groupe && marqueurs.current.get(groupe.cle)
     if (marqueur) {
-      marqueur.openTooltip()
+      ouvrirBulle(marqueur)
       bulleListe.current = marqueur
     }
   }, [itemActifId, groupes, positions])

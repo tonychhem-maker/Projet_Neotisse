@@ -69,9 +69,11 @@
 
 .actualites-carte__mois {
   display: block;
-  /* une seule ligne, comme dans la maquette (le texte déborde
-     légèrement de sa colonne, centré) */
-  white-space: nowrap;
+  /* Les mois courts tiennent sur une ligne comme dans la maquette ; un
+     mois long passe à la ligne au lieu de déborder de sa colonne (et de
+     chevaucher le titre à droite). */
+  overflow-wrap: break-word;
+  text-wrap: balance;
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: calc(48 * var(--u)); /* 48px */
@@ -90,12 +92,15 @@
   color: #000;
 }
 
-/* Structure / titre (colonne droite x975, largeur 455px). */
+/* Structure / titre (colonne droite x975). La largeur s'arrête au bord de
+   la carte (1346 − 975 − 40px de marge) : un titre long passe à la ligne
+   au lieu de sortir de la carte ou de chevaucher la date. */
 .actualites-carte__texte {
   position: absolute;
   left: calc(975 * var(--u)); /* 975px */
   top: calc(125 * var(--u)); /* 125px */
-  width: calc(455 * var(--u)); /* 455px */
+  width: calc(331 * var(--u)); /* 1346 − 975 − 40px de marge droite */
+  overflow-wrap: break-word;
 }
 
 .actualites-carte__kicker {
