@@ -20,9 +20,10 @@
 .ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__title {
   margin-left: calc(71 * var(--u)); /* 71px */
 }
-/* Texte droit : posé à x763, soit 43px après la colonne. */
+/* Texte droit : posé à x763, écarté à 59px du filet (x720) pour que le
+   corps ne colle plus au séparateur. */
 .ateliers-secondary__col + .ateliers-secondary__col .ateliers-secondary__text {
-  margin-left: calc(43 * var(--u)); /* 43px */
+  margin-left: calc(59 * var(--u)); /* 59px */
 }
 
 /* Titres posés sur une réserve de 77px (une ligne en maquette) : le texte
@@ -45,12 +46,18 @@
    la réserve de titre est parcourue de -8.8px (marge du masque de
    révélation) : l'écart vaut 110.8px. `flow-root` évite que la marge
    négative du masque ne remonte le paragraphe. */
+/* Corps de texte compact : bloc rétréci (596px, il laissait 1px au filet
+   vertical !), typo du site (DM Sans 18u, interligne 1,6). `flow-root`
+   évite que la marge négative du masque de révélation ne remonte le
+   paragraphe. */
 .ateliers-secondary__text {
   display: flow-root;
-  width: calc(664 * var(--u)); /* 664px */
+  width: calc(596 * var(--u)); /* 596px : 69px d'air avec le filet */
   margin-top: calc(110.8 * var(--u)); /* 110.8px */
-  font-size: calc(20 * var(--u)); /* 20px */
-  line-height: 1.5; /* 30px */
+  font-family: var(--font-dm);
+  font-weight: 400;
+  font-size: calc(18 * var(--u)); /* 18px, corps de texte du site */
+  line-height: 1.6;
   color: #000;
 }
 
@@ -89,7 +96,7 @@
 
   .ateliers-secondary__text {
     margin-top: 10px;
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .ateliers-secondary__line {
