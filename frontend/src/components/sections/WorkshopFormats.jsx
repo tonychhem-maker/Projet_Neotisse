@@ -121,7 +121,7 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                 >
                   <div className="grid items-start gap-10 pb-10 pl-0 md:grid-cols-[1fr_calc(300*var(--u))] md:pl-12">
                     <div className="order-2 pt-4 md:order-1">
-                      <p className="reveal-line max-w-[600px] text-[14px] leading-[1.9] text-[#0a0a0a] md:text-[calc(17*var(--u))]">
+                      <p className="reveal-line max-w-[600px] font-dm text-[15px] font-normal leading-[1.6] text-[#0a0a0a] md:text-[calc(18*var(--u))]">
                         <span className="block">{format.text}</span>
                       </p>
                       <Link

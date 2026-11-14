@@ -77,8 +77,10 @@
 }
 .livre-dor-card__quote p {
   margin: 0;
-  font-size: calc(18 * var(--u)); /* 18px */
-  line-height: calc(30 * var(--u)); /* 30px */
+  font-family: var(--font-dm);
+  font-weight: 400;
+  font-size: calc(18 * var(--u)); /* 18px, corps de texte du site */
+  line-height: 1.6;
   color: #000;
 }
 

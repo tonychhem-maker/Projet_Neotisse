@@ -18,7 +18,7 @@ export default function AboutBlock({ title, paragraphs, imageSrc, imageAlt }) {
               <span className="block">{title}</span>
             </span>
           </h2>
-          <div className="mt-10 space-y-14 text-[15px] leading-[2] text-[#0a0a0a] md:text-[calc(18*var(--u))]">
+          <div className="mt-10 space-y-14 font-dm text-[15px] font-normal leading-[1.6] text-[#0a0a0a] md:text-[calc(18*var(--u))]">
             {paragraphs.map((paragraph) => (
               <p key={paragraph} className="reveal-line">
                 <span className="block">{paragraph}</span>

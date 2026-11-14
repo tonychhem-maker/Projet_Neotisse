@@ -37,9 +37,10 @@
 /* Aucun résultat de recherche : message discret sous le champ. */
 .deplacements-liste__vide {
   margin: calc(24 * var(--u)) 0 0;
-  font-family: 'Outfit', var(--font-sans);
-  font-size: calc(18 * var(--u)); /* 18px */
-  line-height: 1.6667;
+  font-family: var(--font-dm);
+  font-weight: 400;
+  font-size: calc(18 * var(--u)); /* 18px, corps de texte du site */
+  line-height: 1.6;
   color: #095228;
 }
 

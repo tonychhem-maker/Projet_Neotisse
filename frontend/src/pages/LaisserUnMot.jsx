@@ -60,7 +60,7 @@ export default function LaisserUnMot() {
         {status === 'success' ? (
           <div role="status" className="border border-leaf bg-leaf/10 p-8 text-center">
             <h2 className="text-[20px] md:text-[calc(24*var(--u))] text-pine">Merci pour votre message !</h2>
-            <p className="mt-3 text-[15px] md:text-[calc(18*var(--u))]">
+            <p className="mt-3 font-dm text-[15px] font-normal leading-[1.6] md:text-[calc(18*var(--u))]">
               Votre message sera relu par l’équipe avant d’être publié dans le livre d’or.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">

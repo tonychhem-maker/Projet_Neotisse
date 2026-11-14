@@ -79,9 +79,9 @@
   top: calc(566 * var(--u)); /* 526px + 40px d'air sous la photo */
   width: calc(731 * var(--u)); /* 731px */
   text-align: center;
-  font-family: var(--font-sans);
+  font-family: var(--font-dm);
   font-weight: 400;
-  font-size: calc(18 * var(--u)); /* 18px, échelle de texte du site */
+  font-size: calc(18 * var(--u)); /* 18px, corps de texte du site */
   line-height: 1.6;
   letter-spacing: normal;
   color: #000;

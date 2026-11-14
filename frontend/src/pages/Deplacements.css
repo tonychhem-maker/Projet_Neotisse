@@ -161,10 +161,10 @@
 .depl-events__intro-texte {
   margin: calc(28 * var(--u)) 0 0; /* sous la boîte du titre (y3137→3165) */
   max-width: calc(544 * var(--u)); /* 544px */
-  font-family: 'Outfit', var(--font-sans);
+  font-family: var(--font-dm);
   font-weight: 400;
-  font-size: calc(18 * var(--u)); /* 18px */
-  line-height: 1.6667; /* boîte 30px */
+  font-size: calc(18 * var(--u)); /* 18px, corps de texte du site */
+  line-height: 1.6;
   color: #000;
 }
 
