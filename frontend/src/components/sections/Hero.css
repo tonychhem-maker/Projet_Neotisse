@@ -56,7 +56,7 @@
   text-transform: uppercase;
   font-size: min(calc(130 * var(--u)), 16vh);
   line-height: 0.98;
-  color: #0a0a0a;
+  color: #095228; /* vert sapin de la charte, comme les autres grands titres */
   pointer-events: none;
 }
 .hero .ln {
