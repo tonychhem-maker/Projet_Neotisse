@@ -168,7 +168,7 @@ export const ACTUALITES_QUERY = `{
       "to": coalesce(internalPath, externalUrl)
     }
   },
-  "posts": *[_type == "post"] | order(publishedAt desc) [0...1] {
+  "posts": *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
     "id": _id,
     "title": title,
     "slug": slug.current,
