@@ -1,5 +1,6 @@
 import { aboutPage } from './documents/aboutPage'
 import { actualitesPage } from './documents/actualitesPage'
+import { analyticsTargets } from './documents/analyticsTargets'
 import { ateliersPage } from './documents/ateliersPage'
 import { availability } from './documents/availability'
 import { contactInfo } from './documents/contactInfo'
@@ -41,6 +42,7 @@ export const schemaTypes = [
   livreDorPage,
   actualitesPage,
   legalPage,
+  analyticsTargets,
 
   // Objets réutilisables
   seo,

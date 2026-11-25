@@ -7,6 +7,7 @@ export const singletonTypes = new Set([
   'deplacementsPage',
   'livreDorPage',
   'actualitesPage',
+  'analyticsTargets',
 ])
 
 export function deskStructure(S) {
@@ -102,5 +103,9 @@ export function deskStructure(S) {
         .title('Réglages du site')
         .id('siteSettings')
         .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
+      S.listItem()
+        .title('Objectifs statistiques')
+        .id('analyticsTargets')
+        .child(S.document().schemaType('analyticsTargets').documentId('analyticsTargets')),
     ])
 }

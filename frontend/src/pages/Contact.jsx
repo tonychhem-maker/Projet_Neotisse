@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger, gsap } from '../lib/smoothScroll'
+import { trackAudience } from '../lib/analytics'
 import { isContactFormConfigured, sendContactMessage, validateEmail } from '../lib/forms'
 import { CONTACT_QUERY, useSanityContent } from '../lib/queries'
 import {
@@ -135,6 +136,8 @@ export default function Contact() {
     try {
       await sendContactMessage(form, info.formEndpoint)
       setStatus('success')
+      // Conversion : le message est parti. Aucun contenu n'est transmis.
+      trackAudience('contact_submit')
       setForm(emptyForm)
     } catch {
       setStatus('error')

@@ -69,6 +69,7 @@ export function trackAudienceClick(event) {
       const url = new URL(link.href, location.origin)
       if (url.origin !== location.origin) return
       if (url.pathname === '/contact') trackAudience('contact_click')
+      else if (url.pathname === '/livre-d-or/laisser-un-mot') trackAudience('testimonial_open')
       else if (url.pathname.startsWith('/actualites/')) trackAudience('article_open')
     } catch { /* lien non HTTP */ }
   }

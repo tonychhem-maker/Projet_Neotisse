@@ -7,7 +7,11 @@ export const RETENTION_DAYS = 90
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i
 const PAGES = new Set(['/', '/ateliers-de-mediation-textile', '/a-propos', '/actualites', '/deplacements', '/partenaires', '/contact', '/livre-d-or', '/livre-d-or/laisser-un-mot', '/mentions-legales', '/politique-de-confidentialite', '/politique-de-cookies'])
 export const SOURCES = ['direct', 'google', 'bing', 'facebook', 'instagram', 'linkedin', 'other']
-export const EVENTS = ['pageview', 'contact_click', 'workshop_open', 'article_open']
+// pageview n'est pas une action : elle alimente le compteur de pages vues.
+// Les conversions sont sans donnée personnelle : on sait qu'un message est parti, jamais son contenu.
+export const EVENTS = ['pageview', 'contact_click', 'contact_submit', 'testimonial_open', 'testimonial_submit', 'workshop_open', 'article_open']
+// Clics d'intention (avant remplissage d'un formulaire).
+export const CLICKS = new Set(['contact_click', 'testimonial_open', 'workshop_open', 'article_open'])
 
 export function normalizePath(value) {
   if (typeof value !== 'string' || value.length > 180) return null
@@ -35,17 +39,21 @@ export function nextDocuments(event, daily, visit, now = new Date()) {
   if (visit?.eventIds?.includes(event.id)) return { status: 'duplicate' }
   if ((daily?.received ?? 0) >= DAILY_LIMIT || (visit?.eventIds?.length ?? 0) >= SESSION_LIMIT) return { status: 'limited' }
   const newVisit = !visit
+  // « Engagée » : la visite a produit un message ou une demande, pas seulement un clic d'intention.
+  const engagement = event.kind !== 'pageview' && !CLICKS.has(event.kind)
+  const newEngagement = engagement && !visit?.engaged
   if (newVisit && (daily?.visits ?? 0) >= DAILY_VISIT_LIMIT) return { status: 'limited' }
-  const next = structuredClone(daily ?? { _id: dailyId, _type: 'analyticsDaily', day, received: 0, views: 0, visits: 0, pages: [], sources: [], events: [] })
+  const next = structuredClone(daily ?? { _id: dailyId, _type: 'analyticsDaily', day, received: 0, views: 0, visits: 0, engagedVisits: 0, pages: [], sources: [], events: [] })
   next.received += 1
   next.visits += newVisit ? 1 : 0
   if (newVisit) increment(next.sources, event.source, 'source')
+  if (newEngagement) next.engagedVisits = (next.engagedVisits ?? 0) + 1
   if (event.kind === 'pageview') {
     next.views += 1
     const path = next.pages.length >= 100 && !next.pages.some(p => p.path === event.path) ? '/autres-pages' : event.path
     increment(next.pages, path, 'path')
   } else increment(next.events, event.kind, 'kind')
-  const session = { _id: visitId, _type: 'analyticsVisit', day, eventIds: [...(visit?.eventIds ?? []), event.id] }
+  const session = { _id: visitId, _type: 'analyticsVisit', day, engaged: Boolean(visit?.engaged) || newEngagement, eventIds: [...(visit?.eventIds ?? []), event.id] }
   return { status: 'counted', daily: next, visit: session }
 }
 

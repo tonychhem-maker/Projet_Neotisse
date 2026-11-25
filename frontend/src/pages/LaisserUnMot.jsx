@@ -3,6 +3,7 @@ import Button from '../components/ui/Button'
 import Field from '../components/ui/Field'
 import Honeypot from '../components/ui/Honeypot'
 import PageHeader from '../components/ui/PageHeader'
+import { trackAudience } from '../lib/analytics'
 import { isContactFormConfigured, sendTestimonial } from '../lib/forms'
 
 const emptyForm = { author: '', organisation: '', message: '', rating: '', honeypot: '' }
@@ -44,6 +45,8 @@ export default function LaisserUnMot() {
     try {
       await sendTestimonial(form)
       setStatus('success')
+      // Conversion : le message est parti. Aucun contenu n'est transmis.
+      trackAudience('testimonial_submit')
       setForm(emptyForm)
     } catch {
       setStatus('error')
