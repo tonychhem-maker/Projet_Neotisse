@@ -9,8 +9,29 @@ Après acceptation de la bannière, React envoie les mesures à `/api/analytics`
 - Pages vues : ouverture d'une route, y compris navigation React Router.
 - Visites : identifiant aléatoire dans `sessionStorage`, renouvelé après 30 minutes sans événement ou au changement de date UTC. Plusieurs onglets peuvent compter plusieurs visites ; ce ne sont pas des personnes uniques.
 - Provenances : direct/inconnu, Google, Bing, Facebook, Instagram, LinkedIn, autres. Aucune URL référente brute conservée.
-- Interactions : lien vers Contact, lien vers une actualité, ouverture d'un format d'atelier. Ce ne sont pas des conversions ni des envois de formulaires.
-- Périodes : 7, 30, 90 jours, graphique quotidien et tableaux.
+- Interactions : lien vers Contact, lien vers le livre d'or, lien vers une actualité, ouverture d'un format d'atelier. Ce sont des intentions, pas des conversions.
+- Conversions : message du formulaire de contact (`contact_submit`) et message du livre d'or (`testimonial_submit`), comptés après un envoi réussi. Le contenu du formulaire n'est jamais transmis.
+- Visite avec intention : visite qui a produit au moins un message envoyé. Elle sert à mesurer la part des visites qui vont jusqu'au bout du parcours.
+- Provenances : direct/inconnu, Google, Bing, Facebook, Instagram, LinkedIn, autres. Aucune URL référente brute conservée.
+- Périodes : 7, 30 ou 90 jours glissants, comparées à la même durée juste avant, plus une vue « Mois par mois ».
+
+## Objectifs et KPI (plan de taggage)
+
+L'onglet **Statistiques** traduit le plan de taggage en trois cartes, toujours comparées aux 30 jours précédents :
+
+| KPI | Métrique | Seuil négatif / positif par défaut | Source |
+| --- | --- | --- | --- |
+| Demandes de devis | Messages envoyés depuis le formulaire de contact | moins de 3 / plus de 6 par 30 jours | `contact_submit` |
+| Référencement | Part des visites venant de Google, plus les vues des actualités | moins de 25 % / plus de 40 % | `google` + pages `/actualites/…` |
+| Avis reçus | Messages du livre d'or reçus | moins de 2 / plus de 4 par 30 jours | documents `testimonial` |
+
+Chaque carte indique le statut par rapport aux seuils, l'évolution par rapport à la période précédente et le conseil à suivre (agir, surveiller, préserver). Les seuils se règlent sans code dans le Studio, document **Objectifs statistiques** (Structure, en bas du menu).
+
+Deux limites assumées :
+- Sans Search Console, la position réelle dans Google n'est pas mesurable. Le KPI « Référencement » suit le trafic Google réel et les vues des actualités : c'est une approximation honnête, pas un rang.
+- Tant que la collecte n'a pas trente jours d'historique (démarrée le 2026-11-25), l'évolution affiche « historique insuffisant » plutôt qu'un faux « 0 ». Un message envoyé sans acceptation de la bannière n'est pas compté ; l'indicateur est donc un plancher.
+- Avant le 2026-11-25, les « visites avec intention » n'ont pas été enregistrées : ce compteur démarre à la mise à jour du 25/11/2026.
+
 
 ## Confidentialité et stockage
 
@@ -61,4 +82,6 @@ npx sanity exec scripts/verify-analytics.mjs --with-user-token
 
 Le dernier test crée deux documents sous la date réservée 2001-01-01, vérifie concurrence/déduplication/confidentialité puis les supprime. Il ne modifie pas les compteurs courants. Les visites réelles utilisées pour tester le site peuvent figurer dans les statistiques du jour.
 
-Contrôle navigateur : aucune requête avant choix/après refus ; après acceptation POST 204 ; navigation interne comptée ; clics suivis ; retrait suivi d'une navigation sans nouvel envoi ; aucun appel Umami. Vérifier également le tableau de bord avec une session Studio autorisée.
+Contrôle navigateur : aucune requête avant choix/après refus ; après acceptation POST 204 ; navigation interne comptée ; clics suivis ; envoi d'un message compté comme conversion ; retrait suivi d'une navigation sans nouvel envoi ; aucun appel Umami. Vérifier également le tableau de bord avec une session Studio autorisée.
+
+`npx sanity exec scripts/check-dashboard.mjs --with-user-token` rejoue la lecture du tableau de bord avec la session du poste et affiche les KPI calculés, sans modifier les données.
