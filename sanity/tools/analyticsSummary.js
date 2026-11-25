@@ -3,7 +3,7 @@
 // Tout est calculé en UTC, comme la collecte. Les ratios sont arrondis au
 // dixième pour rester lisibles. Aucune donnée personnelle n'entre ici : les
 // KPI ne manipulent que des compteurs.
-import { CLICKS } from '../../frontend/server/analytics.js'
+import { CLICKS } from '../../frontend/server/analytics-events.js'
 
 export const PERIOD = 30
 

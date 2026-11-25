@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import { CLICKS } from './analytics-events.js'
 
 export const DAILY_LIMIT = 5000
 export const SESSION_LIMIT = 200
@@ -10,8 +11,6 @@ export const SOURCES = ['direct', 'google', 'bing', 'facebook', 'instagram', 'li
 // pageview n'est pas une action : elle alimente le compteur de pages vues.
 // Les conversions sont sans donnée personnelle : on sait qu'un message est parti, jamais son contenu.
 export const EVENTS = ['pageview', 'contact_click', 'contact_submit', 'testimonial_open', 'testimonial_submit', 'workshop_open', 'article_open']
-// Clics d'intention (avant remplissage d'un formulaire).
-export const CLICKS = new Set(['contact_click', 'testimonial_open', 'workshop_open', 'article_open'])
 
 export function normalizePath(value) {
   if (typeof value !== 'string' || value.length > 180) return null
