@@ -1,7 +1,4 @@
-/* Page Contact : fil vert qui s'écrit tout seul à l'arrivée sur la page.
-   Le formulaire lui-même est porté par le composant global
-   (`components/ui/Formulaire.jsx`, styles Tailwind) : demi-largeur,
-   condensé. Seuls l'ossature de la page et les coordonnées sont stylés ici. */
+/* Page Contact : coordonnées et formulaire côte à côte sur grand écran. */
 
 .contact {
   position: relative;
@@ -31,16 +28,21 @@
 .contact-inner {
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
   margin: 0 auto;
   width: 100%;
-  max-width: 1230px;
-  padding: 3rem 2.5rem 5rem;
+  max-width: 1320px;
+  min-height: calc(100svh - 80 * var(--u));
+  padding: 2rem 2.5rem;
 }
 
 /* --- En-tête ------------------------------------------------------------ */
 .contact-title {
   margin: 0;
-  text-align: center;
+  text-align: left;
   font-family: Anton, Impact, 'Arial Narrow', sans-serif;
   font-weight: 400;
   text-transform: uppercase;
@@ -59,37 +61,28 @@
 
 .contact-intro {
   max-width: 640px;
-  margin: 2rem auto 0;
-  text-align: center;
-  font-size: 15px;
+  margin: 1.5rem 0 0;
+  font-size: 18px;
   line-height: 1.6;
   color: #0a0a0a;
-}
-
-@media (min-width: 768px) {
-  .contact-intro {
-    font-size: calc(20 * var(--u));
-  }
 }
 
 /* --- Coordonnées -------------------------------------------------------- */
 .contact-infos {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2rem;
-  max-width: 900px;
-  margin: 5rem auto 0;
-  text-align: center;
+  gap: 1rem;
+  margin: 2rem 0 0;
 }
 
 .contact-infos dt {
-  font-size: 14px;
+  font-size: 18px;
   color: #0a0a0a;
 }
 
 .contact-infos dd {
-  margin-top: 0.6rem;
-  font-size: 14px;
+  margin: 0.15rem 0 0;
+  font-size: 18px;
+  overflow-wrap: anywhere;
   color: #0b4f2a;
 }
 
@@ -104,17 +97,76 @@
   color: #2f8a55;
 }
 
-/* --- Responsive --------------------------------------------------------- */
-@media (max-width: 720px) {
+/* Formulaire compact sans réduire la lisibilité ni masquer les erreurs. */
+.contact-form,
+.contact-success {
+  width: 100%;
+  min-width: 0;
+}
+
+.contact-form__fields,
+.contact-success {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.contact-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-form__fields > div > div.flex,
+.contact-form__fields > div.flex {
+  gap: 0.25rem;
+}
+
+.contact-form input:not([type='checkbox']),
+.contact-form select,
+.contact-form textarea {
+  font-size: 16px;
+  padding-block: 0.55rem;
+}
+
+.contact-form label {
+  font-size: 15px;
+}
+
+.contact-form__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.contact-success {
+  align-items: flex-start;
+  font-size: 18px;
+  color: #0a0a0a;
+}
+
+/* Le contenu reste accessible en défilement sur petit écran ou en zoom. */
+@media (max-width: 860px) {
   .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: 0;
     padding: 2rem 1.5rem 4rem;
   }
 
   .contact-infos {
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
-    margin-top: 3.5rem;
+    margin-top: 1.5rem;
   }
+}
+
+@media (min-width: 861px) and (max-width: 1023px) {
+  .contact-inner { min-height: calc(100svh - 64px); }
+}
+
+@media (max-width: 480px) {
+  .contact-form__row { grid-template-columns: 1fr; gap: 0.75rem; }
 }
 
 /* Réduction des animations : le fil est affiché d'emblée */

@@ -156,45 +156,44 @@ export default function Contact() {
       </svg>
 
       <div className="contact-inner">
-        <h1 className="contact-title" data-contact-reveal>
-          {info.title}
-        </h1>
+        <div className="contact-details">
+          <h1 className="contact-title" data-contact-reveal>
+            {info.title}
+          </h1>
 
-        <p className="contact-intro" data-contact-reveal>
-          {info.intro}
-        </p>
+          <p className="contact-intro" data-contact-reveal>
+            {info.intro}
+          </p>
 
-        <dl className="contact-infos" data-contact-reveal>
-          <div>
-            <dt>Email</dt>
-            <dd>
-              <a href={`mailto:${info.email}`}>{info.email}</a>
-            </dd>
-          </div>
-          <div>
-            <dt>Téléphone</dt>
-            <dd>
-              <a href={`tel:${(info.phone ?? '').replace(/\s/g, '')}`}>{info.phone}</a>
-            </dd>
-          </div>
-          <div>
-            <dt>Instagram</dt>
-            <dd>{info.instagram}</dd>
-          </div>
-        </dl>
+          <dl className="contact-infos" data-contact-reveal>
+            <div>
+              <dt>Email</dt>
+              <dd>
+                <a href={`mailto:${info.email}`}>{info.email}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>Téléphone</dt>
+              <dd>
+                <a href={`tel:${(info.phone ?? '').replace(/\s/g, '')}`}>{info.phone}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>Instagram</dt>
+              <dd>{info.instagram}</dd>
+            </div>
+          </dl>
+        </div>
 
         {status === 'success' ? (
-          <div
-            className="mx-auto mt-14 flex w-full max-w-[615px] flex-col items-center gap-6"
-            role="status"
-          >
-            <p className="text-center text-[16px] text-[#0a0a0a]">{info.formSuccessMessage}</p>
+          <div className="contact-success" role="status">
+            <p>{info.formSuccessMessage}</p>
             <BoutonEnvoyer type="button" onClick={() => setStatus('idle')}>
               Envoyer un autre message
             </BoutonEnvoyer>
           </div>
         ) : (
-          <Formulaire onSubmit={handleSubmit} className="mx-auto mt-14 w-full max-w-[615px]">
+          <Formulaire onSubmit={handleSubmit} className="contact-form" data-contact-reveal>
             {/* Piège à robots, invisible pour les humains */}
             <div aria-hidden="true" className="sr-only">
               <input
@@ -207,8 +206,8 @@ export default function Contact() {
               />
             </div>
 
-            <div className="flex flex-col gap-5">
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="contact-form__fields">
+              <div className="contact-form__row">
                 <ChampTexte
                   label="Nom"
                   id="contact-nom"
@@ -231,34 +230,36 @@ export default function Contact() {
                 />
               </div>
 
-              <ChampTexte
-                label="Email"
-                id="contact-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                placeholder="vous@exemple.fr"
-                value={form.email}
-                onChange={update('email')}
-                erreur={errors.email}
-              />
+              <div className="contact-form__row">
+                <ChampTexte
+                  label="Email"
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="vous@exemple.fr"
+                  value={form.email}
+                  onChange={update('email')}
+                  erreur={errors.email}
+                />
 
-              <ChampSelect
-                label="Objet de contact"
-                id="contact-objet"
-                name="subject"
-                options={OBJETS}
-                placeholder="Sélectionnez l’objet de votre message"
-                valeur={form.subject}
-                onChange={update('subject')}
-                erreur={errors.subject}
-              />
+                <ChampSelect
+                  label="Objet de contact"
+                  id="contact-objet"
+                  name="subject"
+                  options={OBJETS}
+                  placeholder="Choisissez un objet"
+                  valeur={form.subject}
+                  onChange={update('subject')}
+                  erreur={errors.subject}
+                />
+              </div>
 
               <ChampLong
                 label="Message"
                 id="contact-message"
                 name="message"
-                rows={6}
+                rows={3}
                 placeholder="Écrivez votre message…"
                 value={form.message}
                 onChange={update('message')}
@@ -274,19 +275,19 @@ export default function Contact() {
                 erreur={errors.consent}
               />
 
-              <div className="flex flex-col items-center gap-4 pt-2">
+              <div className="contact-form__actions">
                 <BoutonEnvoyer disabled={status === 'sending'} aria-busy={status === 'sending'}>
                   {status === 'sending' ? 'Envoi en cours…' : 'Envoyer'}
                 </BoutonEnvoyer>
 
                 {status === 'error' && (
-                  <p role="alert" className="text-center text-[14px] text-[#b42318]">
+                  <p role="alert" className="text-[14px] text-[#b42318]">
                     L’envoi a échoué. Merci de réessayer ou de nous écrire par e-mail.
                   </p>
                 )}
 
                 {!isContactFormConfigured && (
-                  <p className="text-center text-[14px] text-black/60">
+                  <p className="text-[14px] text-black/60">
                     Le formulaire n’est pas encore relié à un service d’envoi :
                     renseignez VITE_CONTACT_FORM_ENDPOINT.
                   </p>
