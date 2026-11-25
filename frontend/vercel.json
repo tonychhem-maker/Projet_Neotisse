@@ -1,4 +1,5 @@
 {
+  "crons": [{ "path": "/api/analytics-cleanup", "schedule": "17 3 * * *" }],
   "rewrites": [
     {
       "source": "/((?!api/).*)",

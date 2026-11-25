@@ -1,5 +1,9 @@
 # Site Neotisse — Passation
 
+## Statistiques intégrées
+
+L'outil de mesure d'audience Neotisse remplace Umami : consentement, pages vues, visites, provenances et clics, avec un onglet **Statistiques** dans le Studio Sanity. Configuration, limites, confidentialité, purge et tests : [guide Analytics](Docs/ANALYTICS.md).
+
 Site vitrine de l'association **Neotisse** (médiation scientifique autour des savoir-faire textiles anciens) : front React, back-office Sanity CMS, formulaires via Formspree + une fonction serverless.
 
 ---

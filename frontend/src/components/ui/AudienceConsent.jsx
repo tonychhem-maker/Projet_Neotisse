@@ -1,44 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { CONSENT_DURATION, CONSENT_KEY, readConsent, saveConsent } from '../../lib/audienceConsent'
+import { setAnalyticsConsent, trackAudience, trackAudienceClick } from '../../lib/analytics'
 import './AudienceConsent.css'
-
-const scriptUrl = import.meta.env.VITE_UMAMI_SCRIPT_URL?.trim()
-const websiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID?.trim()
-let trackerPromise
-let trackingAllowed = false
-
-function loadTracker() {
-  if (!scriptUrl || !websiteId) return Promise.resolve(null)
-  if (trackerPromise) return trackerPromise
-  trackerPromise = new Promise((resolve) => {
-    let url
-    try {
-      url = new URL(scriptUrl)
-      if (url.protocol !== 'https:') throw new Error('HTTPS required')
-    } catch {
-      resolve(null)
-      return
-    }
-    // Aucun suivi automatique ni écouteur de clic : seules les pages sont envoyées.
-    window.neotisseAudienceBeforeSend = (type, payload) => trackingAllowed ? payload : false
-    const script = document.createElement('script')
-    script.id = 'neotisse-umami'
-    script.src = url.href
-    script.async = true
-    script.dataset.websiteId = websiteId
-    script.dataset.autoTrack = 'false'
-    script.dataset.beforeSend = 'neotisseAudienceBeforeSend'
-    script.onload = () => resolve(window.umami ?? null)
-    script.onerror = () => {
-      script.remove()
-      trackerPromise = undefined
-      resolve(null)
-    }
-    document.head.appendChild(script)
-  })
-  return trackerPromise
-}
 
 export default function AudienceConsent() {
   const [record, setRecord] = useState(readConsent)
@@ -57,7 +21,7 @@ export default function AudienceConsent() {
     const sync = (event) => {
       if (event.key !== CONSENT_KEY && event.key !== null) return
       const next = readConsent()
-      trackingAllowed = next?.choice === 'accepted'
+      setAnalyticsConsent(next?.choice === 'accepted')
       setRecord(next)
     }
     window.addEventListener('neotisse:privacy-settings', open)
@@ -78,7 +42,7 @@ export default function AudienceConsent() {
     const checkExpiry = () => {
       const remaining = record.savedAt + CONSENT_DURATION - Date.now()
       if (remaining <= 0) {
-        trackingAllowed = false
+        setAnalyticsConsent(false)
         setRecord(null)
       } else {
         timer = window.setTimeout(checkExpiry, Math.min(remaining, 86400000))
@@ -89,22 +53,24 @@ export default function AudienceConsent() {
   }, [record])
 
   useEffect(() => {
-    trackingAllowed = accepted
+    setAnalyticsConsent(accepted)
     if (!accepted) return undefined
-    let cancelled = false
-    loadTracker().then((tracker) => {
-      if (cancelled || !trackingAllowed || !tracker) return
-      // Ne pas transmettre les paramètres de recherche, fragments ou champs de formulaire.
-      tracker.track((payload) => ({ ...payload, url: pathname, referrer: '' }))?.catch?.(() => {})
-    })
+    document.addEventListener('click', trackAudienceClick, true)
     return () => {
-      cancelled = true
-      trackingAllowed = false
+      document.removeEventListener('click', trackAudienceClick, true)
+      setAnalyticsConsent(false)
     }
+  }, [accepted])
+
+  useEffect(() => {
+    if (!accepted) return undefined
+    // Différé d'une frame : le montage de contrôle React StrictMode est annulé.
+    const frame = requestAnimationFrame(() => trackAudience('pageview', pathname))
+    return () => cancelAnimationFrame(frame)
   }, [accepted, pathname])
 
   function choose(choice) {
-    trackingAllowed = choice === 'accepted'
+    setAnalyticsConsent(choice === 'accepted')
     setRecord(saveConsent(choice))
     setEditing(false)
     returnFocus.current?.focus()
@@ -116,8 +82,8 @@ export default function AudienceConsent() {
       <div className="audience-consent__copy">
         <h2 id="audience-consent-title">Votre choix pour les statistiques</h2>
         <p id="audience-consent-text">
-          Avec votre accord, nous utilisons Umami pour comprendre la fréquentation du site
-          et améliorer votre visite. Vous pouvez refuser et continuer à naviguer normalement.
+          Avec votre accord, notre outil de statistiques mesure les pages consultées et quelques
+          clics pour améliorer le site. Vous pouvez refuser et continuer à naviguer normalement.
           Votre choix est mémorisé pendant 180 jours et reste modifiable dans le pied de page.
         </p>
         <Link to="/politique-de-cookies">En savoir plus sur les cookies et les statistiques</Link>

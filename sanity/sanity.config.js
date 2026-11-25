@@ -3,6 +3,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { schemaTypes } from './schemas'
 import { deskStructure, singletonTypes } from './structure'
+import AnalyticsTool from './tools/AnalyticsTool'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID
 const dataset = process.env.SANITY_STUDIO_DATASET ?? 'production'
@@ -13,6 +14,7 @@ export default defineConfig({
   projectId,
   dataset,
   plugins: [structureTool({ structure: deskStructure }), visionTool()],
+  tools: (previous) => [...previous, { name: 'statistiques', title: 'Statistiques', component: AnalyticsTool }],
   schema: {
     types: schemaTypes,
     // Empêche la création de doublons pour les pages uniques.
