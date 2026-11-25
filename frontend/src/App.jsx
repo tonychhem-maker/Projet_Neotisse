@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import Footer from './components/layout/Footer'
 import Header from './components/layout/Header'
+import AudienceConsent from './components/ui/AudienceConsent'
 import { ScrollToTop } from './components/layout/ScrollToTop'
 import APropos from './pages/APropos'
 import Actualites from './pages/Actualites'
@@ -41,6 +42,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <AudienceConsent />
     </div>
   )
 }
