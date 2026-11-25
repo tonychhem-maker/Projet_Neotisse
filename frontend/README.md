@@ -152,3 +152,20 @@ import { gsap, ScrollTrigger } from '../lib/smoothScroll'
 - `npm run build` — build de production
 - `npm run preview` — prévisualisation du build
 - `npm run lint` — oxlint
+
+# Frontend Neotisse
+
+L'application Vite et les fonctions Vercel se trouvent dans ce dossier.
+
+## Déploiement Vercel
+
+Le projet Vercel `neotisse` est relié au dépôt GitHub et à sa branche `main`.
+Dans les paramètres du projet, **Root Directory** doit être `frontend` : Vercel
+peut ainsi installer les dépendances depuis `frontend/package-lock.json`,
+construire l'application et prendre en compte `frontend/vercel.json` ainsi que
+les fonctions de `frontend/api/`.
+
+Si un déploiement Git échoue avec `vite: command not found`, vérifier ce dossier
+racine puis reconstruire le déploiement depuis Vercel. Les variables sensibles,
+notamment le token d'écriture Sanity, restent configurées côté serveur dans
+Vercel et ne doivent pas être ajoutées à ce dépôt ni exposées en `VITE_*`.
