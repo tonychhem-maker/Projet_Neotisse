@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal, useTextReveal } from '../../lib/reveal'
+import { actionLabel } from '../../lib/actionLabel'
 import flecheUrl from '../../assets/ateliers/fleche.svg?url'
 import './AteliersCta.css'
 
@@ -25,8 +26,8 @@ export default function AteliersCta({ title = 'CONVAINCU ?', link }) {
 
       <div className="ateliers-cta__action" data-reveal>
         <img className="ateliers-cta__arrow" src={flecheUrl} alt="" aria-hidden="true" />
-        <Link className="ateliers-cta__button" to={link.to ?? '/contact'}>
-          {link.label}
+        <Link className="ateliers-cta__button action-label" to={link.to ?? '/contact'}>
+          {actionLabel(link.label)}
         </Link>
       </div>
     </section>

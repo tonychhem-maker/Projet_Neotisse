@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { actionLabel } from '../../lib/actionLabel'
 
 const variants = {
   primary:
@@ -13,7 +14,7 @@ const variants = {
 
 export default function Button({ to, href, variant = 'primary', className = '', children, ...props }) {
   const classes = [
-    'inline-flex items-center justify-center px-6 py-3 text-[14px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:text-[calc(16*var(--u))]',
+    'action-label inline-flex items-center justify-center px-6 py-3 text-[14px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:text-[calc(16*var(--u))]',
     variants[variant],
     className,
   ].join(' ')
@@ -21,7 +22,7 @@ export default function Button({ to, href, variant = 'primary', className = '', 
   if (to) {
     return (
       <Link to={to} className={classes} {...props}>
-        {children}
+        {actionLabel(children)}
       </Link>
     )
   }
@@ -39,14 +40,14 @@ export default function Button({ to, href, variant = 'primary', className = '', 
         })}
         {...props}
       >
-        {children}
+        {actionLabel(children)}
       </a>
     )
   }
 
   return (
     <button type={props.type ?? 'button'} className={classes} {...props}>
-      {children}
+      {actionLabel(children)}
     </button>
   )
 }

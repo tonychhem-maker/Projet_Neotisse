@@ -29,7 +29,7 @@ export default function PolitiqueCookies() {
         <section>
           <h2 className="mb-3 text-xl">Modifier votre choix</h2>
           <p>Vous pouvez retirer votre accord à tout moment. La page est alors rechargée sans les outils de mesure. Ce retrait n’efface pas les données déjà transmises ; les cookies Google déjà déposés peuvent rester jusqu’à leur expiration ou leur suppression dans les réglages de votre navigateur.</p>
-          <button type="button" className="mt-4 underline underline-offset-4" onClick={() => window.dispatchEvent(new Event('neotisse:privacy-settings'))}>Gérer mes cookies et statistiques</button>
+          <button type="button" className="action-label mt-4 underline underline-offset-4" onClick={() => window.dispatchEvent(new Event('neotisse:privacy-settings'))}>Gérer mes cookies et statistiques</button>
         </section>
       </div>
     </div>

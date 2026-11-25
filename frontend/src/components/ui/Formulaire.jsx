@@ -1,3 +1,5 @@
+import { actionLabel } from '../../lib/actionLabel'
+
 // Formulaire global du site : primitives partagées par le formulaire de
 // contact et celui du livre d'or.
 //
@@ -147,10 +149,10 @@ export function BoutonEnvoyer({ children, ...props }) {
   return (
     <button
       type="submit"
-      className="inline-flex cursor-pointer items-center justify-center self-start bg-[#0b4f2a] px-9 py-3 text-[15px] font-medium text-[#f4efe6] transition-colors duration-300 hover:bg-[#2f8a55] disabled:cursor-progress disabled:opacity-70"
+      className="action-label inline-flex cursor-pointer items-center justify-center self-start bg-[#0b4f2a] px-9 py-3 text-[15px] text-[#f4efe6] transition-colors duration-300 hover:bg-[#2f8a55] disabled:cursor-progress disabled:opacity-70"
       {...props}
     >
-      {children}
+      {actionLabel(children)}
     </button>
   )
 }

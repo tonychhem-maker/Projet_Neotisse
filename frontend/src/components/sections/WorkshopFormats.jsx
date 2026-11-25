@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger, gsap } from '../../lib/smoothScroll'
 import { useReveal, useTextReveal } from '../../lib/reveal'
+import { actionLabel } from '../../lib/actionLabel'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -99,8 +100,8 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                     <span className="font-sans text-[14px] text-[#2f8a55] md:text-[calc(16*var(--u))]">
                       {format.id}
                     </span>
-                    <span className="reveal-line font-serif text-[20px] uppercase leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] md:text-[calc(24*var(--u))] lg:text-[calc(26*var(--u))]">
-                      <span className="block">{format.title}</span>
+                    <span className="action-label reveal-line text-[20px] leading-[1.15] text-[#0b4f2a] transition-colors duration-300 group-hover:text-[#2f8a55] md:text-[calc(24*var(--u))] lg:text-[calc(26*var(--u))]">
+                      <span className="block">{actionLabel(format.title)}</span>
                     </span>
                   </span>
                   <span
@@ -126,9 +127,9 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                       </p>
                       <Link
                         to={format.link ?? '/contact'}
-                        className="mt-6 inline text-[12px] font-medium text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
+                        className="action-label mt-6 inline text-[12px] text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
                       >
-                        CONTACTEZ-NOUS <span aria-hidden="true">→</span>
+                        Contactez-nous <span aria-hidden="true">→</span>
                       </Link>
                     </div>
                     {format.image && (

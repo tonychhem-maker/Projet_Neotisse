@@ -33,7 +33,7 @@
   margin-top: calc(26 * var(--u)); /* 26px */
 }
 
-/* Bouton maquette : 351×53, rayon 30, texte Outfit 24px en 600. */
+/* Bouton maquette : 351×53 et texte Outfit 24px. */
 .ateliers-cta__button {
   display: inline-flex;
   align-items: center;
@@ -45,7 +45,6 @@
   background: #095228;
   color: #f4efe6;
   font-size: calc(24 * var(--u)); /* 24px */
-  font-weight: 600;
   transition: background-color 0.25s ease;
 }
 .ateliers-cta__button:hover {

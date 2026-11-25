@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { actionLabel } from '../../lib/actionLabel'
 import { useReveal, useTextReveal } from '../../lib/reveal'
 import Fil from '../ui/Fil'
 import filMilieu1 from '../../assets/apropos/fil-milieu-1.svg?raw'
@@ -68,8 +69,8 @@ export default function AProposEquipe({ members = [], moreLink }) {
       {moreLink?.label && (
         <div className="a-propos-equipe__more" data-reveal>
           <img className="a-propos-equipe__arrow" src={flecheUrl} alt="" aria-hidden="true" />
-          <Link className="a-propos-equipe__link" to={moreLink.to ?? '/contact'}>
-            {moreLink.label}
+          <Link className="a-propos-equipe__link action-label" to={moreLink.to ?? '/contact'}>
+            {actionLabel(moreLink.label)}
           </Link>
         </div>
       )}

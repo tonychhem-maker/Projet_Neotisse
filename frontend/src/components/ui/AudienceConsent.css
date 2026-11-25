@@ -27,7 +27,7 @@
   border-radius: 0;
   background: #095228;
   color: #fff;
-  font: 400 15px/1.4 var(--font-dm);
+  font: 400 15px/1.4 var(--font-sans);
   cursor: pointer;
 }
 .audience-consent button:hover { background: #0b4f2a; }

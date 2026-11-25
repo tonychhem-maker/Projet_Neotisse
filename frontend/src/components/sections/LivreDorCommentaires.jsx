@@ -1,4 +1,5 @@
 import flecheUrl from '../../assets/ateliers/fleche.svg?url'
+import { actionLabel } from '../../lib/actionLabel'
 import './LivreDorCommentaires.css'
 
 /**
@@ -22,8 +23,8 @@ export default function LivreDorCommentaires({ seeAllLink = {}, testimonials = [
     <section className="livre-dor-comments" id="commentaires" aria-label="Témoignages">
       <div className="livre-dor-comments__more">
         <img className="livre-dor-comments__arrow" src={flecheUrl} alt="" aria-hidden="true" />
-        <a className="livre-dor-comments__link" href={href}>
-          {seeAllLink.label || 'voir tous les commentaires'}
+        <a className="livre-dor-comments__link action-label" href={href}>
+          {actionLabel(seeAllLink.label || 'voir tous les commentaires')}
         </a>
       </div>
 

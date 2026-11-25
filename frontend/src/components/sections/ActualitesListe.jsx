@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal, useTextReveal } from '../../lib/reveal'
 import { formatMoisAnnee } from '../../lib/dates'
+import { actionLabel } from '../../lib/actionLabel'
 import flecheLienUrl from '../../assets/actualites/fleche-lien.svg?url'
 import flechePastilleUrl from '../../assets/actualites/fleche-pastille.svg?url'
 import './ActualitesListe.css'
@@ -79,8 +80,8 @@ function ActualitesCarte({ post }) {
         </div>
 
         {lieu && (
-          <Lien to={lieu} className="actualites-carte__lien">
-            {post.link?.label || 'voir plus'}
+          <Lien to={lieu} className="actualites-carte__lien action-label">
+            {actionLabel(post.link?.label || 'voir plus')}
             <img className="actualites-carte__pastille" src={flechePastilleUrl} alt="" aria-hidden="true" />
           </Lien>
         )}
@@ -125,9 +126,9 @@ export default function ActualitesListe({ posts = [], moreLink = {} }) {
       )}
 
       {moreLink.label && (
-        <Lien to={moreLink.to || '#actualites'} className="actualites-liste__plus" data-reveal>
+        <Lien to={moreLink.to || '#actualites'} className="actualites-liste__plus action-label" data-reveal>
           <img className="actualites-liste__plus-fleche" src={flecheLienUrl} alt="" aria-hidden="true" />
-          {moreLink.label}
+          {actionLabel(moreLink.label)}
         </Lien>
       )}
 

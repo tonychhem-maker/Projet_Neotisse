@@ -154,7 +154,7 @@ export default function Footer() {
               </li>
             ))}
             <li>
-              <button type="button" className="footer__link" onClick={() => window.dispatchEvent(new Event('neotisse:privacy-settings'))}>
+              <button type="button" className="footer__link action-label" onClick={() => window.dispatchEvent(new Event('neotisse:privacy-settings'))}>
                 Gérer mes cookies et statistiques
               </button>
             </li>

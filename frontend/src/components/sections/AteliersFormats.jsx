@@ -90,11 +90,11 @@ export default function AteliersFormats({ formats = [] }) {
           <img className="ateliers-formats__arrow" src={flecheUrl} alt="" aria-hidden="true" />
           <button
             type="button"
-            className="ateliers-formats__toggle"
+            className="ateliers-formats__toggle action-label"
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? 'voir moins d’ateliers' : 'voir plus d’ateliers'}
+            {open ? 'Voir moins d’ateliers' : 'Voir plus d’ateliers'}
           </button>
         </div>
       )}

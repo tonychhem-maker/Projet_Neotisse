@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal, useTextReveal } from '../../lib/reveal'
+import { actionLabel } from '../../lib/actionLabel'
 
 export default function ClosingCta({
   titleLine1 = 'Prêt à organiser votre',
@@ -35,9 +36,9 @@ export default function ClosingCta({
           <Link
             data-reveal
             to={to}
-            className="mt-8 inline-block rounded-full bg-[#0b4f2a] px-9 py-3 text-[13px] font-medium text-[#f4efe6] transition-colors duration-300 hover:bg-[#2f8a55] md:text-[calc(14*var(--u))]"
+            className="action-label mt-8 inline-block bg-[#0b4f2a] px-9 py-3 text-[13px] text-[#f4efe6] transition-colors duration-300 hover:bg-[#2f8a55] md:text-[calc(14*var(--u))]"
           >
-            {label}
+            {actionLabel(label)}
           </Link>
         </div>
       </div>

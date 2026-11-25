@@ -54,6 +54,13 @@
   }
 }
 
+/* Typographie commune aux actions, sans modifier leurs couleurs ni dimensions. */
+.action-label {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-transform: none;
+}
+
 /* Conteneur de requêtes de conteneur : les descendants peuvent exprimer
    leurs dimensions en `cqw`, ramenées à la largeur réelle du conteneur.
    Utilisé par toutes les pages (mise à l'échelle homothétique de la
@@ -176,4 +183,3 @@
     transition: none !important;
   }
 }
-
