@@ -6,6 +6,6 @@ const dataset = process.env.SANITY_STUDIO_DATASET ?? 'production'
 export default defineCliConfig({
   api: { projectId, dataset },
   deployment: {
-    appId: process.env.SANITY_STUDIO_APP_ID,
+    appId: process.env.SANITY_STUDIO_APP_ID || 'ljt6pcepqr5ki3x62sm72qt6',
   },
 })

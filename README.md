@@ -1,5 +1,11 @@
 # Site Neotisse — Passation
 
+## Back-office Sanity
+
+Le Studio est disponible à l'adresse [neotisse-backoffice.sanity.studio](https://neotisse-backoffice.sanity.studio/). Pour donner accès à un membre de l'équipe, l'inviter depuis la gestion du projet Sanity et lui attribuer les droits adaptés ; chaque personne utilise son propre compte. Vérifier également l'accès à l'onglet Statistiques avec ce compte.
+
+Pour publier une mise à jour du Studio, depuis `sanity/` : `npm run deploy`. Le Studio publié utilise le dataset de production ; la modification des contenus et la consultation des statistiques nécessitent les droits appropriés.
+
 ## Statistiques intégrées
 
 L'outil de mesure d'audience Neotisse remplace Umami : consentement, pages vues, visites, provenances et clics, avec un onglet **Statistiques** dans le Studio Sanity. Configuration, limites, confidentialité, purge et tests : [guide Analytics](Docs/ANALYTICS.md).
