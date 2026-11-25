@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { CONSENT_DURATION, CONSENT_KEY, readConsent, saveConsent } from '../../lib/audienceConsent'
 import { setAnalyticsConsent, trackAudience, trackAudienceClick } from '../../lib/analytics'
+import { startGoogleAnalytics, stopGoogleAnalytics, trackGooglePage } from '../../lib/googleAnalytics'
 import './AudienceConsent.css'
 
 export default function AudienceConsent() {
@@ -22,6 +23,7 @@ export default function AudienceConsent() {
       if (event.key !== CONSENT_KEY && event.key !== null) return
       const next = readConsent()
       setAnalyticsConsent(next?.choice === 'accepted')
+      if (next?.choice !== 'accepted' && stopGoogleAnalytics()) window.location.reload()
       setRecord(next)
     }
     window.addEventListener('neotisse:privacy-settings', open)
@@ -43,6 +45,7 @@ export default function AudienceConsent() {
       const remaining = record.savedAt + CONSENT_DURATION - Date.now()
       if (remaining <= 0) {
         setAnalyticsConsent(false)
+        if (stopGoogleAnalytics()) window.location.reload()
         setRecord(null)
       } else {
         timer = window.setTimeout(checkExpiry, Math.min(remaining, 86400000))
@@ -65,13 +68,18 @@ export default function AudienceConsent() {
   useEffect(() => {
     if (!accepted) return undefined
     // Différé d'une frame : le montage de contrôle React StrictMode est annulé.
-    const frame = requestAnimationFrame(() => trackAudience('pageview', pathname))
+    const frame = requestAnimationFrame(() => {
+      startGoogleAnalytics(pathname)
+      trackGooglePage(pathname)
+      trackAudience('pageview', pathname)
+    })
     return () => cancelAnimationFrame(frame)
   }, [accepted, pathname])
 
   function choose(choice) {
     setAnalyticsConsent(choice === 'accepted')
     setRecord(saveConsent(choice))
+    if (choice !== 'accepted' && stopGoogleAnalytics()) window.location.reload()
     setEditing(false)
     returnFocus.current?.focus()
   }
@@ -82,8 +90,8 @@ export default function AudienceConsent() {
       <div className="audience-consent__copy">
         <h2 id="audience-consent-title">Votre choix pour les statistiques</h2>
         <p id="audience-consent-text">
-          Avec votre accord, notre outil de statistiques mesure les pages consultées et quelques
-          clics pour améliorer le site. Vous pouvez refuser et continuer à naviguer normalement.
+          Avec votre accord, notre outil de statistiques et Google Analytics mesurent les pages
+          consultées et certains clics pour améliorer le site. Vous pouvez refuser et continuer à naviguer normalement.
           Votre choix est mémorisé pendant 180 jours et reste modifiable dans le pied de page.
         </p>
         <Link to="/politique-de-cookies">En savoir plus sur les cookies et les statistiques</Link>

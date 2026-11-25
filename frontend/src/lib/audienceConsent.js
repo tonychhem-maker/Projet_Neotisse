@@ -1,5 +1,5 @@
-// Nouveau consentement pour le remplacement d'Umami par l'outil Neotisse.
-export const CONSENT_KEY = 'neotisse-audience-consent-v2'
+// Nouvelle demande : Google Analytics s'ajoute à l'outil Neotisse.
+export const CONSENT_KEY = 'neotisse-audience-consent-v3'
 export const CONSENT_DURATION = 180 * 24 * 60 * 60 * 1000
 
 export function parseConsent(raw, now = Date.now()) {

@@ -2,7 +2,15 @@
 
 ## Circuit
 
-Après acceptation de la bannière, React envoie les mesures à `/api/analytics` sur le même domaine. La fonction Vercel valide les données et met à jour Sanity. Aucun script Umami n'est chargé. Le Studio dispose d'un onglet **Statistiques** : son client utilise la session Sanity de la personne connectée, jamais un token serveur embarqué.
+Après acceptation de la bannière, React envoie les mesures à `/api/analytics` sur le même domaine. La fonction Vercel valide les données et met à jour Sanity. En parallèle, le conteneur Google Tag Manager `GTM-5JC3FM5R` envoie les pages vues à Google Analytics 4 `G-4RSN12HQ8K`. Aucun script Umami n'est chargé. Le Studio dispose d'un onglet **Statistiques** pour les seules données Neotisse : son client utilise la session Sanity de la personne connectée, jamais un token serveur embarqué.
+
+## Google Analytics 4
+
+Le conteneur n'est inséré qu'après acceptation ; aucun appel de mesure Google en cas de refus. La version 2 du conteneur désactive les données fournies par les utilisateurs, les interactions avec les formulaires, les clics sortants, les téléchargements, les vidéos et les vues liées à l'historique. Les mesures améliorées sont aussi désactivées dans GA4, notamment la recherche sur le site. `send_page_view=false` désactive la vue automatique ; le site envoie une vue manuelle par route avec un chemin sans paramètres ni fragment, un titre fixe et un référent vide. La source d'acquisition GA4 est donc limitée et peut différer de l'outil maison. Le consentement publicitaire est refusé.
+
+Au retrait du consentement, la collecte maison est arrêtée, la balise GA est désactivée et la page est rechargée sans GTM. Une requête déjà envoyée ne peut pas être rappelée. Les cookies Google déjà enregistrés peuvent subsister jusqu'à expiration ou suppression par l'utilisateur ; leur présence ne réactive pas le suivi après refus. Les statistiques des deux outils ne sont pas nécessairement comparables. Les tests locaux ont envoyé des événements à la propriété GA4 et peuvent apparaître dans ses rapports.
+
+Important : toute modification ultérieure de GTM ou GA4 peut réactiver des collectes automatiques ou transmettre des données sensibles. Avant publication, vérifier les balises et destinations, l'absence d'envoi du contenu des formulaires, des URL référentes, des paramètres et fragments d'URL, ainsi que le comportement avant et après retrait du consentement.
 
 ## Mesures
 
@@ -35,7 +43,7 @@ Deux limites assumées :
 
 ## Confidentialité et stockage
 
-Consentement `neotisse-audience-consent-v2`, valable 180 jours. Le changement de version redemande un choix lors du remplacement d'Umami. Sans accord, pas de requête de mesure ni d'identifiant de visite. Un retrait annule la file d'envoi et les requêtes en cours lorsque possible ; une requête déjà traitée ne peut pas être rappelée.
+Consentement `neotisse-audience-consent-v3`, valable 180 jours. Cette nouvelle version redemande un choix pour l'ajout de Google Analytics. Sans accord, pas de requête de mesure ni d'identifiant de visite Neotisse. Un retrait annule la file d'envoi et les requêtes en cours lorsque possible ; une requête déjà traitée ne peut pas être rappelée.
 
 Documents techniques : `analytics.daily.JJJJ-MM-JJ` (agrégats) et `analytics.visit.JJJJ-MM-JJ.HASH` (identifiants d'événements pour déduplication). Les identifiants Sanity avec sous-chemin ne sont pas accessibles en lecture anonyme, même dans le dataset public. Cette propriété a été testée contre l'API sans token. Les membres authentifiés disposant des droits sur le dataset peuvent les lire. Ces documents ne sont volontairement pas proposés dans Structure pour éviter l'édition manuelle ; l'onglet les consulte en lecture seule.
 
@@ -68,7 +76,7 @@ Transactions avec contrôle de révision : une mesure réessayée conserve son i
 Depuis `frontend/` :
 
 ```sh
-node --test src/lib/audienceConsent.test.js server/analytics.test.js
+node --test src/lib/audienceConsent.test.js src/lib/googleAnalytics.test.js server/analytics.test.js
 npm run lint
 npm run build
 ```
