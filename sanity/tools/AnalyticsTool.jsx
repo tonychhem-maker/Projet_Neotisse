@@ -85,16 +85,21 @@ function KpiCard({ kpi, before }) {
         <span className="neotisse-stats__badge">{meta.label}</span>
       </header>
       <p className="neotisse-stats__kpi-value">
-        <strong>{number(kpi.value)}</strong> <span>{kpi.id === 'seo' ? '%' : kpi.unit}</span>
+        <strong>{number(kpi.value)}</strong> <span>{kpi.id === 'seo' ? '% des visites via Google' : kpi.unit}</span>
       </p>
-      <dl className="neotisse-stats__kpi-meta">
-        <div><dt>Période précédente</dt><dd>{previous}</dd></div>
-        <div><dt>Évolution</dt><dd><Delta value={kpi.delta} unit={kpi.id === 'seo' ? ' pts' : ''} /></dd></div>
-        <div><dt>Seuils</dt><dd>{thresholds}</dd></div>
-        {kpi.detail && <div><dt>{kpi.detail.label}</dt><dd>{number(kpi.detail.value)} <Delta value={kpi.detail.delta} /></dd></div>}
-      </dl>
-      <p className="neotisse-stats__advice">{meta.advice}</p>
-      <p className="neotisse-stats__hint">{kpi.hint}</p>
+      <p className="neotisse-stats__comparison">
+        {kpi.previousValue === null ? 'Historique insuffisant' : <><Delta value={kpi.delta} unit={kpi.id === 'seo' ? ' pts' : ''} /> <span>par rapport à la période précédente</span></>}
+      </p>
+      <details className="neotisse-stats__kpi-details">
+        <summary>Détails <span className="neotisse-stats__delta-sr"> — {kpi.label}</span></summary>
+        <dl className="neotisse-stats__kpi-meta">
+          <div><dt>Période précédente</dt><dd>{previous}</dd></div>
+          <div><dt>Seuils</dt><dd>{thresholds}</dd></div>
+          {kpi.detail && <div><dt>{kpi.detail.label}</dt><dd>{number(kpi.detail.value)} <Delta value={kpi.detail.delta} /></dd></div>}
+        </dl>
+        <p className="neotisse-stats__advice">{meta.advice}</p>
+        <p className="neotisse-stats__hint">{kpi.hint}</p>
+      </details>
     </article>
   )
 }
@@ -104,14 +109,13 @@ function Funnel({ data, before }) {
   const avis = data.events.find(([kind]) => kind === 'testimonial_submit')?.[1] ?? 0
   const steps = [
     { label: 'Visites', value: data.totals.visits },
-    { label: 'Visites avec intention', value: data.totals.engagedVisits },
+    { label: 'Visites avec message envoyé', value: data.totals.engagedVisits },
     { label: 'Messages envoyés', value: submits + avis },
   ]
   const max = Math.max(1, ...steps.map(step => step.value))
   return (
     <section className="neotisse-stats__panel">
-      <h2>Où le parcours s’arrête</h2>
-      <p className="neotisse-stats__muted">De la visite au message envoyé. Une visite « avec intention » a ouvert un format d’atelier, cliqué vers Contact ou vers le livre d’or.</p>
+      <h2>Visites et messages</h2>
       <div className="neotisse-stats__funnel">
         {steps.map((step, index) => (
           <div key={step.label} className="neotisse-stats__funnel-row">
@@ -124,7 +128,7 @@ function Funnel({ data, before }) {
           </div>
         ))}
       </div>
-      <p className="neotisse-stats__muted">Part des visites avec intention : {percent(data.conversion.current)} cette période, {percent(data.conversion.previous)} la précédente ({shortDate(before.start)} → {shortDate(before.end)}).</p>
+      <p className="neotisse-stats__muted">Visites avec message envoyé : {percent(data.conversion.current)} cette période, {percent(data.conversion.previous)} la précédente ({shortDate(before.start)} → {shortDate(before.end)}). Plusieurs messages peuvent être envoyés pendant une même visite.</p>
     </section>
   )
 }
@@ -178,7 +182,7 @@ function Evolution({ days, previousDays, showPrevious }) {
       <details>
         <summary>Afficher les valeurs quotidiennes</summary>
         <table>
-          <thead><tr><th>Date (UTC)</th><th>Pages vues</th><th>Visites</th><th>Visites avec intention</th></tr></thead>
+          <thead><tr><th>Date (UTC)</th><th>Pages vues</th><th>Visites</th><th>Visites avec message</th></tr></thead>
           <tbody>{days.map(day => <tr key={day.day}><th scope="row">{day.day}</th><td>{number(day.views)}</td><td>{number(day.visits)}</td><td>{number(day.engagedVisits)}</td></tr>)}</tbody>
         </table>
       </details>
@@ -209,7 +213,7 @@ function Monthly({ rows, onClose }) {
       <div className="neotisse-stats__panel-head"><h2 id="neotisse-stats-monthly">Mois par mois</h2><button type="button" onClick={onClose}>Fermer</button></div>
       {months.length ? (
         <table>
-          <thead><tr><th scope="col">Mois</th><th scope="col">Pages vues</th><th scope="col">Visites</th><th scope="col">Intention</th><th scope="col">Google</th><th scope="col">Devis</th><th scope="col">Avis</th></tr></thead>
+          <thead><tr><th scope="col">Mois</th><th scope="col">Pages vues</th><th scope="col">Visites</th><th scope="col">Visites avec message</th><th scope="col">Google</th><th scope="col">Devis</th><th scope="col">Avis</th></tr></thead>
           <tbody>
             {months.map((month, index) => {
               const older = months[index + 1]
@@ -286,7 +290,6 @@ export default function AnalyticsTool() {
       <header className="neotisse-stats__header">
         <div>
           <h1>Statistiques Neotisse</h1>
-          <p>Audience consentie · journées en UTC · conservation de 90 jours</p>
         </div>
         <div className="neotisse-stats__filters">
           <label>Comparer sur <select value={period} onChange={event => setPeriod(Number(event.target.value))}>
@@ -298,12 +301,11 @@ export default function AnalyticsTool() {
       </header>
 
       {state.loading ? <p role="status">Chargement des statistiques…</p> : state.error ? <p role="alert">{state.error}</p> : <>
-        <p className="neotisse-stats__note">Du {range.start} au {range.end} inclus, comparé à {before.start} → {before.end}. Dernière lecture : {state.updated?.toLocaleTimeString('fr-FR')}.</p>
-        {!periodStarted && <p className="neotisse-stats__notice" role="status">La collecte a démarré le {LAUNCH} : les comparatifs « période précédente » resteront sans valeur quelques semaines, le temps d’avoir un historique.</p>}
+        <p className="neotisse-stats__period">{range.start} → {range.end} <span>· Comparé à {before.start} → {before.end}</span></p>
+        {!periodStarted && <p className="neotisse-stats__notice" role="status">Historique insuffisant pour comparer la période précédente.</p>}
         {!state.rows.length && <p role="status">Aucune statistique reçue sur cette période. Les premières données apparaissent après une visite avec acceptation de la bannière.</p>}
 
-        <h2 className="neotisse-stats__section-title">Objectifs du trimestre</h2>
-        <p className="neotisse-stats__section-sub">Trois indicateurs du plan de taggage. Chaque carte donne la tendance et le conseil à suivre. Les seuils se règlent dans « Objectifs statistiques ».</p>
+        <h2 className="neotisse-stats__section-title">Objectifs</h2>
         <div className="neotisse-stats__kpis">
           {data.kpis.map(kpi => <KpiCard key={kpi.id} kpi={kpi} before={before} />)}
         </div>
@@ -315,7 +317,7 @@ export default function AnalyticsTool() {
           {[
             ['Pages vues', data.totals.views, data.previousTotals.views],
             ['Visites', data.totals.visits, data.previousTotals.visits],
-            ['Visites avec intention', data.totals.engagedVisits, data.previousTotals.engagedVisits],
+            ['Visites avec message', data.totals.engagedVisits, data.previousTotals.engagedVisits],
             ['Clics d’intention', data.totals.clicks, data.previousTotals.clicks],
           ].map(([name, value, previous]) => (
             <div className="neotisse-stats__panel" key={name}>
@@ -341,10 +343,12 @@ export default function AnalyticsTool() {
         <Ranking title="Conversions et clics" rows={events} unit="Nombre" firstColumn="Action" mapLabel={key => key} />
       </>}
 
-      <aside className="neotisse-stats__note">
+      <details className="neotisse-stats__note neotisse-stats__info">
+        <summary>À propos des statistiques</summary>
+        <p>Audience consentie · journées en UTC · conservation de 90 jours. Les seuils se règlent dans « Objectifs statistiques ». {state.updated && <>Dernière lecture : {state.updated.toLocaleTimeString('fr-FR')}.</>}</p>
         <p>Une visite correspond à un onglet actif, renouvelé après 30 minutes sans mesure ou à minuit UTC. Ce n’est pas un nombre de personnes uniques. Les refus, bloqueurs et échecs réseau ne sont pas comptés.</p>
         <p>Un « message envoyé » est compté après un envoi réussi du formulaire ; son contenu n’est jamais collecté. La collecte est plafonnée à 5 000 mesures et 500 visites par jour, et 200 mesures par visite. Aucune donnée historique Umami n’est importée.</p>
-      </aside>
+      </details>
     </div>
   )
 }
