@@ -11,6 +11,7 @@ export default function AudienceConsent() {
   const { pathname } = useLocation()
   const returnFocus = useRef(null)
   const firstAction = useRef(null)
+  const lastGooglePath = useRef(null)
   const accepted = record?.choice === 'accepted'
   const visible = !record || editing
 
@@ -58,6 +59,10 @@ export default function AudienceConsent() {
   useEffect(() => {
     setAnalyticsConsent(accepted)
     if (!accepted) return undefined
+    if (lastGooglePath.current === null) {
+      startGoogleAnalytics(window.location.pathname)
+      lastGooglePath.current = window.location.pathname
+    }
     document.addEventListener('click', trackAudienceClick, true)
     return () => {
       document.removeEventListener('click', trackAudienceClick, true)
@@ -69,8 +74,10 @@ export default function AudienceConsent() {
     if (!accepted) return undefined
     // Différé d'une frame : le montage de contrôle React StrictMode est annulé.
     const frame = requestAnimationFrame(() => {
-      startGoogleAnalytics(pathname)
-      trackGooglePage(pathname)
+      if (lastGooglePath.current !== pathname) {
+        trackGooglePage(pathname)
+        lastGooglePath.current = pathname
+      }
       trackAudience('pageview', pathname)
     })
     return () => cancelAnimationFrame(frame)

@@ -1,4 +1,5 @@
 import { readConsent } from './audienceConsent'
+import { trackGoogleAction } from './googleAnalytics'
 
 const SESSION_KEY = 'neotisse-analytics-session-v1'
 const SESSION_IDLE = 30 * 60 * 1000
@@ -44,7 +45,9 @@ function sourceOf(referrer) {
 }
 
 export function trackAudience(kind, path = location.pathname) {
-  if (!enabled || readConsent()?.choice !== 'accepted') return
+  if (readConsent()?.choice !== 'accepted') return
+  if (kind !== 'pageview') trackGoogleAction(kind, path)
+  if (!enabled) return
   const visit = session()
   const payload = { id: crypto.randomUUID(), sessionId: visit.id, consent: true, kind, path: path.split(/[?#]/)[0], source: visit.source }
   const currentGeneration = generation
