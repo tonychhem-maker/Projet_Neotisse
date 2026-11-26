@@ -37,7 +37,7 @@
 .hero .c1 { left: 4vw;  top: 4vh;  width: calc(216 * var(--u)); }
 .hero .c2 { right: 26vw; top: 2vh;  width: calc(187 * var(--u)); }
 .hero .c3 { left: 3vw;   top: 46vh; width: calc(245 * var(--u)); }
-.hero .c4 { right: 2vw;  top: 30vh; width: calc(259 * var(--u)); z-index: 4; }
+.hero .c4 { right: 2vw;  top: 30vh; width: calc(259 * var(--u)); }
 
 /* Titre */
 .hero .title {
