@@ -69,9 +69,6 @@
   width: calc(18 * var(--u)); /* 18px */
   height: calc(18 * var(--u));
 }
-.livre-dor-intro__nav-btn--prev svg {
-  transform: scaleX(-1); /* même glyphe, pointé vers la gauche */
-}
 .livre-dor-intro__nav-btn:hover {
   background: #095228;
   border-color: #095228;
