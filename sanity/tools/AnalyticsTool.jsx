@@ -5,16 +5,18 @@ import {
   PERIOD,
   STATUS,
   countByDay,
+  customKpis,
   dateRange,
   previousRange,
   report,
   shiftDay,
 } from './analyticsSummary'
+import { METRICS } from './analyticsMetrics'
 import './AnalyticsTool.css'
 
 const ROWS_QUERY = '*[_type == "analyticsDaily" && _id in path("analytics.daily.**") && day >= $start && day <= $end] | order(day asc) { day, views, visits, engagedVisits, pages, sources, events }'
 const TESTIMONIALS_QUERY = '*[_type == "testimonial" && _id in path("testimonial-**") && coalesce(submittedAt, publishedAt, _createdAt) >= $start] { submittedAt, publishedAt, _createdAt }'
-const TARGETS_QUERY = '*[_id == "analyticsTargets"][0]{ quoteLeads, googleShare, testimonials }'
+const TARGETS_QUERY = '*[_id == "analyticsTargets"][0]{ quoteLeads, googleShare, testimonials, customKpis }'
 
 // Un période comparée avant cette date n'a jamais été collectée : pas de faux « 0 ».
 const LAUNCH = '2026-11-25'
@@ -74,9 +76,10 @@ function Delta({ value, unit = '' }) {
 
 function KpiCard({ kpi, before }) {
   const meta = STATUS[kpi.status]
-  const previous = kpi.previousValue === null ? 'historique insuffisant' : `${number(kpi.previousValue)}${kpi.id === 'seo' ? ' %' : ''} (${shortDate(before.start)} → ${shortDate(before.end)})`
+  const isPercent = kpi.id === 'seo' || kpi.unit === '%'
+  const previous = kpi.previousValue === null ? 'indisponible ou historique insuffisant' : `${number(kpi.previousValue)}${isPercent ? ' %' : ''} (${shortDate(before.start)} → ${shortDate(before.end)})`
   const thresholds = kpi.target
-    ? `moins de ${number(kpi.target.low)}${kpi.id === 'seo' ? ' %' : ''} · plus de ${number(kpi.target.high)}${kpi.id === 'seo' ? ' %' : ''}`
+    ? `moins de ${number(kpi.target.low)}${isPercent ? ' %' : ''} · plus de ${number(kpi.target.high)}${isPercent ? ' %' : ''}`
     : 'non définis'
   return (
     <article className={`neotisse-stats__kpi neotisse-stats__kpi--${kpi.status}`}>
@@ -85,10 +88,10 @@ function KpiCard({ kpi, before }) {
         <span className="neotisse-stats__badge">{meta.label}</span>
       </header>
       <p className="neotisse-stats__kpi-value">
-        <strong>{number(kpi.value)}</strong> <span>{kpi.id === 'seo' ? '% des visites via Google' : kpi.unit}</span>
+          <strong>{kpi.value === null ? '—' : number(kpi.value)}</strong> <span>{kpi.id === 'seo' ? '% des visites via Google' : kpi.unit}</span>
       </p>
       <p className="neotisse-stats__comparison">
-        {kpi.previousValue === null ? 'Historique insuffisant' : <><Delta value={kpi.delta} unit={kpi.id === 'seo' ? ' pts' : ''} /> <span>par rapport à la période précédente</span></>}
+        {kpi.value === null ? 'Calcul impossible : aucune mesure de référence' : kpi.previousValue === null ? 'Comparaison indisponible' : <><Delta value={kpi.delta} unit={isPercent ? ' pts' : ''} /> <span>par rapport à la période précédente</span></>}
       </p>
       <details className="neotisse-stats__kpi-details">
         <summary>Détails <span className="neotisse-stats__delta-sr"> — {kpi.label}</span></summary>
@@ -156,14 +159,17 @@ function Ranking({ title, rows, unit, firstColumn, mapLabel }) {
   )
 }
 
-function Evolution({ days, previousDays, showPrevious }) {
-  const max = Math.max(1, ...days.map((day, index) => Math.max(day.views, showPrevious ? previousDays[index]?.views ?? 0 : 0)))
+function Evolution({ days, previousDays, showPrevious, metric, setMetric }) {
+  const max = Math.max(1, ...days.map((day, index) => Math.max(day.value, showPrevious ? previousDays[index]?.value ?? 0 : 0)))
   const step = 640 / days.length
   const tick = Math.ceil(days.length / 6)
   return (
     <section className="neotisse-stats__panel">
-      <h2>Pages vues par jour</h2>
-      <svg viewBox="0 0 700 220" role="img" aria-label={`Pages vues quotidiennes du ${days[0].day} au ${days.at(-1).day}`}>
+      <div className="neotisse-stats__panel-head neotisse-stats__chart-head">
+        <h2>Évolution par jour</h2>
+        <label>Mesure <select value={metric} onChange={event => setMetric(event.target.value)}>{METRICS.map(item => <option key={item.value} value={item.value}>{item.title}</option>)}</select></label>
+      </div>
+      <svg viewBox="0 0 700 220" role="img" aria-label={`${METRICS.find(item => item.value === metric)?.title} par jour du ${days[0].day} au ${days.at(-1).day}`}>
         <line x1="50" x2="690" y1="180" y2="180" stroke="currentColor" opacity=".3" />
         <line x1="50" x2="690" y1="30" y2="30" stroke="currentColor" opacity=".15" />
         <text x="40" y="35" textAnchor="end">{max}</text><text x="40" y="185" textAnchor="end">0</text>
@@ -171,8 +177,8 @@ function Evolution({ days, previousDays, showPrevious }) {
           const before = previousDays[index]
           return (
             <g key={day.day}>
-              {showPrevious && before && <rect x={50 + index * step + 1} y={180 - before.views / max * 150} width={Math.max(1, step - 2)} height={before.views / max * 150} fill="currentColor" opacity=".16"><title>{day.day} (période précédente) : {before.views} pages vues</title></rect>}
-              <rect x={50 + index * step + 1} y={180 - day.views / max * 150} width={Math.max(1, step - 2)} height={day.views / max * 150} fill="#35985f"><title>{day.day} : {day.views} pages vues, {day.visits} visites</title></rect>
+              {showPrevious && before && <rect x={50 + index * step + 1} y={180 - before.value / max * 150} width={Math.max(1, step - 2)} height={before.value / max * 150} fill="currentColor" opacity=".16"><title>{before.day} (période précédente) : {before.value}</title></rect>}
+              <rect x={50 + index * step + 1} y={180 - day.value / max * 150} width={Math.max(1, step - 2)} height={day.value / max * 150} fill="#35985f"><title>{day.day} : {day.value}</title></rect>
             </g>
           )
         })}
@@ -182,8 +188,8 @@ function Evolution({ days, previousDays, showPrevious }) {
       <details>
         <summary>Afficher les valeurs quotidiennes</summary>
         <table>
-          <thead><tr><th>Date (UTC)</th><th>Pages vues</th><th>Visites</th><th>Visites avec message</th></tr></thead>
-          <tbody>{days.map(day => <tr key={day.day}><th scope="row">{day.day}</th><td>{number(day.views)}</td><td>{number(day.visits)}</td><td>{number(day.engagedVisits)}</td></tr>)}</tbody>
+          <thead><tr><th>Date (UTC)</th><th>{METRICS.find(item => item.value === metric)?.title}</th>{showPrevious && <th>Période précédente</th>}</tr></thead>
+          <tbody>{days.map((day, index) => <tr key={day.day}><th scope="row">{day.day}</th><td>{number(day.value)}</td>{showPrevious && <td>{previousDays[index]?.day} : {number(previousDays[index]?.value)}</td>}</tr>)}</tbody>
         </table>
       </details>
     </section>
@@ -244,6 +250,7 @@ export default function AnalyticsTool() {
   const [refresh, setRefresh] = useState(0)
   const [showMonthly, setShowMonthly] = useState(false)
   const [showPrevious, setShowPrevious] = useState(true)
+  const [chartMetric, setChartMetric] = useState('views')
   const [state, setState] = useState({ loading: true, rows: [], testimonials: new Map(), targets: DEFAULT_TARGETS, error: '', updated: null })
   const range = useMemo(() => dateRange(period), [period, refresh])
   const before = useMemo(() => previousRange(range), [range])
@@ -266,6 +273,7 @@ export default function AnalyticsTool() {
           quoteLeads: targets?.quoteLeads ?? DEFAULT_TARGETS.quoteLeads,
           googleShare: targets?.googleShare ?? DEFAULT_TARGETS.googleShare,
           testimonials: targets?.testimonials ?? DEFAULT_TARGETS.testimonials,
+          customKpis: Array.isArray(targets?.customKpis) ? targets.customKpis : [],
         },
         error: '',
         updated: new Date(),
@@ -283,6 +291,12 @@ export default function AnalyticsTool() {
   )
   const data = useMemo(() => report(state.rows, range, options), [state, range, options])
   const previousDays = useMemo(() => report(state.rows, before, options).days, [state, before, options])
+  const custom = useMemo(() => customKpis(state.rows, range, { definitions: state.targets.customKpis || [], testimonials: state.testimonials, hasHistory: periodStarted }), [state.rows, state.targets.customKpis, state.testimonials, range, periodStarted])
+  const chartDays = useMemo(() => {
+    const definition = [{ _key: 'chart', title: 'Graphique', metric: chartMetric, mode: 'count' }]
+    const series = days => days.map(day => ({ day: day.day, value: customKpis(state.rows, { start: day.day, end: day.day }, { definitions: definition, testimonials: state.testimonials, hasHistory: false })[0].value }))
+    return { current: series(data.days), previous: series(previousDays) }
+  }, [chartMetric, data.days, previousDays, state.rows, state.testimonials])
   const events = useMemo(() => data.events.map(([kind, count]) => [LABELS[kind] ?? kind, count]), [data])
 
   return (
@@ -310,6 +324,10 @@ export default function AnalyticsTool() {
           {data.kpis.map(kpi => <KpiCard key={kpi.id} kpi={kpi} before={before} />)}
         </div>
 
+        <h2 className="neotisse-stats__section-title">Vos indicateurs personnalisés</h2>
+        <p className="neotisse-stats__muted">Créez vos indicateurs dans Contenu → Objectifs statistiques, puis publiez vos modifications. Les seuils s’appliquent à la période sélectionnée.</p>
+        {custom.length ? <div className="neotisse-stats__kpis">{custom.map(kpi => <KpiCard key={kpi.id} kpi={kpi} before={before} />)}</div> : <p>Aucun indicateur personnalisé pour le moment.</p>}
+
         {showMonthly && <Monthly rows={state.rows} onClose={() => setShowMonthly(false)} />}
 
         <h2 className="neotisse-stats__section-title">Vue d’ensemble</h2>
@@ -327,7 +345,7 @@ export default function AnalyticsTool() {
           ))}
         </div>
 
-        <Evolution days={data.days} previousDays={previousDays} showPrevious={showPrevious && periodStarted && period <= 31} />
+        <Evolution days={chartDays.current} previousDays={chartDays.previous} showPrevious={showPrevious && periodStarted && period <= 31} metric={chartMetric} setMetric={setChartMetric} />
         {periodStarted && period <= 31 && (
           <label className="neotisse-stats__toggle">
             <input type="checkbox" checked={showPrevious} onChange={event => setShowPrevious(event.target.checked)} /> Afficher la période précédente en filigrane

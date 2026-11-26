@@ -35,6 +35,12 @@ L'onglet **Statistiques** traduit le plan de taggage en trois cartes, toujours c
 
 Chaque carte indique le statut par rapport aux seuils, l'évolution par rapport à la période précédente et le conseil à suivre (agir, surveiller, préserver). Les seuils se règlent sans code dans le Studio, document **Objectifs statistiques** (Structure, en bas du menu).
 
+### Indicateurs et graphiques personnalisés
+
+Dans **Contenu → Objectifs statistiques → KPI personnalisés**, ajouter un indicateur, lui donner un nom et choisir une mesure existante. Le calcul peut être un nombre ou un pourcentage : mesure ÷ mesure de référence × 100. Par exemple, « Messages de contact envoyés » ÷ « Visites » indique un nombre de messages pour 100 visites ; plusieurs messages par visite peuvent faire dépasser 100 %. Si la référence est nulle, le résultat est indisponible, et non zéro. Les deux seuils sont facultatifs et s'appliquent tels quels à la période sélectionnée (7, 30 ou 90 jours), sans ajustement automatique ; ils supposent qu'une valeur plus élevée est préférable. Publier le document, puis ouvrir **Statistiques** et cliquer sur **Actualiser**. Au maximum 12 indicateurs peuvent être configurés.
+
+Le graphique **Évolution par jour** permet de choisir parmi les mesures disponibles. Les valeurs quotidiennes sont aussi accessibles en tableau ; jusqu'à 31 jours, la période précédente peut être superposée si son historique est disponible. Le compteur des avis reçus utilise les documents du livre d'or, contrairement aux envois consentis qui sont une mesure distincte. Ces vues ne créent aucune nouvelle collecte et ne permettent pas de récupérer les données GA4.
+
 Deux limites assumées :
 - Sans Search Console, la position réelle dans Google n'est pas mesurable. Le KPI « Référencement » suit le trafic Google réel et les vues des actualités : c'est une approximation honnête, pas un rang.
 - Tant que la collecte n'a pas trente jours d'historique (démarrée le 2026-11-25), l'évolution affiche « historique insuffisant » plutôt qu'un faux « 0 ». Un message envoyé sans acceptation de la bannière n'est pas compté ; l'indicateur est donc un plancher.

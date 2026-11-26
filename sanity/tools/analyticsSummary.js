@@ -4,6 +4,7 @@
 // dixième pour rester lisibles. Aucune donnée personnelle n'entre ici : les
 // KPI ne manipulent que des compteurs.
 import { CLICKS } from '../../frontend/server/analytics-events.js'
+import { METRIC_LABELS } from './analyticsMetrics.js'
 
 export const PERIOD = 30
 
@@ -94,7 +95,7 @@ export function statusOf(value, target) {
 // Un écart sans historique n'est pas une évolution : il n'est pas chiffré.
 const evolution = (value, previousValue) => ({
   previousValue,
-  delta: previousValue === null || previousValue === undefined ? null : tenth(value - previousValue),
+  delta: value === null || value === undefined || previousValue === null || previousValue === undefined ? null : tenth(value - previousValue),
 })
 
 const eventOf = (totals, kind) => totals.events.find(([name]) => name === kind)?.[1] ?? 0
@@ -102,6 +103,37 @@ const googleShare = totals => ratio(totals.sources.find(([name]) => name === 'go
 const actualiteViews = totals => totals.pages
   .filter(([path]) => path.startsWith('/actualites/'))
   .reduce((sum, [, count]) => sum + count, 0)
+
+function metricValue(totals, metric, testimonials, range) {
+  if (['views', 'visits', 'engagedVisits', 'clicks'].includes(metric)) return totals.totals[metric]
+  if (metric === 'google' || metric === 'direct') return totals.sources.find(([name]) => name === metric)?.[1] ?? 0
+  if (metric === 'actualiteViews') return actualiteViews(totals)
+  if (metric === 'testimonials') return countIn(testimonials, range)
+  return eventOf(totals, metric)
+}
+
+/** Indicateurs configurés dans le Studio ; aucun calcul arbitraire exécuté. */
+export function customKpis(rows, range, { definitions = [], testimonials = new Map(), hasHistory = true } = {}) {
+  const before = previousRange(range)
+  const now = totalsOf(rows.filter(row => row.day >= range.start && row.day <= range.end))
+  const then = totalsOf(rows.filter(row => row.day >= before.start && row.day <= before.end))
+  return definitions.filter(item => item?._key && item.title && METRIC_LABELS[item.metric] && ['count', 'ratio'].includes(item.mode) && (item.mode !== 'ratio' || METRIC_LABELS[item.denominator])).map(item => {
+    const evaluate = (totals, period) => {
+      const numerator = metricValue(totals, item.metric, testimonials, period)
+      if (item.mode === 'count') return numerator
+      const denominator = metricValue(totals, item.denominator, testimonials, period)
+      return denominator ? tenth(numerator / denominator * 100) : null
+    }
+    const value = evaluate(now, range)
+    const previousValue = hasHistory ? evaluate(then, before) : null
+    const target = Number.isFinite(item.low) && Number.isFinite(item.high) && item.low >= 0 && item.high >= item.low ? { low: item.low, high: item.high } : null
+    return {
+      id: item._key, label: item.title, value, unit: item.mode === 'ratio' ? '%' : '',
+      target, status: statusOf(value, target), ...evolution(value, previousValue),
+      hint: item.mode === 'ratio' ? `${METRIC_LABELS[item.metric]} ÷ ${METRIC_LABELS[item.denominator]} × 100. Un dénominateur nul rend le résultat indisponible.` : METRIC_LABELS[item.metric],
+    }
+  })
+}
 
 /**
  * Les trois KPI du plan de taggage, comparés à la durée équivalente juste avant.

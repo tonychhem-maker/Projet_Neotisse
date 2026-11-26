@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { METRICS } from '../../tools/analyticsMetrics.js'
 
 /**
  * Seuils du plan de taggage, modifiables par l'équipe sans toucher au code.
@@ -50,6 +51,32 @@ export const analyticsTargets = defineType({
       validation: rule => rule.custom(value => (value && value.low !== undefined && value.high !== undefined && value.high < value.low)
         ? 'Le seuil positif doit être supérieur ou égal au seuil négatif.'
         : true),
+    }),
+    defineField({
+      name: 'customKpis',
+      title: 'KPI personnalisés',
+      type: 'array',
+      description: 'Ajoutez vos indicateurs à partir des mesures déjà collectées. Publiez ce document pour les afficher dans Statistiques.',
+      validation: rule => rule.max(12),
+      of: [{
+        type: 'object',
+        name: 'customKpi',
+        title: 'Indicateur personnalisé',
+        fields: [
+          defineField({ name: 'title', title: 'Nom de l’indicateur', type: 'string', validation: rule => rule.required().max(80) }),
+          defineField({ name: 'mode', title: 'Calcul', type: 'string', initialValue: 'count', options: { list: [{ title: 'Nombre', value: 'count' }, { title: 'Pourcentage (mesure divisée par une autre)', value: 'ratio' }], layout: 'radio' }, validation: rule => rule.required() }),
+          defineField({ name: 'metric', title: 'Mesure à compter (ou numérateur)', type: 'string', options: { list: METRICS }, validation: rule => rule.required() }),
+          defineField({ name: 'denominator', title: 'Mesure de référence (dénominateur)', type: 'string', description: 'Exemple : visites pour calculer messages ÷ visites × 100. Le résultat peut dépasser 100 %.', options: { list: METRICS }, hidden: ({ parent }) => parent?.mode !== 'ratio', validation: rule => rule.custom((value, context) => context.parent?.mode === 'ratio' && !value ? 'Choisissez une mesure de référence.' : true) }),
+          defineField({ name: 'low', title: 'Seuil bas (facultatif)', type: 'number', validation: rule => rule.min(0) }),
+          defineField({ name: 'high', title: 'Seuil haut (facultatif)', type: 'number', validation: rule => rule.min(0) }),
+        ],
+        validation: rule => rule.custom(value => {
+          if (!value) return true
+          if ((value.low == null) !== (value.high == null)) return 'Renseignez les deux seuils ou laissez-les vides.'
+          return value.low != null && value.high < value.low ? 'Le seuil haut doit être supérieur ou égal au seuil bas.' : true
+        }),
+        preview: { select: { title: 'title', subtitle: 'metric' } },
+      }],
     }),
   ],
   preview: {

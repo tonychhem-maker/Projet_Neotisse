@@ -5,6 +5,7 @@ import { DAILY_LIMIT, SESSION_LIMIT, validateEvent, idsFor, nextDocuments, colle
 import {
   DEFAULT_TARGETS,
   countByDay,
+  customKpis,
   dateRange,
   kpis,
   previousRange,
@@ -177,4 +178,34 @@ test('rapport : conversion en pourcentage et comparatif de période', () => {
   assert.equal(data.conversion.current, 15) // 3 visites avec intention sur 20
   assert.equal(data.conversion.previous, 10) // 1 sur 10
   assert.equal(data.days.length, 30)
+})
+
+test('KPI personnalisés : nombres, ratio, seuils et comparaison', () => {
+  const definitions = [
+    { _key: 'c', title: 'Messages', mode: 'count', metric: 'contact_submit', low: 2, high: 3 },
+    { _key: 'r', title: 'Messages par visite', mode: 'ratio', metric: 'contact_submit', denominator: 'visits' },
+    { _key: 'a', title: 'Avis', mode: 'count', metric: 'testimonials' },
+  ]
+  const testimonials = countByDay([{ submittedAt: '2026-11-24T12:00:00Z' }])
+  const list = customKpis(rowsFor(), dateRange(30, now), { definitions, testimonials, hasHistory: true })
+  assert.equal(list[0].value, 4)
+  assert.equal(list[0].delta, 3)
+  assert.equal(list[0].status, 'high')
+  assert.equal(list[1].value, 20)
+  assert.equal(list[1].previousValue, 10)
+  assert.equal(list[2].value, 1)
+})
+
+test('KPI personnalisés : ratio sans dénominateur et configuration invalide', () => {
+  const range = dateRange(7, now)
+  const definitions = [
+    { _key: 'r', title: 'Ratio', mode: 'ratio', metric: 'contact_submit', denominator: 'visits' },
+    { _key: 'bad', title: 'Mauvaise mesure', mode: 'count', metric: 'contenu_privé' },
+    { _key: 'bad2', title: 'Sans dénominateur', mode: 'ratio', metric: 'views' },
+  ]
+  const list = customKpis([], range, { definitions, hasHistory: true })
+  assert.equal(list.length, 1)
+  assert.equal(list[0].value, null)
+  assert.equal(list[0].delta, null)
+  assert.equal(list[0].status, 'none')
 })
