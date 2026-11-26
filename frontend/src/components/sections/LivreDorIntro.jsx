@@ -3,6 +3,7 @@ import Honeypot from '../ui/Honeypot'
 import { BoutonEnvoyer, ChampLong, ChampTexte } from '../ui/Formulaire'
 import { gsap } from '../../lib/smoothScroll'
 import { isContactFormConfigured, sendTestimonial } from '../../lib/forms'
+import { trackAudience } from '../../lib/analytics'
 import './LivreDorIntro.css'
 
 const emptyForm = { nom: '', prenom: '', message: '', honeypot: '' }
@@ -154,6 +155,7 @@ export default function LivreDorIntro({
         author: [form.prenom.trim(), form.nom.trim()].filter(Boolean).join(' '),
         message: form.message,
       })
+      trackAudience('testimonial_submit')
       setStatus('success')
       setForm(emptyForm)
     } catch {
