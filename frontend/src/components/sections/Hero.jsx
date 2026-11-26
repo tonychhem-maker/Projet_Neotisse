@@ -263,7 +263,10 @@ export default function Hero({
       </h1>
 
       <div className="hint" ref={hintRef}>
-        {hint}
+        <span>{hint}</span>
+        <svg className="hint-arrow" viewBox="0 0 24 32" fill="none" aria-hidden="true">
+          <path d="M12 2v26m-8-8 8 8 8-8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </div>
     </section>
   )

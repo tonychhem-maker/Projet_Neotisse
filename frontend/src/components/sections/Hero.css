@@ -119,10 +119,31 @@
   left: 50%;
   bottom: 3vh;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #0b4f2a;
+}
+
+.hero .hint-arrow {
+  display: block;
+  width: 20px;
+  height: 27px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero .hint-arrow {
+    animation: hero-arrow-bounce 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-arrow-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
 @media (max-width: 700px) {
