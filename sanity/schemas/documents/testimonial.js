@@ -51,7 +51,7 @@ export const testimonial = defineType({
       name: 'publishedAt',
       title: 'Date de publication',
       type: 'datetime',
-      description: 'Renseignée automatiquement lors de la validation.',
+      description: 'Facultative : sans date, le site utilise la date de soumission pour classer les avis publiés.',
     }),
     defineField({
       name: 'status',

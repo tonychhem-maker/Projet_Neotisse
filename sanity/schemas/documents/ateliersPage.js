@@ -53,7 +53,7 @@ export const ateliersPage = defineType({
       type: 'array',
       group: 'formats',
       description:
-        'Sélectionnez et ordonnez les formats de cette page. Le premier est affiché d’emblée, les suivants sont masqués derrière le bouton « voir plus d’ateliers ». Laissez vide pour afficher tous les formats visibles.',
+        'Sélectionnez et ordonnez les formats à afficher en premier. Les autres formats visibles seront ajoutés ensuite selon leur ordre d’affichage. Le premier apparaît d’emblée, les suivants derrière « Voir plus d’ateliers ».',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'workshopFormat' }] })],
     }),
 

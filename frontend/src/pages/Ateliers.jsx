@@ -9,6 +9,7 @@ import {
   SECONDARY_SECTIONS_FALLBACK,
 } from '../data/ateliers'
 import { ATELIERS_QUERY, useSanityContent } from '../lib/queries'
+import { orderWorkshopFormats } from '../lib/workshopFormats'
 
 // Le titre de la bannière est découpé en mots, pour l'assemblage animé :
 // « ATELIERS » arrive de la gauche, « SUR-MESURE » de la droite.
@@ -61,10 +62,10 @@ export default function Ateliers() {
   }, [page.heroText])
 
   const formats = useMemo(() => {
-    // Formats choisis dans le back-office ; à défaut, tous les formats visibles.
+    // Formats choisis d'abord, puis les autres formats visibles.
     const featured = Array.isArray(fetched.featuredFormats) ? fetched.featuredFormats : []
-    const list = featured.length > 0 ? featured : fetched.allFormats
-    const usable = (Array.isArray(list) ? list : []).filter((format) => format?.title)
+    const all = Array.isArray(fetched.allFormats) ? fetched.allFormats : []
+    const usable = orderWorkshopFormats(featured, all)
 
     return usable.length > 0 ? usable.map(toFormat) : ATELIERS_FORMATS_FALLBACK
   }, [fetched.featuredFormats, fetched.allFormats])

@@ -57,7 +57,8 @@ export const ATELIERS_QUERY = `{
     "id": _id,
     "title": title,
     "text": description,
-    "image": image ${IMAGE_PROJECTION}
+    "image": image ${IMAGE_PROJECTION},
+    "visible": visible
   },
   "allFormats": *[_type == "workshopFormat" && visible != false] | order(order asc, _createdAt asc) {
     "id": _id,
@@ -116,7 +117,7 @@ export const LIVRE_DOR_QUERY = `{
       "avatar": avatar ${IMAGE_PROJECTION}
     }
   },
-  "testimonials": *[_type == "testimonial" && status == "published" && defined(publishedAt)] | order(publishedAt desc)[0..2] {
+  "testimonials": *[_type == "testimonial" && status == "published"] | order(coalesce(publishedAt, submittedAt, _createdAt) desc)[0..2] {
     "id": _id,
     "author": author,
     "organisation": organisation,
