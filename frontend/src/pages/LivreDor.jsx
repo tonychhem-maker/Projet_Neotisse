@@ -15,7 +15,7 @@ import './LivreDor.css'
  * le grand filet avant le pied de page.
  *
  * Le contenu éditorial vient du document Sanity « Page Livre d'or » ; les
- * cartes affichent les trois derniers témoignages publiés (documents
+ * cartes affichent les témoignages publiés (documents
  * « Livre d'or » publiés). Trois fils textile décorent la page : deux fils
  * de la maquette (couches « Fil textile — courbes et boucle », posés aux
  * coordonnées relevées et inclinés comme dans Figma), plus un fil ondulant

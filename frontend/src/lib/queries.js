@@ -117,7 +117,7 @@ export const LIVRE_DOR_QUERY = `{
       "avatar": avatar ${IMAGE_PROJECTION}
     }
   },
-  "testimonials": *[_type == "testimonial" && status == "published"] | order(coalesce(publishedAt, submittedAt, _createdAt) desc)[0..2] {
+  "testimonials": *[_type == "testimonial" && status == "published"] | order(coalesce(publishedAt, submittedAt, _createdAt) desc, _id asc) {
     "id": _id,
     "author": author,
     "organisation": organisation,
