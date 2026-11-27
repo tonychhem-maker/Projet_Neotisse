@@ -37,7 +37,9 @@
 
 .page-header__title {
   margin: 0;
-  font-size: 36px;
+  font-size: clamp(24px, 7vw, 36px);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
   color: var(--color-pine);
 }
 

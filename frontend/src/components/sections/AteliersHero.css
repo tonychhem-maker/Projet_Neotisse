@@ -121,6 +121,8 @@
     order: 1;
     width: 100%;
     font-size: clamp(28px, 9.4vw, 64px);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
     white-space: normal;
   }
 

@@ -96,17 +96,21 @@
   border-top: 1px solid #dee5ed;
   background: #f4efe6;
   padding: 12px 20px 20px;
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
 }
 .site-header__mobile ul {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
   font-size: 15px;
 }
 .site-header__mobile a {
+  display: block;
+  padding: 10px 0;
   color: #095228;
   text-decoration: none;
 }

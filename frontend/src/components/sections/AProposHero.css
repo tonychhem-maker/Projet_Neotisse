@@ -108,6 +108,8 @@
     order: 1;
     width: 100%;
     font-size: clamp(26px, 8vw, 48px);
+    line-height: 1.3;
+    overflow-wrap: anywhere;
   }
 
   .a-propos-hero__logo {

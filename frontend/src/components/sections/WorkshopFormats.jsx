@@ -82,8 +82,8 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
   )
 
   return (
-    <section className="sticky top-0" ref={scope}>
-      <div className="mx-auto w-full max-w-[1230px] px-10 pb-16">
+    <section className="md:sticky md:top-0" ref={scope}>
+      <div className="mx-auto w-full max-w-[1230px] px-5 pb-16 md:px-10">
         <ul>
           {formats.map((format) => {
             const open = openFormat === format.id
@@ -96,7 +96,7 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                   aria-controls={`format-panel-${format.id}`}
                   className="group flex w-full items-center justify-between border-t border-[#0b4f2a]/70 pt-4 pb-3 text-left"
                 >
-                  <span className="flex items-baseline gap-9">
+                  <span className="flex min-w-0 items-baseline gap-4 md:gap-9">
                     <span className="font-sans text-[14px] text-[#2f8a55] md:text-[calc(16*var(--u))]">
                       {format.id}
                     </span>
@@ -127,7 +127,7 @@ export default function WorkshopFormats({ formats = [], defaultOpen = null }) {
                       </p>
                       <Link
                         to={format.link ?? '/contact'}
-                        className="action-label mt-6 inline text-[12px] text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
+                        className="action-label mt-6 inline-block py-2 text-[15px] text-[#0a0a0a] underline underline-offset-4 md:text-[calc(13*var(--u))]"
                       >
                         Contactez-nous <span aria-hidden="true">→</span>
                       </Link>

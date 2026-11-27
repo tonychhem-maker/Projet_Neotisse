@@ -147,7 +147,9 @@
 }
 
 @media (max-width: 700px) {
-  .hero .title { font-size: 17vw; }
+  .hero { height: calc(100svh - 64px); }
+  .hero .title { font-size: min(13vw, 9vh); padding-inline: 12px; }
+  .hero .ln { max-width: 100%; }
   .hero .c1 { width: 30vw; left: -3vw; top: 2vh; }
   .hero .c2 { width: 28vw; right: -2vw; top: 1vh; }
   .hero .c3 { width: 34vw; left: -4vw; top: 60vh; }

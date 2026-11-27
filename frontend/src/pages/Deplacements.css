@@ -84,7 +84,7 @@
   background: transparent;
   padding: 0 calc(60 * var(--u)) 0 calc(28 * var(--u)); /* texte à x28 */
   font-family: 'Outfit', var(--font-sans);
-  font-size: calc(18 * var(--u)); /* 18px (≥16px : pas de zoom iOS) */
+  font-size: max(16px, calc(18 * var(--u))); /* évite le zoom automatique sur iOS */
   line-height: 1.6667; /* boîte 30px */
   color: #000;
 }
@@ -215,8 +215,10 @@
   }
   .deplacements__title {
     margin-left: 0;
-    font-size: 2.25rem;
+    max-width: none;
+    font-size: clamp(1.5rem, 7vw, 2.25rem);
     line-height: 1.3;
+    overflow-wrap: anywhere;
   }
   .deplacements__grille {
     flex-direction: column;

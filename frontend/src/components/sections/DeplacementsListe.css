@@ -156,24 +156,39 @@
     font-size: 1rem;
   }
   .deplacements-item {
-    height: 4rem;
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 0.2rem 0.75rem;
+    align-content: center;
+    min-height: 4.5rem;
+    height: auto;
+    padding: 0.5rem;
   }
   .deplacements-item__vague {
     display: none;
   }
   .deplacements-item__logo {
-    top: 50%;
-    transform: translateY(-50%);
+    position: static;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    transform: none;
     width: 4.5rem;
     height: 3rem;
   }
   .deplacements-item__date {
-    left: 5.5rem;
+    position: static;
+    grid-column: 2;
+    white-space: normal;
+    overflow: visible;
     font-size: 0.9375rem;
   }
   .deplacements-item__city {
-    left: auto;
-    right: 1rem;
-    font-size: 1.25rem;
+    position: static;
+    grid-column: 2;
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    font-size: 1.125rem;
   }
 }

@@ -12,7 +12,7 @@ import { actionLabel } from '../../lib/actionLabel'
 // primitives ne font que l'affichage.
 
 const BASE_CONTROLE =
-  'w-full border bg-white px-4 py-3 font-dm text-[15px] leading-snug text-[#0a0a0a] ' +
+  'w-full border bg-white px-4 py-3 font-dm text-[16px] leading-snug text-[#0a0a0a] ' +
   'outline-none transition-colors duration-200 ' +
   'placeholder:font-light placeholder:text-black/35 ' +
   'focus:border-[#2f8a55] '
